@@ -2,13 +2,29 @@ package register.model;
 
 import java.util.Date;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Past;
+import javax.validation.constraints.Size;
+
 public class Pessoa {
+	@NotNull
+	@Size(min=11, max=11)
 	private String cpf;
+	@NotNull
+	@Size(max=11)
 	private String telefone;
+	@NotNull
+	@Size(max=50)
 	private String nome;
+	@NotNull
+	@Past
 	private Date dataNascimento;
 	private String sexo;
+	@NotNull
+	@Size(max=50)
 	private String endereco;
+	@NotNull
+	@Size(max=30)
 	private String email;	
 	
 	public Pessoa(String cpf, String telefone, String nome, Date dataNascimento, String sexo, String endereco, String email) {

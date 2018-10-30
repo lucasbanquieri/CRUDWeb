@@ -23,7 +23,7 @@ public class AlunoDAO {
 		}
 	}
 	
-	public void cadastrarAluno(Aluno aluno) {
+	public void adicionarAluno(Aluno aluno) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
