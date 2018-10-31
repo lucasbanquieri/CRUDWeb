@@ -1,5 +1,7 @@
 package register.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -14,16 +16,22 @@ import register.model.Aluno;
 @Controller
 public class ControllerAluno {    
     @RequestMapping("/cadastroAluno")
-	public String form() {
+	public String form(Aluno aluno, Model model) {
+    	AlunoDAO dao = new AlunoDAO();
+    	if (aluno.getMatricula() > 0) {
+    		model.addAttribute("aluno", dao.buscarAluno(aluno.getMatricula()));
+    		return "cadastroAluno";
+    	}
     	return "cadastroAluno";
 	}
     
     @RequestMapping("/adicionaAluno")
-	public String adicionaAluno(@Valid Aluno aluno, BindingResult result, Model model, @RequestParam("dataN") String dataN) {
+	public String adicionaAluno(@Valid Aluno aluno, BindingResult result, Model model, @RequestParam("dataNascimentoStr") String dataN) {
+		AlunoDAO dao = new AlunoDAO();
     	Util util = new Util();
     	aluno.setDataNascimento(util.transformaData(dataN));
-		AlunoDAO dao = new AlunoDAO();
-		if (temErro(aluno).equals("") || result.hasFieldErrors("descricao")) {
+    	
+		if (temErro(aluno) != "" || result.hasFieldErrors("nome, cpf, telefone, sexo, endereco, dataNascimentoStr, curso, email")) {
 			System.out.println(temErro(aluno));
 			model.addAttribute("aluno", aluno);
 			return "cadastroAluno";
@@ -36,6 +44,23 @@ public class ControllerAluno {
 				return "aluno-adicionado";
 			}
 		}
+	}
+    
+    @RequestMapping("/listaAlunos")
+	public String listaAlunos(Model model) {
+		AlunoDAO dao = new AlunoDAO();
+		List<Aluno> alunos = dao.listarAlunos();
+		model.addAttribute("alunos", alunos);
+		return "listaAluno";
+	}
+    
+    @RequestMapping("/removeAluno")
+	public String remove(Aluno aluno, Model model) {
+		AlunoDAO dao = new AlunoDAO();
+		dao.excluirAluno(aluno);
+		List<Aluno> alunos = dao.listarAlunos();
+		model.addAttribute("alunos", alunos);
+		return "redirect:listaAlunos";
 	}
     
     public String temErro(Aluno aluno) {
@@ -52,7 +77,7 @@ public class ControllerAluno {
 			errorMsg = errorMsg + "-CPF inválido ou não preenchido. \n";
 		} if (aluno.getTelefone().isEmpty()) {
 			errorMsg = errorMsg + "-Telefone inválido ou não preenchido. \n";
-		} if (aluno.getDataNascimento() == null || util.validaData(aluno.getDataNascimento().toString()) == false) {
+		} if (aluno.getDataNascimentoStr() == null || util.validaData(aluno.getDataNascimentoStr()) == false) {
 			errorMsg = errorMsg + "-Data de nascimento inválida ou não preenchida. \n";
 		} if (aluno.getEmail().isEmpty()) {
 			errorMsg = errorMsg + "-E-Mail inválido ou não preenchido. \n";

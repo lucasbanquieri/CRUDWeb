@@ -8,7 +8,7 @@ import java.text.SimpleDateFormat;
 
 public class Util {
 	public boolean validaData(String inDate) {
-	    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    dateFormat.setLenient(false);
 	    try {
 	      dateFormat.parse(inDate.trim());
@@ -19,7 +19,7 @@ public class Util {
 	  }
 	
 	public Date transformaData(String date) {
-		SimpleDateFormat dt = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 		dt.setLenient(false);
 		Date data = new Date();
 		try {
@@ -31,7 +31,7 @@ public class Util {
 	}
 	
 	public String dateToString(Date data) {
-		SimpleDateFormat out = new SimpleDateFormat("dd/MM/yyyy");
+		SimpleDateFormat out = new SimpleDateFormat("yyyy-MM-dd");
 		 
 		String result = out.format(data);
 		//String strDate = dateFormat.format(data);

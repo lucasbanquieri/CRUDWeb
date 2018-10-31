@@ -3,6 +3,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -14,10 +15,10 @@
 		}
 	</style>
 	<body>
-		<input type="hidden" name="matricula" value="${aluno.matricula}">
 		<h3 align="center">Cadastrar Aluno</h3>
 		<form:errors path="*"/>
 		<form align="center" action="adicionaAluno" method="post">
+		<input type="hidden" name="matricula" value="${aluno.matricula}">
 			<table align="center" border="0">
 				<tr>
 					<td>Nome: </td>
@@ -25,7 +26,7 @@
 				</tr>
 				<tr>
 					<td>CPF: </td>
-					<td><input class="cpf" type="number" name="cpf" maxlength="11" value="${aluno.nome}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
+					<td><input class="cpf" type="number" name="cpf" maxlength="11" value="${aluno.cpf}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
 				</tr>
 				<tr>
 					<td>Sexo: </td>
@@ -42,7 +43,7 @@
 				</tr>
 				<tr>
 					<td>Data de Nascimento: </td>
-					<td><input type="date" name="dataN" value='<fmt:formatDate value="${aluno.dataNascimento}" pattern="dd/MM/yyyy"/>'></td>
+					<td><input type="date" name="dataNascimentoStr" value='<fmt:formatDate value="${aluno.dataNascimento}" pattern="yyyy-MM-dd"/>' pattern="dd/MM/yyyy"></td>
 				</tr>
 				<tr>
 					<td>Telefone: </td>
@@ -54,12 +55,12 @@
 				</tr>
 				<tr>
 					<td>Endereço: </td>
-					<td><textarea class="endereco" name="endereco" minlength="1" maxlength="50" rows="3" cols="50" value="${aluno.endereco}"></textarea></td>
+					<td><textarea class="endereco" name="endereco" minlength="1" maxlength="50" rows="3" cols="50">${aluno.endereco}</textarea></td>
 				</tr>
 				<tr>
 					<td>Curso: </td>
 					<td>
-						<select>
+						<select name="curso">
 							<option value="Java Web" <c:if test="${aluno.curso eq 'Java Web' }">selected</c:if>>Java Web</option>
 							<option value="Cobol" <c:if test="${aluno.curso eq 'Cobol' }">selected</c:if>>Cobol</option>
 							<option value=".NET" <c:if test="${aluno.curso eq '.NET' }">selected</c:if>>.NET</option>

@@ -36,7 +36,7 @@ public class AlunoDAO {
 			StringBuffer sql = new StringBuffer();
 			
 			sql.append("INSERT INTO  aluno (cpf, telefone, nome, data_nascimento, sexo, endereco, email, curso, ativo)");
-			sql.append("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			sql.append("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			stmt = conn.prepareStatement(sql.toString());
 
@@ -136,7 +136,7 @@ public class AlunoDAO {
 			stmt.setString(6, aluno.getEmail());
 			stmt.setString(7, aluno.getCurso());
 			stmt.setInt(8, 1);
-			stmt.setInt(9, Integer.valueOf(aluno.getMatricula()));
+			stmt.setInt(9, aluno.getMatricula());
 
 			stmt.execute();
 			conn.commit();
@@ -173,7 +173,7 @@ public class AlunoDAO {
 			stmt = conn.prepareStatement(sql.toString());
 
 			stmt.setInt(1, 0);
-			stmt.setInt(2, Integer.valueOf(aluno.getMatricula()));
+			stmt.setInt(2, aluno.getMatricula());
 
 			stmt.execute();
 			conn.commit();
@@ -190,5 +190,46 @@ public class AlunoDAO {
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
+	}
+	
+	public Aluno buscarAluno(int matricula) {
+		Aluno aluno = new Aluno();
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+
+			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, ativo"
+					+ " FROM  aluno"
+					+ " WHERE matricula = ?";
+
+			stmt = conn.prepareStatement(sql.toString());
+			
+			stmt.setLong(1, matricula);
+
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				aluno.setCpf(rs.getString(1));
+				aluno.setTelefone(rs.getString(2));
+				aluno.setNome(rs.getString(3));
+				aluno.setDataNascimento(new Date(rs.getTimestamp("data_nascimento").getTime()));
+				aluno.setSexo(rs.getString(5));
+				aluno.setEndereco(rs.getString(6));
+				aluno.setEmail(rs.getString(7));
+				aluno.setMatricula(rs.getInt(8));
+				aluno.setCurso(rs.getString(9));
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro no método buscarAluno");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+		return aluno;
 	}
 }

@@ -6,6 +6,10 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
+import register.controller.Util;
+
 public class Pessoa {
 	@NotNull
 	@Size(min=11, max=11)
@@ -18,7 +22,9 @@ public class Pessoa {
 	private String nome;
 	@NotNull
 	@Past
+	@DateTimeFormat(pattern="dd/MM/yyyy")
 	private Date dataNascimento;
+	private String dataNascimentoStr;
 	private String sexo;
 	@NotNull
 	@Size(max=50)
@@ -40,6 +46,14 @@ public class Pessoa {
 	
 	public Pessoa() {
 		
+	}
+
+	public String getDataNascimentoStr() {
+		return dataNascimentoStr;
+	}
+
+	public void setDataNascimentoStr(String dataNascimentoStr) {
+		this.dataNascimentoStr = dataNascimentoStr;
 	}
 
 	public String getTelefone() {
@@ -73,7 +87,13 @@ public class Pessoa {
 		this.cpf = cpf;
 	}
 	public Date getDataNascimento() {
-		return dataNascimento;
+		Util util = new Util();
+		if (getDataNascimentoStr() != null) {
+			dataNascimento = util.transformaData(getDataNascimentoStr());
+			return dataNascimento;
+		} else {
+			return dataNascimento;
+		}
 	}
 	public void setDataNascimento(Date dataNascimento) {
 		this.dataNascimento = dataNascimento;
