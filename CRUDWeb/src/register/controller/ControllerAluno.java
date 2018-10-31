@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import register.dao.AlunoDAO;
 import register.model.Aluno;
@@ -18,7 +19,9 @@ public class ControllerAluno {
 	}
     
     @RequestMapping("/adicionaAluno")
-	public String adicionaAluno(@Valid Aluno aluno, BindingResult result, Model model) {
+	public String adicionaAluno(@Valid Aluno aluno, BindingResult result, Model model, @RequestParam("dataN") String dataN) {
+    	Util util = new Util();
+    	aluno.setDataNascimento(util.transformaData(dataN));
 		AlunoDAO dao = new AlunoDAO();
 		if (temErro(aluno).equals("") || result.hasFieldErrors("descricao")) {
 			System.out.println(temErro(aluno));

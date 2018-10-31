@@ -35,7 +35,7 @@ public class AlunoDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("INSERT INTO  aluno (cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, ativo)");
+			sql.append("INSERT INTO  aluno (cpf, telefone, nome, data_nascimento, sexo, endereco, email, curso, ativo)");
 			sql.append("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			stmt = conn.prepareStatement(sql.toString());
@@ -47,9 +47,8 @@ public class AlunoDAO {
 			stmt.setString(5, aluno.getSexo());
 			stmt.setString(6, aluno.getEndereco());
 			stmt.setString(7, aluno.getEmail());
-			stmt.setInt(8, Integer.valueOf(aluno.getMatricula()));
-			stmt.setString(9, aluno.getCurso());
-			stmt.setInt(10, 1);
+			stmt.setString(8, aluno.getCurso());
+			stmt.setInt(9, 1);
 
 			stmt.execute();
 			conn.commit();
@@ -66,8 +65,6 @@ public class AlunoDAO {
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
-		
-		System.out.println("Aluno " + aluno.getNome() + " do curso " + aluno.getCurso() + " cadastrado com sucesso!");
 	}
 	
 	public List<Aluno> listarAlunos() {

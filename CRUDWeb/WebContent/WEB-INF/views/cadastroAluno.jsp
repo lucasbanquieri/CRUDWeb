@@ -21,11 +21,11 @@
 			<table align="center" border="0">
 				<tr>
 					<td>Nome: </td>
-					<td><input class="nome" type="text" name="nome" min="1" max="50" value="${aluno.nome}" pattern="[A-Za-z]"><br /></td>
+					<td><input class="nome" type="text" name="nome" minlength="1" maxlength="50" value="${aluno.nome}"><br /></td>
 				</tr>
 				<tr>
 					<td>CPF: </td>
-					<td><input class="cpf" type="number" name="cpf" max="11" value="${aluno.nome}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
+					<td><input class="cpf" type="number" name="cpf" maxlength="11" value="${aluno.nome}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
 				</tr>
 				<tr>
 					<td>Sexo: </td>
@@ -46,7 +46,7 @@
 				</tr>
 				<tr>
 					<td>Telefone: </td>
-					<td><input class="telefone" type="number" name="telefone" value="${aluno.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
+					<td><input class="telefone" type="number" name="telefone" minlenght="10" maxlength="12" value="${aluno.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
 				</tr>
 				<tr>
 					<td>E-Mail: </td>
@@ -92,7 +92,7 @@
 			})
 			
 			$(".telefone").on("input", function(){
-				if ($(this).val().length < 12 || $(this).val().length > 12) {
+				if ($(this).val().length < 10 || $(this).val().length > 12) {
 					$(this).css("border", "1px solid red");
 				} else {
 					$(this).css("border", "1px solid green");
