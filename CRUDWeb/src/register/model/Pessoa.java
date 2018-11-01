@@ -84,7 +84,8 @@ public class Pessoa {
 		return cpf;
 	}
 	public void setCpf(String cpf) {
-		this.cpf = cpf;
+		Util util = new Util();
+		this.cpf = util.mascaraCpf(cpf);
 	}
 	public Date getDataNascimento() {
 		Util util = new Util();

@@ -9,6 +9,7 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/formStyle.css">
 		<title>Cadastrar Aluno</title>
 	</head>
 	<style>
@@ -24,11 +25,17 @@
 			<table align="center" border="0">
 				<tr>
 					<td>Nome: </td>
-					<td><input class="nome" type="text" name="nome" minlength="1" maxlength="50" value="${aluno.nome}"><br /></td>
+					<td>
+						<input class="nome" type="text" name="nome" minlength="1" maxlength="50" value="${aluno.nome}"><br />
+						<span id="nome_erro" class="validacao"></span>
+					</td>
 				</tr>
 				<tr>
 					<td>CPF: </td>
-					<td><input class="cpf" type="number" name="cpf" maxlength="11" value="${aluno.cpf}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
+					<td>
+						<input class="cpf" type="text" name="cpf" maxlength="14" value="${aluno.cpf}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)">
+						<span id="cpf_erro" class="validacao"></span>
+					</td>
 				</tr>
 				<tr>
 					<td>Sexo: </td>
@@ -49,7 +56,7 @@
 				</tr>
 				<tr>
 					<td>Telefone: </td>
-					<td><input class="telefone" type="number" name="telefone" minlenght="10" maxlength="12" value="${aluno.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
+					<td><input class="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${aluno.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
 				</tr>
 				<tr>
 					<td>E-Mail: </td>
@@ -72,71 +79,113 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2"><button id="salvar">Salvar</button></td>
+					<td colspan="2"><button id="salvar" disabled>Salvar</button></td>
 				</tr>
 			</table>
 		</form>
 		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
+		<script>
+    		$(document).ready(function () { 
+       			var $seuCampoCpf = $(".cpf");
+        		$seuCampoCpf.mask('000.000.000-00', {reverse: true});
+   		 	});
+    		
+    		$(document).ready(function () { 
+        		$(".telefone").mask('(00) 00000-0000');
+   		 	});
+		</script>
 		<script>
 			$(".nome").on("input", function(){
 				if ($(this).val().length < 2 || $(this).val().length > 50) {
+					this.value = this.value.replace(/[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]/g,'');
 					$(this).css("border", "1px solid red");
+					$("#nome_erro").html("Nome inválido.");
+					$("#nome_erro").css("color", "red");
+					$("#salvar").attr("disabled");
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#nome_erro").html("");
+					$("#salvar").removeAttr("disabled");
 				}
 			})
 			
-			$(".cpf").on("input", function(){
-				if ($(this).val().length < 11 || $(this).val().length > 11) {
-					$(this).css("border", "1px solid red");
-				} else {
-					$(this).css("border", "1px solid green");
-				}
-			})
+			$(function() {
+    			//Executa a requisição quando o campo username perder o foco
+    			$('.cpf').blur(function()
+    		{
+        	var cpf = $('.cpf').val().replace(/[^0-9]/g, '').toString();
+
+        	if( cpf.length == 11 ) {
+            	var v = [];
+
+            	//Calcula o primeiro dígito de verificação.
+            	v[0] = 1 * cpf[0] + 2 * cpf[1] + 3 * cpf[2];
+            	v[0] += 4 * cpf[3] + 5 * cpf[4] + 6 * cpf[5];
+            	v[0] += 7 * cpf[6] + 8 * cpf[7] + 9 * cpf[8];
+            	v[0] = v[0] % 11;
+            	v[0] = v[0] % 10;
+
+            	//Calcula o segundo dígito de verificação.
+            	v[1] = 1 * cpf[1] + 2 * cpf[2] + 3 * cpf[3];
+            	v[1] += 4 * cpf[4] + 5 * cpf[5] + 6 * cpf[6];
+            	v[1] += 7 * cpf[7] + 8 * cpf[8] + 9 * v[0];
+            	v[1] = v[1] % 11;
+            	v[1] = v[1] % 10;
+
+            	//Retorna Verdadeiro se os dígitos de verificação são os esperados.
+            	if ( (v[0] != cpf[9]) || (v[1] != cpf[10]) ) {
+            		$(".cpf").css("border", "1px solid red");
+            		$("#salvar").attr("disabled");
+            		$("#cpf_erro").html("CPF inválido.");
+					$("#cpf_erro").css("color", "red");
+
+                	$('.cpf').val($('.cpf').val());
+            	} else {
+            		$(".cpf").css("border", "1px solid green");
+            		$("#cpf_erro").html("");
+            		$("#salvar").removeAttr("disabled");
+            	}
+        	} else {
+        		$(".cpf").css("border", "1px solid red");
+        		$("#salvar").attr("disabled");
+        		$("#cpf_erro").html("CPF deve conter 11 dígitos.");
+				$("#cpf_erro").css("color", "red");
+
+				$('.cpf').val($('.cpf').val());
+        	}
+    	});
+	});
 			
 			$(".telefone").on("input", function(){
-				if ($(this).val().length < 10 || $(this).val().length > 12) {
+				if ($(this).val().length < 15 || $(this).val().length > 17) {
 					$(this).css("border", "1px solid red");
+					$("#salvar").attr("disabled");
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#salvar").removeAttr("disabled");
 				}
 			})
 			
 			$(".email").on("input", function(){
 				if ($(this).val().length < 5 || $(this).val().length > 30) {
 					$(this).css("border", "1px solid red");
+					$("#salvar").attr("disabled");
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#salvar").removeAttr("disabled");
 				}
 			})
 			
 			$(".endereco").on("input", function(){
 				if ($(this).val().length < 10 || $(this).val().length > 50) {
 					$(this).css("border", "1px solid red");
+					$("#salvar").attr("disabled");
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#salvar").removeAttr("disabled");
 				}
 			})
-			
-			function FilterInput(event) {
-    			var keyCode = ('which' in event) ? event.which : event.keyCode;
-
-    			isNotWanted = (keyCode == 69 || keyCode == 101);
-   	 			return !isNotWanted;
-			};
-			function handlePaste (e) {
-    			var clipboardData, pastedData;
-
-    			// Get pasted data via clipboard API
-    			clipboardData = e.clipboardData || window.clipboardData;
-   				pastedData = clipboardData.getData('Text').toUpperCase();
-
-    			if(pastedData.indexOf('E')>-1) {
-        			//alert('found an E');
-        			e.stopPropagation();
-        			e.preventDefault();
-   				}
-			};
 		</script>
 	</body>
 </html>

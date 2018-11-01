@@ -62,8 +62,19 @@ public class Util {
 	    return true;
 	  }
 	
+	public String mascaraCpf(String cpf) {
+		if (cpf.contains(".")) {
+			cpf = cpf.replaceAll("[-.]", "");
+			return cpf;
+		} else {
+			cpf = cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
+			return cpf;
+		}
+	}
+	
 	public boolean isCPF(String CPF) {
         // considera-se erro CPF's formados por uma sequencia de numeros iguais
+		CPF = CPF.replaceAll("[-.]", "");
         if (CPF.equals("00000000000") ||
             CPF.equals("11111111111") ||
             CPF.equals("22222222222") || CPF.equals("33333333333") ||
