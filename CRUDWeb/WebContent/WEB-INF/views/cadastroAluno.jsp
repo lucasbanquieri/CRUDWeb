@@ -5,7 +5,9 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 	<head>
+		<meta charset="UTF-8"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Cadastrar Aluno</title>
 	</head>
@@ -17,7 +19,7 @@
 	<body>
 		<h3 align="center">Cadastrar Aluno</h3>
 		<form:errors path="*"/>
-		<form align="center" action="adicionaAluno" method="post">
+		<form align="center" action="adicionaAluno" method="post" accept-charset="UTF-8">
 		<input type="hidden" name="matricula" value="${aluno.matricula}">
 			<table align="center" border="0">
 				<tr>
