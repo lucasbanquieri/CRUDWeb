@@ -21,7 +21,7 @@
 		<h3 align="center">Cadastrar Aluno</h3>
 		<form:errors path="*"/>
 		<form align="center" action="adicionaAluno" method="post" accept-charset="UTF-8">
-		<input type="hidden" name="matricula" value="${aluno.matricula}">
+		<input type="hidden" id="matricula" name="matricula" value="${aluno.matricula}">
 			<table align="center" border="0">
 				<tr>
 					<td>Nome: </td>
@@ -52,7 +52,7 @@
 				</tr>
 				<tr>
 					<td>Data de Nascimento: </td>
-					<td><input type="date" name="dataNascimentoStr" value='<fmt:formatDate value="${aluno.dataNascimento}" pattern="yyyy-MM-dd"/>' pattern="dd/MM/yyyy"></td>
+					<td><input type="date" class="dataN" name="dataNascimentoStr" value='<fmt:formatDate value="${aluno.dataNascimento}" pattern="yyyy-MM-dd"/>' pattern="dd/MM/yyyy"></td>
 				</tr>
 				<tr>
 					<td>Telefone: </td>
@@ -79,7 +79,7 @@
 					</td>
 				</tr>
 				<tr>
-					<td colspan="2"><button id="salvar" disabled>Salvar</button></td>
+					<td colspan="2"><button id="salvar">Salvar</button></td>
 				</tr>
 			</table>
 		</form>
@@ -92,21 +92,35 @@
    		 	});
     		
     		$(document).ready(function () { 
-        		$(".telefone").mask('(00) 00000-0000');
+        		$(".telefone").mask('(00) 0000-0000');
    		 	});
 		</script>
 		<script>
+			var erro_nome = true;
+			var erro_cpf = true;
+			var erro_telefone = true;
+			var erro_email = true;
+			var erro_endereco = true;
+			
+			if ($("#matricula").val() > 0) {
+				var erro_nome = false;
+				var erro_cpf = false;
+				var erro_telefone = false;
+				var erro_email = false;
+				var erro_endereco = false;
+			}
+			
 			$(".nome").on("input", function(){
 				if ($(this).val().length < 2 || $(this).val().length > 50) {
 					this.value = this.value.replace(/[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]/g,'');
 					$(this).css("border", "1px solid red");
 					$("#nome_erro").html("Nome inválido.");
 					$("#nome_erro").css("color", "red");
-					$("#salvar").attr("disabled");
+					erro_nome = true;
 				} else {
 					$(this).css("border", "1px solid green");
 					$("#nome_erro").html("");
-					$("#salvar").removeAttr("disabled");
+					erro_nome = false;
 				}
 			})
 			
@@ -136,7 +150,7 @@
             	//Retorna Verdadeiro se os dígitos de verificação são os esperados.
             	if ( (v[0] != cpf[9]) || (v[1] != cpf[10]) ) {
             		$(".cpf").css("border", "1px solid red");
-            		$("#salvar").attr("disabled");
+            		erro_cpf = true;
             		$("#cpf_erro").html("CPF inválido.");
 					$("#cpf_erro").css("color", "red");
 
@@ -144,11 +158,11 @@
             	} else {
             		$(".cpf").css("border", "1px solid green");
             		$("#cpf_erro").html("");
-            		$("#salvar").removeAttr("disabled");
+            		erro_cpf = false;
             	}
         	} else {
         		$(".cpf").css("border", "1px solid red");
-        		$("#salvar").attr("disabled");
+        		erro_cpf = true;
         		$("#cpf_erro").html("CPF deve conter 11 dígitos.");
 				$("#cpf_erro").css("color", "red");
 
@@ -157,33 +171,45 @@
     	});
 	});
 			
+			
+			
 			$(".telefone").on("input", function(){
-				if ($(this).val().length < 15 || $(this).val().length > 17) {
+				if ($(this).val().length < 14 || $(this).val().length > 18) {
 					$(this).css("border", "1px solid red");
-					$("#salvar").attr("disabled");
+					erro_telefone = true;
 				} else {
 					$(this).css("border", "1px solid green");
-					$("#salvar").removeAttr("disabled");
+					erro_telefone = false;
 				}
 			})
 			
 			$(".email").on("input", function(){
 				if ($(this).val().length < 5 || $(this).val().length > 30) {
 					$(this).css("border", "1px solid red");
-					$("#salvar").attr("disabled");
+					erro_email = true;
 				} else {
 					$(this).css("border", "1px solid green");
-					$("#salvar").removeAttr("disabled");
+					erro_email = false;
 				}
 			})
 			
 			$(".endereco").on("input", function(){
 				if ($(this).val().length < 10 || $(this).val().length > 50) {
 					$(this).css("border", "1px solid red");
-					$("#salvar").attr("disabled");
+					erro_endereco = true;
 				} else {
 					$(this).css("border", "1px solid green");
-					$("#salvar").removeAttr("disabled");
+					erro_endereco = false;
+				}
+			})
+			
+			$("#salvar").on("click", function checarErro() {
+				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco) {
+					alert("Campos não preenchidos ou inválidos.");
+					return false;
+				} else if ($(".dataN").val() == "") {
+					alert("Data de nascimento não preenchida.");
+					return false;
 				}
 			})
 		</script>

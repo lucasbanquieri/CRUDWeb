@@ -22,10 +22,12 @@ public class Util {
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 		dt.setLenient(false);
 		Date data = new Date();
-		try {
-			data = dt.parse(date);
-		} catch (ParseException pe) {
-			pe.printStackTrace();
+		if (!date.equals("")) {
+			try {
+				data = dt.parse(date);
+			} catch (ParseException pe) {
+				pe.printStackTrace();
+			}
 		}
 		return data;
 	}
@@ -69,6 +71,17 @@ public class Util {
 		} else {
 			cpf = cpf.substring(0, 3) + "." + cpf.substring(3, 6) + "." + cpf.substring(6, 9) + "-" + cpf.substring(9, 11);
 			return cpf;
+		}
+	}
+	
+	public String mascaraTelefone(String telefone) {
+		if (telefone.contains("(") || telefone.contains(")") || telefone.contains("-") || telefone.contains(" ")) {
+			telefone = telefone.replaceAll("[()-]", "");
+			telefone = telefone.replace(" ", "");
+			return telefone;
+		} else {
+			telefone = telefone.substring(0, 0) + "(" + telefone.substring(0, 2) + ") " + telefone.substring(2, 6) + "-" + telefone.substring(6, 10);
+			return telefone;
 		}
 	}
 	

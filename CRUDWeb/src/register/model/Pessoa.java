@@ -60,7 +60,8 @@ public class Pessoa {
 		return telefone;
 	}
 	public void setTelefone(String telefone) {
-		this.telefone = telefone;
+		Util util = new Util();
+		this.telefone = util.mascaraTelefone(telefone);
 	}
 	public String getEndereco() {
 		return endereco;
