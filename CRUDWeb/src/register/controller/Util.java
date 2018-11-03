@@ -85,6 +85,29 @@ public class Util {
 		}
 	}
 	
+	public String converteStatus(String status) {
+		if (status.equals("1")) {
+			status = "ATIVO";
+		} else if (status.equals("2")) {
+			status = "SUSPENSO";
+		} else if (status.equals("3")) {
+			status = "REPROVADO";
+		} else if (status.equals("4")) {
+			status = "INATIVO";
+		} else {
+			if (status.equals("ATIVO")) {
+				status = "1";
+			} else if (status.equals("SUSPENSO")) {
+				status = "2";
+			} else if (status.equals("REPROVADO")) {
+				status = "3";
+			} else if (status.equals("INATIVO")) {
+				status = "4";
+			}
+		}
+		return status;
+	}
+	
 	public boolean isCPF(String CPF) {
         // considera-se erro CPF's formados por uma sequencia de numeros iguais
 		CPF = CPF.replaceAll("[-.]", "");

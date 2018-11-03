@@ -24,6 +24,17 @@
 		<input type="hidden" id="matricula" name="matricula" value="${aluno.matricula}">
 			<table align="center" border="0">
 				<tr>
+					<td class="status" hidden>Status: </td>
+					<td class="status" hidden>
+						<select name="status">
+							<option value="ATIVO" <c:if test="${aluno.status eq 'ATIVO' }">selected</c:if>>ATIVO</option>
+							<option value="SUSPENSO" <c:if test="${aluno.status eq 'SUSPENSO' }">selected</c:if>>SUSPENSO</option>
+							<option value="REPROVADO" <c:if test="${aluno.status eq 'REPROVADO' }">selected</c:if>>REPROVADO</option>
+							<option value="INATIVO" <c:if test="${aluno.status eq 'INATIVO' }">selected</c:if>>INATIVO</option>
+						</select>
+					</td>
+				</tr>
+				<tr>
 					<td>Nome: </td>
 					<td>
 						<input class="nome" type="text" name="nome" minlength="1" maxlength="50" value="${aluno.nome}"><br />
@@ -108,6 +119,7 @@
 				var erro_telefone = false;
 				var erro_email = false;
 				var erro_endereco = false;
+				$(".status").removeAttr("hidden");
 			}
 			
 			$(".nome").on("input", function(){

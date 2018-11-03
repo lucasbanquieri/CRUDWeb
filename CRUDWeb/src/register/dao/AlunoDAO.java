@@ -35,7 +35,7 @@ public class AlunoDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("INSERT INTO  aluno (cpf, telefone, nome, data_nascimento, sexo, endereco, email, curso, ativo)");
+			sql.append("INSERT INTO  aluno (cpf, telefone, nome, data_nascimento, sexo, endereco, email, curso, status)");
 			sql.append("VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			stmt = conn.prepareStatement(sql.toString());
@@ -48,7 +48,7 @@ public class AlunoDAO {
 			stmt.setString(6, aluno.getEndereco());
 			stmt.setString(7, aluno.getEmail());
 			stmt.setString(8, aluno.getCurso());
-			stmt.setInt(9, 1);
+			stmt.setString(9, "1");
 
 			stmt.execute();
 			conn.commit();
@@ -77,9 +77,9 @@ public class AlunoDAO {
 		try {
 			conn = db.obterConexao();
 
-			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, ativo"
+			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, status"
 					+ " FROM  aluno"
-					+ " WHERE ativo = 1"
+					+ " WHERE matricula > 0"
 					+ " ORDER BY matricula ASC";
 
 			stmt = conn.prepareStatement(sql.toString());
@@ -97,7 +97,8 @@ public class AlunoDAO {
 				aluno.setEndereco(rs.getString(6));
 				aluno.setEmail(rs.getString(7));
 				aluno.setMatricula(rs.getInt(8));
-				aluno.setCurso(rs.getString(9));			
+				aluno.setCurso(rs.getString(9));
+				aluno.setStatus(rs.getString(10));
 				
 				arrayAluno.add(aluno);
 			}
@@ -123,7 +124,7 @@ public class AlunoDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("UPDATE aluno SET telefone = ?, nome = ?, data_nascimento = ?, sexo = ?, endereco = ?, email = ?, curso = ?, ativo = ? ");
+			sql.append("UPDATE aluno SET telefone = ?, nome = ?, data_nascimento = ?, sexo = ?, endereco = ?, email = ?, curso = ?, status = ? ");
 			sql.append("WHERE matricula = ?;");
 
 			stmt = conn.prepareStatement(sql.toString());
@@ -135,7 +136,7 @@ public class AlunoDAO {
 			stmt.setString(5, aluno.getEndereco());
 			stmt.setString(6, aluno.getEmail());
 			stmt.setString(7, aluno.getCurso());
-			stmt.setInt(8, 1);
+			stmt.setString(8, aluno.getStatus());
 			stmt.setInt(9, aluno.getMatricula());
 
 			stmt.execute();
@@ -167,12 +168,12 @@ public class AlunoDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("UPDATE aluno SET ativo = ? ");
+			sql.append("UPDATE aluno SET status = ? ");
 			sql.append("WHERE matricula = ?;");
 
 			stmt = conn.prepareStatement(sql.toString());
 
-			stmt.setInt(1, 0);
+			stmt.setString(1, "4");
 			stmt.setInt(2, aluno.getMatricula());
 
 			stmt.execute();
@@ -202,7 +203,7 @@ public class AlunoDAO {
 		try {
 			conn = db.obterConexao();
 
-			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, ativo"
+			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, status"
 					+ " FROM  aluno"
 					+ " WHERE matricula = ?";
 
@@ -222,6 +223,7 @@ public class AlunoDAO {
 				aluno.setEmail(rs.getString(7));
 				aluno.setMatricula(rs.getInt(8));
 				aluno.setCurso(rs.getString(9));
+				aluno.setStatus(rs.getString(10));
 			}
 
 		} catch (SQLException e) {

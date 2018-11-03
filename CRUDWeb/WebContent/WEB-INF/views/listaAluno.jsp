@@ -11,6 +11,20 @@
 		<link rel="stylesheet" type="text/css" href="css/formStyle.css">
 		<title>Lista de Alunos</title>
 	</head>
+	<style>
+		#status_ativo {
+			color: green;
+		}
+		#status_suspenso {
+			color: #FFA500;
+		}
+		#status_reprovado {
+			color: red;
+		}
+		#status_inativo {
+			color: red;
+		}
+	</style>
 	<body>
 		<table class="greenTable">
 		<thead>
@@ -23,6 +37,7 @@
 				<th>Telefone</th>
 				<th>Endereço</th>
 				<th>Curso</th>
+				<th>Status</th>
 			</tr>
 		</thead>
 			<c:forEach items="${alunos}" var="aluno">
@@ -40,6 +55,18 @@
 				<td>${aluno.telefone}</td>
 				<td>${aluno.endereco}</td>
 				<td>${aluno.curso}</td>
+				<c:if test="${aluno.status == 'ATIVO'}">
+					<td id="status_ativo">${aluno.status}</td>
+				</c:if>
+				<c:if test="${aluno.status == 'SUSPENSO'}">
+					<td id="status_suspenso">${aluno.status}</td>
+				</c:if>
+				<c:if test="${aluno.status == 'REPROVADO'}">
+					<td id="status_reprovado">${aluno.status}</td>
+				</c:if>
+				<c:if test="${aluno.status == 'INATIVO'}">
+					<td id="status_inativo">${aluno.status}</td>
+				</c:if>
 				<td><a href="removeAluno?matricula=${aluno.matricula}">Remover</a></td>
 				<td><a href="cadastroAluno?matricula=${aluno.matricula}">Alterar</a></td>
 			</tr>
@@ -48,5 +75,8 @@
 		</table>
 		<br/>
 		<button onclick='location.href="cadastroAluno";'>Novo Aluno</button>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script>
+		</script>
 	</body>
 </html>

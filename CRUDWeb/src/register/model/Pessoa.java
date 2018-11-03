@@ -31,7 +31,9 @@ public class Pessoa {
 	private String endereco;
 	@NotNull
 	@Size(max=30)
-	private String email;	
+	private String email;
+	@NotNull
+	private String status;
 	
 	public Pessoa(String cpf, String telefone, String nome, Date dataNascimento, String sexo, String endereco, String email) {
 		super();
@@ -46,6 +48,15 @@ public class Pessoa {
 	
 	public Pessoa() {
 		
+	}
+
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		Util util = new Util();
+		this.status = util.converteStatus(status);
 	}
 
 	public String getDataNascimentoStr() {

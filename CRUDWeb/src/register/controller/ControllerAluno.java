@@ -38,6 +38,7 @@ public class ControllerAluno {
 		} else {
 			if (aluno.getMatricula() > 0) {
 				dao.editarAluno(aluno);
+				//aluno.setStatus(util.converteStatus(aluno.getStatus()));
 				return "redirect:listaAlunos";
 			} else {
 				dao.adicionarAluno(aluno);
