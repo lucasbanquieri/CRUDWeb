@@ -18,11 +18,15 @@
 		}
 	</style>
 	<body>
-		<h3 align="center">Cadastrar Aluno</h3>
+		<h3 class="titulo" align="center">Cadastrar Aluno</h3>
 		<form:errors path="*"/>
 		<form align="center" action="adicionaAluno" method="post" accept-charset="UTF-8">
 		<input type="hidden" id="matricula" name="matricula" value="${aluno.matricula}">
 			<table align="center" border="0">
+				<tr>
+					<td hidden class="mat">Matrícula: </td>
+					<td hidden class="mat"><input type="text" value="${aluno.matricula}" disabled></td>
+				</tr>
 				<tr>
 					<td class="status" hidden>Status: </td>
 					<td class="status" hidden>
@@ -119,6 +123,8 @@
 				var erro_telefone = false;
 				var erro_email = false;
 				var erro_endereco = false;
+				$(".titulo").html("Alterar Aluno");
+				$(".mat").removeAttr("hidden");
 				$(".status").removeAttr("hidden");
 			}
 			

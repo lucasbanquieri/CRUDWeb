@@ -64,6 +64,41 @@ public class ControllerAluno {
 		return "redirect:listaAlunos";
 	}
     
+    @RequestMapping("/filtroTodos")
+	public String filtroTodos(Model model) {
+		AlunoDAO dao = new AlunoDAO();
+		model.addAttribute("alunos", dao.listarAlunos());
+		return "filtroTodos";
+	}
+    
+    @RequestMapping("/filtroAtivos")
+	public String filtroAtivo(Model model) {
+		AlunoDAO dao = new AlunoDAO();
+		model.addAttribute("alunos", dao.listarAlunosAtivos());
+		return "filtroAtivo";
+	}
+    
+    @RequestMapping("/filtroSuspensos")
+	public String filtroSuspensos(Model model) {
+		AlunoDAO dao = new AlunoDAO();
+		model.addAttribute("alunos", dao.listarAlunosSuspensos());
+		return "filtroSuspensos";
+	}
+    
+    @RequestMapping("/filtroReprovados")
+	public String filtroReprovados(Model model) {
+		AlunoDAO dao = new AlunoDAO();
+		model.addAttribute("alunos", dao.listarAlunosReprovados());
+		return "filtroReprovados";
+	}
+    
+    @RequestMapping("/filtroInativos")
+	public String filtroInativos(Model model) {
+		AlunoDAO dao = new AlunoDAO();
+		model.addAttribute("alunos", dao.listarAlunosInativos());
+		return "filtroInativos";
+	}
+    
     public String temErro(Aluno aluno) {
 		Util util = new Util();
 		String errorMsg = "";
