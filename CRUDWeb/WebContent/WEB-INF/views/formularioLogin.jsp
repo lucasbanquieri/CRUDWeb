@@ -4,14 +4,22 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<link rel="stylesheet" type="text/css" href="css/formStyle.css">
 		<title>Login</title>
 	</head>
-	<body>
-		<h2>Página de Login</h2>
-		<form action="efetuaLogin" method="post">
-			Login: <input type="text" name="login" /> <br />
-			Senha: <input type="password" name="senha" /> <br />
-			<input type="submit" value="Entrar" />
-		</form>
+	<body id="telaLogin" background="img/universidade.png">
+    	<div class="loginbox">
+    	<img src="img/avatar.png" class="avatar">
+        	<h1>Login Here</h1>
+        	<form action="efetuaLogin" method="post">
+            	<p>Username</p>
+            	<input type="text" name="login" placeholder="Enter Username">
+            	<p>Password</p>
+            	<input type="password" name="senha" placeholder="Enter Password">
+            	<input type="submit" value="Login">
+            	<a href="#">Lost your password?</a><br>
+            	<a href="#">Don't have an account?</a>
+        	</form>
+    	</div>
 	</body>
 </html>
