@@ -47,22 +47,22 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoCpf">CPF:</label>
-                        <input class="form-control" id="cpf" type="text" name="cpf" maxlength="14" value="${aluno.cpf}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)">
+                        <input class="form-control" id="cpf" type="text" name="cpf" maxlength="14" value="${funcionario.cpf}">
                         <span id="cpf_erro"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label for="campoDataN">Data de Nascimento:</label>
-                        <input type="date" class="form-control" id="dataN" name="dataNascimentoStr" value='<fmt:formatDate value="${aluno.dataNascimento}" pattern="yyyy-MM-dd"/>' pattern="dd/MM/yyyy">
+                        <input type="date" class="form-control" id="dataN" name="dataNascimentoStr" value='<fmt:formatDate value="${funcionario.dataNascimento}" pattern="yyyy-MM-dd"/>' pattern="dd/MM/yyyy">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoSexo">Sexo:</label><br>
-                        <c:if test="${aluno.sexo eq 'M' or aluno.sexo eq null or aluno.sexo eq ''}">
+                        <c:if test="${funcionario.sexo eq 'M' or funcionario.sexo eq null or funcionario.sexo eq ''}">
                             <input type="radio" id="campo1" value="M" name="sexo" checked> Masculino <br/>
                             <input type="radio" id="campo1" value="F" name="sexo"> Feminino
                         </c:if>
-                        <c:if test="${aluno.sexo eq 'F'}">
+                        <c:if test="${funcionario.sexo eq 'F'}">
                             <input type="radio" id="campo1" value="M" name="sexo"> Masculino <br/>
                             <input type="radio" id="campo1" value="F" name="sexo" checked> Feminino
                         </c:if>
@@ -71,26 +71,26 @@
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label for="campoTelefone">Telefone:</label>
-                        <input class="form-control" id="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${aluno.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)">
+                        <input class="form-control" id="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${funcionario.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)">
                         <span id="telefone_erro"></span>
                     </div>
                     <div class="form-group col-md-3">
                         <label for="campoEmail">E-Mail:</label>
-                        <input class="form-control" id="email" type="text" name="email" value="${aluno.email}">
+                        <input class="form-control" id="email" type="text" name="email" value="${funcionario.email}">
                         <span id="email_erro"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-6">
                         <label for="campoEndereco">Endereço:</label>
-                        <textarea class="form-control" id="endereco" name="endereco" minlength="1" maxlength="50" rows="3" cols="50">${aluno.endereco}</textarea>
+                        <textarea class="form-control" id="endereco" name="endereco" minlength="1" maxlength="50" rows="3" cols="50">${funcionario.endereco}</textarea>
                         <span id="endereco_erro"></span>
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-1">
                         <label for="campoDependentes">Dependentes:</label>
-                        <input class="form-control" id="dependentes" type="number" name="Kids" minlenght="1" maxlength="2" value="${funcionario.Kids}" placeholder="0">
+                        <input class="form-control" id="dependentes" type="number" name="Kids" minlenght="1" maxlength="2" value="${funcionario.kids}" placeholder="0">
                     </div>
                 </div>
                 <hr />
@@ -105,21 +105,21 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVa">Vale Alimentação:</label>
-                        <input class="form-control" id="va" type="number" name="VA" minlength="1" maxlength="6" value="${funcionario.va}">
+                        <input class="form-control" id="va" type="number" name="VA" minlength="1" maxlength="6" value="${funcionario.VA}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVr">Vale Refeição:</label>
-                        <input class="form-control" id="vr" type="number" name="VR" minlength="1" maxlength="6" value="${funcionario.vr}">
+                        <input class="form-control" id="vr" type="number" name="VR" minlength="1" maxlength="6" value="${funcionario.VR}">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVt">Vale Transporte:</label>
-                        <input class="form-control" id="vt" type="number" name="VT" minlength="1" maxlength="6" value="${funcionario.vt}">
+                        <input class="form-control" id="vt" type="number" name="VT" minlength="1" maxlength="6" value="${funcionario.VT}">
                     </div>
                 </div>
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label for="campoCargo">Cargo:</label>
-                        <select class="form-control" name="cargo">
+                        <select class="form-control" name="cargo" id="cargo">
                             <option>Selecionar Cargo..</option>
                             <option value="Professor" <c:if test="${funcionario.cargo eq 'Professor' }">selected</c:if>>Professor</option>
                             <option value="Analista Mainframe" <c:if test="${funcionario.cargo eq 'Analista Mainframe' }">selected</c:if>>Analista Mainframe</option>
@@ -130,9 +130,9 @@
                             <option value="Gerente" <c:if test="${funcionario.cargo eq 'Gerente' }">selected</c:if>>Gerente</option>
                         </select>
                     </div>
-                    <div class="form-group col-md-2">
+                    <div id="disciplina" class="form-group col-md-2">
                         <label for="campoDisciplina">Disciplina:</label>
-                        <select class="form-control" id="disciplina" name="disciplina">
+                        <select class="form-control" name="disciplina">
                             <option>Selecionar Disciplina..</option>
                             <option value="Java Web" <c:if test="${funcionario.disciplina eq 'Java Web' }">selected</c:if>>Java Web</option>
                             <option value="Cobol" <c:if test="${funcionario.disciplina eq 'Cobol' }">selected</c:if>>Cobol</option>
@@ -151,6 +151,8 @@
                 </div>
             </form>
         </div>
+        <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
+		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
         <script>
     		$(document).ready(function () { 
        			var $seuCampoCpf = $("#cpf");
@@ -160,6 +162,12 @@
     		$(document).ready(function () { 
         		$("#telefone").mask('(00) 0000-0000');
    		 	});
+    		
+    		$(document).ready(function() {
+    			if ($("#cargo").val() != "Professor") {
+        			$("#disciplina").hide();
+    			}
+    		})
 		</script>
 		<script>
 			var erro_nome = true;
@@ -179,7 +187,18 @@
                 $("#cod").removeAttr("hidden");
                 $("#status_label").removeAttr("hidden");
 				$("#status").removeAttr("hidden");
+				/*if ($("#cargo").val() == "Professor") {
+					$("#disciplina").removeAttr("hidden");
+				}*/
 			}
+			
+			$("#cargo").on("change", function() {
+    			if ($(this).val() == "Professor") {
+    				$("#disciplina").show();
+    			} else {
+    				$("#disciplina").hide();
+    			}
+    		})
 			
 			$("#nome").on("input", function(){
 				if ($(this).val().length < 2 || $(this).val().length > 50) {

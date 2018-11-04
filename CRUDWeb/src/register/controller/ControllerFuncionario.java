@@ -1,7 +1,5 @@
 package register.controller;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -10,13 +8,12 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import register.dao.AlunoDAO;
 import register.dao.FuncionarioDAO;
-import register.model.Aluno;
+//import register.model.Aluno;
 import register.model.Funcionario;
 
 @Controller
-public class ControllerFuncionario {    
+public class ControllerFuncionario {
     @RequestMapping("/cadastroFuncionario")
 	public String form(Funcionario funcionario, Model model) {
     	FuncionarioDAO dao = new FuncionarioDAO();
@@ -27,29 +24,28 @@ public class ControllerFuncionario {
     	return "cadastroFuncionario";
 	}
     
-    @RequestMapping("/adicionaAluno")
-	public String adicionaAluno(@Valid Aluno aluno, BindingResult result, Model model, @RequestParam("dataNascimentoStr") String dataN) {
-		AlunoDAO dao = new AlunoDAO();
+    @RequestMapping("/adicionaFuncionario")
+	public String adicionaFuncionario(@Valid Funcionario funcionario, BindingResult result, Model model, @RequestParam("dataNascimentoStr") String dataN) {
+		FuncionarioDAO dao = new FuncionarioDAO();
     	Util util = new Util();
-    	aluno.setDataNascimento(util.transformaData(dataN));
+    	funcionario.setDataNascimento(util.transformaData(dataN));
     	
-		if (temErro(aluno) != "" || result.hasFieldErrors("nome, cpf, telefone, sexo, endereco, dataNascimentoStr, curso, email")) {
-			System.out.println(temErro(aluno));
-			model.addAttribute("aluno", aluno);
-			return "cadastroAluno";
+		if (temErro(funcionario) != "" || result.hasFieldErrors("nome, cpf, telefone, sexo, endereco, dataNascimentoStr, curso, email")) {
+			System.out.println(temErro(funcionario));
+			model.addAttribute("funcionario", funcionario);
+			return "cadastroFuncionario";
 		} else {
-			if (aluno.getMatricula() > 0) {
-				dao.editarAluno(aluno);
-				//aluno.setStatus(util.converteStatus(aluno.getStatus()));
-				return "redirect:listaAlunos";
+			if (funcionario.getCodCadastro() > 0) {
+				dao.editarFuncionario(funcionario);
+				return "redirect:listaFuncionarios";
 			} else {
-				dao.adicionarAluno(aluno);
-				return "aluno-adicionado";
+				dao.cadastrarFuncionario(funcionario);
+				return "funcionario-adicionado";
 			}
 		}
 	}
     
-    @RequestMapping("/listaAlunos")
+    /*@RequestMapping("/listaAlunos")
 	public String listaAlunos(Model model) {
 		AlunoDAO dao = new AlunoDAO();
 		List<Aluno> alunos = dao.listarAlunos();
@@ -99,26 +95,42 @@ public class ControllerFuncionario {
 		AlunoDAO dao = new AlunoDAO();
 		model.addAttribute("alunos", dao.listarAlunosInativos());
 		return "filtroInativos";
-	}
+	}*/
     
-    public String temErro(Aluno aluno) {
+    public String temErro(Funcionario funcionario) {
 		Util util = new Util();
 		String errorMsg = "";
 		
-		if(aluno.getNome().isEmpty()) {
+		if(funcionario.getNome().isEmpty()) {
 			errorMsg = errorMsg + "-Nome inválido ou não preenchido. \n";
-		} if ((aluno.getEndereco().isEmpty())) {
+		} if ((funcionario.getEndereco().isEmpty())) {
 			errorMsg = errorMsg + "-Endereço inválido ou não preenchido. \n";
-		} if ((aluno.getSexo().isEmpty())) {
+		} if ((funcionario.getSexo().isEmpty())) {
 			errorMsg = errorMsg + "-Sexo inválido. \n";
-		} if (aluno.getCpf().isEmpty() || util.isCPF(aluno.getCpf()) == false) {
+		} if (funcionario.getCpf().isEmpty() || util.isCPF(funcionario.getCpf()) == false) {
 			errorMsg = errorMsg + "-CPF inválido ou não preenchido. \n";
-		} if (aluno.getTelefone().isEmpty()) {
+		} if (funcionario.getTelefone().isEmpty()) {
 			errorMsg = errorMsg + "-Telefone inválido ou não preenchido. \n";
-		} if (aluno.getDataNascimentoStr() == null || util.validaData(aluno.getDataNascimentoStr()) == false) {
+		} if (funcionario.getDataNascimentoStr() == null || util.validaData(funcionario.getDataNascimentoStr()) == false) {
 			errorMsg = errorMsg + "-Data de nascimento inválida ou não preenchida. \n";
-		} if (aluno.getEmail().isEmpty()) {
+		} if (funcionario.getEmail().isEmpty()) {
 			errorMsg = errorMsg + "-E-Mail inválido ou não preenchido. \n";
+		} if (funcionario.getCargo().equals("Selecionar o Cargo..")) {
+			errorMsg = errorMsg + "-Cargo inválido. \n";
+		} if (funcionario.getCargo().equals("Professor")) {
+			if (funcionario.getDisciplina().equals("Selecionar Disciplina..") || funcionario.getDisciplina() == null) {
+				errorMsg = errorMsg + "-Disciplina inválida.";
+			}
+		} if (funcionario.getSalario() <= 0) {
+			errorMsg = errorMsg + "-Salário inválido ou zerado.";
+		} if (funcionario.getVA() <= 0) {
+			errorMsg = errorMsg + "-Vale alimentação inválido ou zerado.";
+		} if (funcionario.getVR() <= 0) {
+			errorMsg = errorMsg + "-Vale refeição inválido ou zerado.";
+		} if (funcionario.getVT() <= 0) {
+			errorMsg = errorMsg + "-Vale transporte inválido ou zerado.";
+		} if (funcionario.getKids() < 0) {
+			errorMsg = errorMsg + "-Número de dependentes inválido.";
 		}
 		return errorMsg;
 	}

@@ -37,8 +37,8 @@ public class FuncionarioDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("INSERT INTO funcionario (telefone, nome, data_nascimento, sexo, endereco, email, salario, vale_alimentacao, vale_refeicao, vale_transporte, kids, cargo, cod_cadastro, disciplina, cpf, ativo) ");
-			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
+			sql.append("INSERT INTO funcionario (telefone, nome, data_nascimento, sexo, endereco, email, salario, vale_alimentacao, vale_refeicao, vale_transporte, kids, cargo, disciplina, cpf, status) ");
+			sql.append("VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)");
 
 			stmt = conn.prepareStatement(sql.toString());
 
@@ -54,14 +54,13 @@ public class FuncionarioDAO {
 			stmt.setDouble(10, func.getVT());
 			stmt.setInt(11, func.getKids());
 			stmt.setString(12, func.getCargo());
-			stmt.setInt(13, func.getCodCadastro());
 			if (!func.getDisciplina().equals("")) {
 				stmt.setString(14, func.getDisciplina());
 			} else {
 				stmt.setNull(14, Types.NULL);
 			}
 			stmt.setString(15, func.getCpf());
-			stmt.setInt(16, 1);
+			stmt.setString(16, "1");
 
 			stmt.execute();
 			conn.commit();
@@ -91,8 +90,6 @@ public class FuncionarioDAO {
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
-		
-		System.out.println("Funcionario " + func.getNome() + " no cargo de " + func.getCargo() + " cadastrado com sucesso!");
 	}
 	
 	private void cadastrarKids(Funcionario funcionario) {
@@ -237,7 +234,7 @@ public class FuncionarioDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("UPDATE funcionario SET telefone = ?, nome = ?, data_nascimento = ?, sexo = ?, endereco = ?, email = ?, salario = ?, vale_alimentacao = ?, vale_refeicao = ?, vale_transporte = ?, kids = ?, cargo = ?, disciplina = ? ");
+			sql.append("UPDATE funcionario SET telefone = ?, nome = ?, data_nascimento = ?, sexo = ?, endereco = ?, email = ?, salario = ?, vale_alimentacao = ?, vale_refeicao = ?, vale_transporte = ?, kids = ?, cargo = ?, disciplina = ?, status = ? ");
 			sql.append("WHERE cod_cadastro = ?;");
 
 			stmt = conn.prepareStatement(sql.toString());
@@ -256,6 +253,7 @@ public class FuncionarioDAO {
 			stmt.setString(12, func.getCargo());
 			stmt.setString(13, func.getDisciplina());
 			stmt.setInt(14, Integer.valueOf(func.getCodCadastro()));
+			stmt.setString(15, func.getStatus());
 
 			stmt.execute();
 			conn.commit();
