@@ -71,7 +71,7 @@
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label for="campoTelefone">Telefone:</label>
-                        <input class="form-control" id="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${funcionario.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)">
+                        <input class="form-control" id="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${funcionario.telefone}">
                         <span id="telefone_erro"></span>
                     </div>
                     <div class="form-group col-md-3">
@@ -91,6 +91,7 @@
                     <div class="form-group col-md-1">
                         <label for="campoDependentes">Dependentes:</label>
                         <input class="form-control" id="dependentes" type="number" name="Kids" minlenght="1" maxlength="2" value="${funcionario.kids}" placeholder="0">
+                    	<span id="kids_erro"></span>
                     </div>
                 </div>
                 <hr />
@@ -100,20 +101,24 @@
                 <h4 class="page-header">Informações do Cargo</h4>
                 <div class="row">
                     <div class="form-group col-md-2">
-                        <label for="campoSalario">Salário:</label>
-                        <input class="form-control" id="salario" type="number" name="salario" minlength="1" maxlength="6" value="${funcionario.salario}">
+                        <label for="campoSalario">Salário(R$):</label>
+                        <input class="form-control" id="salario" type="text" name="salarioStr" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.salario}</c:if>">
+                    	<span id="salario_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="campoVa">Vale Alimentação:</label>
-                        <input class="form-control" id="va" type="number" name="VA" minlength="1" maxlength="6" value="${funcionario.VA}">
+                        <label for="campoVa">Vale Alimentação(R$):</label>
+                        <input class="form-control" id="va" type="text" name="VAStr" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VA}</c:if>">
+                    	<span id="va_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="campoVr">Vale Refeição:</label>
-                        <input class="form-control" id="vr" type="number" name="VR" minlength="1" maxlength="6" value="${funcionario.VR}">
+                        <label for="campoVr">Vale Refeição(R$):</label>
+                        <input class="form-control" id="vr" type="text" name="VRStr" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VR}</c:if>">
+                    	<span id="vr_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
-                        <label for="campoVt">Vale Transporte:</label>
-                        <input class="form-control" id="vt" type="number" name="VT" minlength="1" maxlength="6" value="${funcionario.VT}">
+                        <label for="campoVt">Vale Transporte(R$):</label>
+                        <input class="form-control" id="vt" type="text" name="VTStr" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VT}</c:if>">
+                    	<span id="vt_erro"></span>
                     </div>
                 </div>
                 <div class="row">
@@ -132,7 +137,7 @@
                     </div>
                     <div id="disciplina" class="form-group col-md-2">
                         <label for="campoDisciplina">Disciplina:</label>
-                        <select class="form-control" name="disciplina">
+                        <select class="form-control" name="disciplina" id="disc">
                             <option>Selecionar Disciplina..</option>
                             <option value="Java Web" <c:if test="${funcionario.disciplina eq 'Java Web' }">selected</c:if>>Java Web</option>
                             <option value="Cobol" <c:if test="${funcionario.disciplina eq 'Cobol' }">selected</c:if>>Cobol</option>
@@ -154,44 +159,55 @@
         <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
         <script>
+        	//////////////MÁSCARAS/////////////
     		$(document).ready(function () { 
        			var $seuCampoCpf = $("#cpf");
         		$seuCampoCpf.mask('000.000.000-00', {reverse: true});
-   		 	});
-    		
-    		$(document).ready(function () { 
         		$("#telefone").mask('(00) 0000-0000');
-   		 	});
-    		
-    		$(document).ready(function() {
+        		$("#salario").mask('000.000.000.000.000,00', {reverse: true});
+        		$("#va").mask('000.000.000.000.000,00', {reverse: true});
+        		$("#vr").mask('000.000.000.000.000,00', {reverse: true});
+        		$("#vt").mask('000.000.000.000.000,00', {reverse: true});
     			if ($("#cargo").val() != "Professor") {
         			$("#disciplina").hide();
     			}
-    		})
+   		 	});
 		</script>
 		<script>
+			//VARIÁBEIS INICIAIS
 			var erro_nome = true;
 			var erro_cpf = true;
 			var erro_telefone = true;
 			var erro_email = true;
 			var erro_endereco = true;
+			var erro_salario = true;
+			var erro_va = true;
+			var erro_vr = true;
+			var erro_vt = true;
+			var erro_kids = true;
+			var erro_cargo = true;
 			
+			//VERIFICA SE É UMA ALTERAÇÃO
 			if ($("#cod_cadastro").val() > 0) {
 				var erro_nome = false;
 				var erro_cpf = false;
 				var erro_telefone = false;
 				var erro_email = false;
 				var erro_endereco = false;
+				var erro_salario = false;
+				var erro_va = false;
+				var erro_vr = false;
+				var erro_vt = false;
+				var erro_kids = false;
+				var erro_cargo = false;
 				$("#titulo").html("Alterar Funcionario");
 				$("#cod_label").removeAttr("hidden");
                 $("#cod").removeAttr("hidden");
                 $("#status_label").removeAttr("hidden");
 				$("#status").removeAttr("hidden");
-				/*if ($("#cargo").val() == "Professor") {
-					$("#disciplina").removeAttr("hidden");
-				}*/
 			}
 			
+			//VALIDAÇÕES
 			$("#cargo").on("change", function() {
     			if ($(this).val() == "Professor") {
     				$("#disciplina").show();
@@ -215,70 +231,134 @@
 			})
 			
 			$(function() {
-    			//Executa a requisição quando o campo username perder o foco
-    			$('#cpf').blur(function()
-    		{
-        	var cpf = $('#cpf').val().replace(/[^0-9]/g, '').toString();
+    			$('#cpf').blur(function() {
+        			var cpf = $('#cpf').val().replace(/[^0-9]/g, '').toString();
 
-        	if( cpf.length == 11 ) {
-            	var v = [];
+        			if( cpf.length == 11 ) {
+            			var v = [];
 
-            	//Calcula o primeiro dígito de verificação.
-            	v[0] = 1 * cpf[0] + 2 * cpf[1] + 3 * cpf[2];
-            	v[0] += 4 * cpf[3] + 5 * cpf[4] + 6 * cpf[5];
-            	v[0] += 7 * cpf[6] + 8 * cpf[7] + 9 * cpf[8];
-            	v[0] = v[0] % 11;
-            	v[0] = v[0] % 10;
+		            	v[0] = 1 * cpf[0] + 2 * cpf[1] + 3 * cpf[2];
+		            	v[0] += 4 * cpf[3] + 5 * cpf[4] + 6 * cpf[5];
+		            	v[0] += 7 * cpf[6] + 8 * cpf[7] + 9 * cpf[8];
+		            	v[0] = v[0] % 11;
+		            	v[0] = v[0] % 10;
 
-            	//Calcula o segundo dígito de verificação.
-            	v[1] = 1 * cpf[1] + 2 * cpf[2] + 3 * cpf[3];
-            	v[1] += 4 * cpf[4] + 5 * cpf[5] + 6 * cpf[6];
-            	v[1] += 7 * cpf[7] + 8 * cpf[8] + 9 * v[0];
-            	v[1] = v[1] % 11;
-            	v[1] = v[1] % 10;
+		            	v[1] = 1 * cpf[1] + 2 * cpf[2] + 3 * cpf[3];
+		            	v[1] += 4 * cpf[4] + 5 * cpf[5] + 6 * cpf[6];
+		            	v[1] += 7 * cpf[7] + 8 * cpf[8] + 9 * v[0];
+		            	v[1] = v[1] % 11;
+		            	v[1] = v[1] % 10;
 
-            	//Retorna Verdadeiro se os dígitos de verificação são os esperados.
-            	if ( (v[0] != cpf[9]) || (v[1] != cpf[10]) ) {
-            		$("#cpf").css("border", "1px solid red");
-            		erro_cpf = true;
-            		$("#cpf_erro").html("CPF inválido.");
-					$("#cpf_erro").css("color", "red");
-
-                	$('#cpf').val($('#cpf').val());
-            	} else {
-            		$("#cpf").css("border", "1px solid green");
-            		$("#cpf_erro").html("");
-            		erro_cpf = false;
-            	}
-        	} else {
-        		$("#cpf").css("border", "1px solid red");
-        		erro_cpf = true;
-        		$("#cpf_erro").html("CPF deve conter 11 dígitos.");
-				$("#cpf_erro").css("color", "red");
-
-				$('#cpf').val($('#cpf').val());
-        	}
-    	});
-	});
-			
-			
+		            	if ( (v[0] != cpf[9]) || (v[1] != cpf[10]) ) {
+		            		$("#cpf").css("border", "1px solid red");
+		            		erro_cpf = true;
+		            		$("#cpf_erro").html("CPF inválido.");
+							$("#cpf_erro").css("color", "red");
+		
+		                	$('#cpf').val($('#cpf').val());
+		            	} else {
+		            		$("#cpf").css("border", "1px solid green");
+		            		$("#cpf_erro").html("");
+		            		erro_cpf = false;
+		            	}
+        			} else {
+		        		$("#cpf").css("border", "1px solid red");
+		        		erro_cpf = true;
+		        		$("#cpf_erro").html("CPF deve conter 11 dígitos.");
+						$("#cpf_erro").css("color", "red");
+		
+						$('#cpf').val($('#cpf').val());
+        			}
+    			});
+			});
 			
 			$("#telefone").on("input", function(){
 				if ($(this).val().length < 14 || $(this).val().length > 18) {
 					$(this).css("border", "1px solid red");
+					$("#telefone_erro").html("Telefone inválido.");
+					$("#telefone_erro").css("color", "red");
 					erro_telefone = true;
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#telefone_erro").html("");
 					erro_telefone = false;
+				}
+			})
+			
+			$("#salario").on("input", function(){
+				if ($(this).val() < 0 || $(this).val() == "") {
+					$(this).css("border", "1px solid red");
+					$("#salario_erro").html("Salário inválido.");
+					$("#salario_erro").css("color", "red");
+					erro_salario = true;
+				} else {
+					$(this).css("border", "1px solid green");
+					$("#salario_erro").html("");
+					erro_salario = false;
+				}
+			})
+			
+			$("#va").on("input", function(){
+				if ($(this).val() < 0 || $(this).val() == "") {
+					$(this).css("border", "1px solid red");
+					$("#va_erro").html("Vale alimentação inválido.");
+					$("#va_erro").css("color", "red");
+					erro_salario = true;
+				} else {
+					$(this).css("border", "1px solid green");
+					$("#va_erro").html("");
+					erro_salario = false;
+				}
+			})
+			
+			$("#vr").on("input", function(){
+				if ($(this).val() < 0 || $(this).val() == "") {
+					$(this).css("border", "1px solid red");
+					$("#vr_erro").html("Vale refeição inválido.");
+					$("#vr_erro").css("color", "red");
+					erro_salario = true;
+				} else {
+					$(this).css("border", "1px solid green");
+					$("#vr_erro").html("");
+					erro_salario = false;
+				}
+			})
+			
+			$("#vt").on("input", function(){
+				if ($(this).val() < 0 || $(this).val() == "") {
+					$(this).css("border", "1px solid red");
+					$("#vt_erro").html("Vale transporte inválido.");
+					$("#vt_erro").css("color", "red");
+					erro_salario = true;
+				} else {
+					$(this).css("border", "1px solid green");
+					$("#vt_erro").html("");
+					erro_salario = false;
+				}
+			})
+			
+			$("#dependentes").on("input", function(){
+				if ($(this).val() < 0 || $(this).val() > 20 || $(this).val() == "") {
+					$(this).css("border", "1px solid red");
+					$("#kids_erro").html("Número de dependentes inválido.");
+					$("#kids_erro").css("color", "red");
+					erro_salario = true;
+				} else {
+					$(this).css("border", "1px solid green");
+					$("#kids_erro").html("");
+					erro_salario = false;
 				}
 			})
 			
 			$("#email").on("input", function(){
 				if ($(this).val().length < 5 || $(this).val().length > 30) {
 					$(this).css("border", "1px solid red");
+					$("#email_erro").html("E-mail inválido.");
+					$("#email_erro").css("color", "red");
 					erro_email = true;
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#email_erro").html("");
 					erro_email = false;
 				}
 			})
@@ -286,19 +366,28 @@
 			$("#endereco").on("input", function(){
 				if ($(this).val().length < 10 || $(this).val().length > 50) {
 					$(this).css("border", "1px solid red");
+					$("#endereco_erro").html("Endereço inválido.");
+					$("#encereco_erro").css("color", "red");
 					erro_endereco = true;
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#endereco_erro").html("");
 					erro_endereco = false;
 				}
 			})
 			
 			$("#salvar").on("click", function checarErro() {
-				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco) {
+				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco || erro_salario || erro_va || erro_vr || erro_vt || erro_kids) {
 					alert("Campos não preenchidos ou inválidos.");
 					return false;
 				} else if ($("#dataN").val() == "") {
 					alert("Data de nascimento não preenchida.");
+					return false;
+				} else if ($("#cargo").val() == "Selecionar Cargo..") {
+					alert("Selecione um cargo.");
+					return false;
+				} if ($("#cargo").val() == "Professor" && $("#disc").val() == "Selecionar Disciplina..") {
+					alert("Selecione uma disciplina.");
 					return false;
 				}
 			})

@@ -85,6 +85,20 @@ public class Util {
 		}
 	}
 	
+	public double mascaraPagamento(String dinheiro) {
+		double money = 0;
+		if (dinheiro.contains(",") || dinheiro.contains(".")) {
+			dinheiro.replace(".", "");
+			dinheiro.replace(",", ".");
+			try {
+				money = Double.valueOf(dinheiro);
+			} catch(Exception e) {
+				System.out.println("Erro no método mascaraPagamento.");
+			}
+		}
+		return money;
+	}
+	
 	public String converteStatus(String status) {
 		if (status.equals("1")) {
 			status = "ATIVO";

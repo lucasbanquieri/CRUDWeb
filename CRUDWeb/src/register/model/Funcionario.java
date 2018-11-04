@@ -3,11 +3,17 @@ package register.model;
 import java.util.Date;
 import java.util.List;
 
+import register.controller.Util;
+
 public class Funcionario extends Pessoa {
 	private double salario;
+	private String salarioStr;
 	private double VA;
+	private String VAStr;
 	private double VR;
+	private String VRStr;
 	private double VT;
+	private String VTStr;
 	private int Kids;
 	private String cargo;
 	private int codCadastro;
@@ -29,6 +35,38 @@ public class Funcionario extends Pessoa {
 	public Funcionario() {
 		super();
 	}
+	
+	public String getVAStr() {
+		return VAStr;
+	}
+
+	public void setVAStr(String vAStr) {
+		VAStr = vAStr;
+	}
+
+	public String getVRStr() {
+		return VRStr;
+	}
+
+	public void setVRStr(String vRStr) {
+		VRStr = vRStr;
+	}
+
+	public String getVTStr() {
+		return VTStr;
+	}
+
+	public void setVTStr(String vTStr) {
+		VTStr = vTStr;
+	}
+
+	public String getSalarioStr() {
+		return salarioStr;
+	}
+
+	public void setSalarioStr(String salarioStr) {
+		this.salarioStr = salarioStr;
+	}
 
 	public String getDisciplina() {
 		return disciplina;
@@ -43,7 +81,8 @@ public class Funcionario extends Pessoa {
 	}
 
 	public void setSalario(double salario) {
-		this.salario = salario;
+		Util util = new Util();
+		this.salario = util.mascaraPagamento(getSalarioStr());
 	}
 
 	public double getVA() {
@@ -51,7 +90,8 @@ public class Funcionario extends Pessoa {
 	}
 
 	public void setVA(double vA) {
-		VA = vA;
+		Util util = new Util();
+		this.VA = util.mascaraPagamento(getVAStr());
 	}
 
 	public double getVR() {
@@ -59,7 +99,8 @@ public class Funcionario extends Pessoa {
 	}
 
 	public void setVR(double vR) {
-		VR = vR;
+		Util util = new Util();
+		this.VR = util.mascaraPagamento(getVRStr());
 	}
 
 	public double getVT() {
@@ -67,7 +108,8 @@ public class Funcionario extends Pessoa {
 	}
 
 	public void setVT(double vT) {
-		VT = vT;
+		Util util = new Util();
+		this.VT = util.mascaraPagamento(getVTStr());
 	}
 
 	public int getKids() {
