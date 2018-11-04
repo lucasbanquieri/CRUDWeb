@@ -71,15 +71,24 @@
 				</tr>
 				<tr>
 					<td>Telefone: </td>
-					<td><input class="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${aluno.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)"></td>
+					<td>
+						<input class="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${aluno.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)">
+						<span id="telefone_erro" class="validacao"></span>
+					</td>
 				</tr>
 				<tr>
 					<td>E-Mail: </td>
-					<td><input class="email" type="text" name="email" value="${aluno.email}"></td>
+					<td>
+						<input class="email" type="text" name="email" value="${aluno.email}">
+						<span id="email_erro" class="validacao"></span>
+					</td>
 				</tr>
 				<tr>
 					<td>Endereço: </td>
-					<td><textarea class="endereco" name="endereco" minlength="1" maxlength="50" rows="3" cols="50">${aluno.endereco}</textarea></td>
+					<td>
+						<textarea class="endereco" name="endereco" minlength="1" maxlength="50" rows="3" cols="50">${aluno.endereco}</textarea>
+						<span id="endereco_erro" class="validacao"></span>
+					</td>
 				</tr>
 				<tr>
 					<td>Curso: </td>
@@ -194,9 +203,12 @@
 			$(".telefone").on("input", function(){
 				if ($(this).val().length < 14 || $(this).val().length > 18) {
 					$(this).css("border", "1px solid red");
+					$("#telefone_erro").html("Telefone inválido.");
+					$("#telefone_erro").css("color", "red");
 					erro_telefone = true;
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#telefone_erro").html("");
 					erro_telefone = false;
 				}
 			})
@@ -204,9 +216,12 @@
 			$(".email").on("input", function(){
 				if ($(this).val().length < 5 || $(this).val().length > 30) {
 					$(this).css("border", "1px solid red");
+					$("#email_erro").html("E-mail inválido.");
+					$("#email_erro").css("color", "red");
 					erro_email = true;
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#email_erro").html("");
 					erro_email = false;
 				}
 			})
@@ -214,9 +229,12 @@
 			$(".endereco").on("input", function(){
 				if ($(this).val().length < 10 || $(this).val().length > 50) {
 					$(this).css("border", "1px solid red");
+					$("#endereco_erro").html("Endereço inválido.");
+					$("#endereco_erro").css("color", "red");
 					erro_endereco = true;
 				} else {
 					$(this).css("border", "1px solid green");
+					$("#endereco_erro").html("");
 					erro_endereco = false;
 				}
 			})

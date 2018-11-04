@@ -382,4 +382,56 @@ public class FuncionarioDAO {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
 	}
+	
+	public Funcionario buscarFuncionario(int cod) {
+		Funcionario funcionario = new Funcionario();
+		
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+
+			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, cod_cadastro, cargo, status, salario, vale_alimentacao, vale_refeicao, vale_transporte, kids, disciplina"
+					+ " FROM  funcionario"
+					+ " WHERE cod_cadastro = ?";
+
+			stmt = conn.prepareStatement(sql.toString());
+			
+			stmt.setLong(1, cod);
+
+			rs = stmt.executeQuery();
+
+			while (rs.next()) {
+				funcionario.setCpf(rs.getString(1));
+				funcionario.setTelefone(rs.getString(2));
+				funcionario.setNome(rs.getString(3));
+				funcionario.setDataNascimento(new Date(rs.getTimestamp("data_nascimento").getTime()));
+				funcionario.setSexo(rs.getString(5));
+				funcionario.setEndereco(rs.getString(6));
+				funcionario.setEmail(rs.getString(7));
+				funcionario.setCodCadastro(rs.getInt(8));
+				funcionario.setCargo(rs.getString(9));
+				funcionario.setStatus(rs.getString(10));
+				funcionario.setSalario(rs.getDouble(11));
+				funcionario.setVA(rs.getDouble(12));
+				funcionario.setVR(rs.getDouble(13));
+				funcionario.setVT(rs.getDouble(14));
+				funcionario.setKids(rs.getInt(15));
+				if (funcionario.getCargo().equals("Professor")) {
+					funcionario.setDisciplina(rs.getString(16));
+				} else {
+					funcionario.setDisciplina(null);
+				}
+			}
+
+		} catch (SQLException e) {
+			System.out.println("Erro no método buscarFuncionario");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+		return funcionario;
+	}
 }
