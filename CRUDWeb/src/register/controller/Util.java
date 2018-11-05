@@ -88,8 +88,8 @@ public class Util {
 	public double mascaraPagamento(String dinheiro) {
 		double money = 0;
 		if (dinheiro.contains(",") || dinheiro.contains(".")) {
-			dinheiro.replace(".", "");
-			dinheiro.replace(",", ".");
+			dinheiro.replaceAll("[.]", "");
+			dinheiro.replaceAll("[,]", ".");
 			try {
 				money = Double.valueOf(dinheiro);
 			} catch(Exception e) {

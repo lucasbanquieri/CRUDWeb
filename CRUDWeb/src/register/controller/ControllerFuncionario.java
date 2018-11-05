@@ -121,13 +121,13 @@ public class ControllerFuncionario {
 			if (funcionario.getDisciplina().equals("Selecionar Disciplina..") || funcionario.getDisciplina() == null) {
 				errorMsg = errorMsg + "-Disciplina inválida.";
 			}
-		} if (funcionario.getSalario() <= 0) {
+		} if (util.mascaraPagamento(funcionario.getSalarioStr()) <= 0) {
 			errorMsg = errorMsg + "-Salário inválido ou zerado.";
-		} if (funcionario.getVA() <= 0) {
+		} if (util.mascaraPagamento(funcionario.getVAStr()) <= 0) {
 			errorMsg = errorMsg + "-Vale alimentação inválido ou zerado.";
-		} if (funcionario.getVR() <= 0) {
+		} if (util.mascaraPagamento(funcionario.getVRStr()) <= 0) {
 			errorMsg = errorMsg + "-Vale refeição inválido ou zerado.";
-		} if (funcionario.getVT() <= 0) {
+		} if (util.mascaraPagamento(funcionario.getVTStr()) <= 0) {
 			errorMsg = errorMsg + "-Vale transporte inválido ou zerado.";
 		} if (funcionario.getKids() < 0) {
 			errorMsg = errorMsg + "-Número de dependentes inválido.";

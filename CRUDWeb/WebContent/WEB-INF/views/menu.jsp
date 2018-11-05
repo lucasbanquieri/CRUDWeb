@@ -11,6 +11,7 @@
 		<p>Bem vindo, ${usuarioLogado.login}</p>
 		<a href="listaAlunos">Lista de Alunos</a>
 		<a href="listaFuncionarios">Lista de Funcionários</a>
+		<a href="cadastroFuncionario">Cadastro de Funcionários</a>
 		<br>
 		<a href="logout">Logout</a>
 	</body>
