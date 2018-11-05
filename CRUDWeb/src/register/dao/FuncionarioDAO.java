@@ -74,7 +74,7 @@ public class FuncionarioDAO {
 			if (rs.next()) {
 				//func.setCodCadastro(rs.getInt(1));
 				//cadastrarKids(func);
-				db.finalizaObjetos(null, stmt, null);
+				//db.finalizaObjetos(null, stmt, null);
 			}
 			
 		} catch (SQLException e) {
