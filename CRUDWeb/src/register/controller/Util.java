@@ -88,10 +88,9 @@ public class Util {
 	public double mascaraPagamento(String dinheiro) {
 		double money = 0;
 		if (dinheiro.contains(",") || dinheiro.contains(".")) {
-			dinheiro.replace(".", "");
-			dinheiro.replace(",", ".");
+			dinheiro.replaceAll("[.]", "");
 			try {
-				money = Double.valueOf(dinheiro);
+				money = Double.parseDouble(dinheiro.replace(",","."));
 			} catch(Exception e) {
 				System.out.println("Erro no método mascaraPagamento.");
 			}

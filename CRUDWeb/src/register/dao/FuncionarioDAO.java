@@ -55,12 +55,12 @@ public class FuncionarioDAO {
 			stmt.setInt(11, func.getKids());
 			stmt.setString(12, func.getCargo());
 			if (!func.getDisciplina().equals("")) {
-				stmt.setString(14, func.getDisciplina());
+				stmt.setString(13, func.getDisciplina());
 			} else {
-				stmt.setNull(14, Types.NULL);
+				stmt.setNull(13, Types.NULL);
 			}
-			stmt.setString(15, func.getCpf());
-			stmt.setString(16, "1");
+			stmt.setString(14, func.getCpf());
+			stmt.setString(15, "1");
 
 			stmt.execute();
 			conn.commit();
@@ -72,8 +72,8 @@ public class FuncionarioDAO {
 			rs = stmt.executeQuery();
 
 			if (rs.next()) {
-				func.setCodCadastro(rs.getInt(1));
-				cadastrarKids(func);
+				//func.setCodCadastro(rs.getInt(1));
+				//cadastrarKids(func);
 				db.finalizaObjetos(null, stmt, null);
 			}
 			

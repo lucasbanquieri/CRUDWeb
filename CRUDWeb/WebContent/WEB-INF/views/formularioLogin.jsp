@@ -7,7 +7,12 @@
 		<link rel="stylesheet" type="text/css" href="css/formStyle.css">
 		<title>Login</title>
 	</head>
-	<body id="telaLogin" background="img/universidade.png">
+	<style>
+		body, html {
+			height: 100%;
+		}
+	</style>
+	<body id="telaLogin" background="img/universidade.png" style="background-size: cover; backgroung-position: center;">
     	<div class="loginbox">
     	<img src="img/avatar.png" class="avatar">
         	<h1>Login Here</h1>

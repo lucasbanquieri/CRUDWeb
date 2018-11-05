@@ -151,10 +151,11 @@
                 <div id="actions" class="row">
                     <div class="col-md-12">
                         <button id="salvar" type="submit" class="btn btn-primary">Salvar</button>
-                        <a href="efetuaLogin" class="btn btn-default">Cancelar</a>
+                        <a href="listaFuncionarios" class="btn btn-dark">Cancelar</a>
                     </div>
                 </div>
             </form>
+            <br/>
         </div>
         <script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
@@ -303,11 +304,11 @@
 					$(this).css("border", "1px solid red");
 					$("#va_erro").html("Vale alimentação inválido.");
 					$("#va_erro").css("color", "red");
-					erro_salario = true;
+					erro_va = true;
 				} else {
 					$(this).css("border", "1px solid green");
 					$("#va_erro").html("");
-					erro_salario = false;
+					erro_va = false;
 				}
 			})
 			
@@ -316,11 +317,11 @@
 					$(this).css("border", "1px solid red");
 					$("#vr_erro").html("Vale refeição inválido.");
 					$("#vr_erro").css("color", "red");
-					erro_salario = true;
+					erro_vr = true;
 				} else {
 					$(this).css("border", "1px solid green");
 					$("#vr_erro").html("");
-					erro_salario = false;
+					erro_vr = false;
 				}
 			})
 			
@@ -329,11 +330,11 @@
 					$(this).css("border", "1px solid red");
 					$("#vt_erro").html("Vale transporte inválido.");
 					$("#vt_erro").css("color", "red");
-					erro_salario = true;
+					erro_vt = true;
 				} else {
 					$(this).css("border", "1px solid green");
 					$("#vt_erro").html("");
-					erro_salario = false;
+					erro_vt = false;
 				}
 			})
 			
@@ -342,11 +343,11 @@
 					$(this).css("border", "1px solid red");
 					$("#kids_erro").html("Número de dependentes inválido.");
 					$("#kids_erro").css("color", "red");
-					erro_salario = true;
+					erro_kids = true;
 				} else {
 					$(this).css("border", "1px solid green");
 					$("#kids_erro").html("");
-					erro_salario = false;
+					erro_kids = false;
 				}
 			})
 			
