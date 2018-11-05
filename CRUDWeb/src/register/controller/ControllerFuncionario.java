@@ -1,5 +1,7 @@
 package register.controller;
 
+import java.util.List;
+
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -18,7 +20,7 @@ public class ControllerFuncionario {
 	public String form(Funcionario funcionario, Model model) {
     	FuncionarioDAO dao = new FuncionarioDAO();
     	if (funcionario.getCodCadastro() > 0) {
-    		model.addAttribute("aluno", dao.buscarFuncionario(funcionario.getCodCadastro()));
+    		model.addAttribute("funcionario", dao.buscarFuncionario(funcionario.getCodCadastro()));
     		return "cadastroFuncionario";
     	}
     	return "cadastroFuncionario";
@@ -45,30 +47,30 @@ public class ControllerFuncionario {
 		}
 	}
     
-    /*@RequestMapping("/listaAlunos")
-	public String listaAlunos(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		List<Aluno> alunos = dao.listarAlunos();
-		model.addAttribute("alunos", alunos);
-		return "listaAluno";
+    @RequestMapping("/listaFuncionarios")
+	public String listaFuncionarios(Model model) {
+		FuncionarioDAO dao = new FuncionarioDAO();
+		List<Funcionario> funcionarios = dao.listarFuncionarios(null);
+		model.addAttribute("funcionarios", funcionarios);
+		return "listaFuncionario";
 	}
     
-    @RequestMapping("/removeAluno")
-	public String remove(Aluno aluno, Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		dao.excluirAluno(aluno);
-		List<Aluno> alunos = dao.listarAlunos();
-		model.addAttribute("alunos", alunos);
-		return "redirect:listaAlunos";
+    @RequestMapping("/removeFuncionario")
+	public String remove(Funcionario funcionario, Model model) {
+		FuncionarioDAO dao = new FuncionarioDAO();
+		dao.excluirFuncionario(funcionario);
+		List<Funcionario> funcionarios = dao.listarFuncionarios(null);
+		model.addAttribute("funcionarios", funcionarios);
+		return "redirect:listaFuncionarios";
 	}
     
-    @RequestMapping("/filtroTodos")
-	public String filtroTodos(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunos());
-		return "filtroTodos";
+    @RequestMapping("/filtroFuncionario")
+	public String filtroFuncionario(Funcionario funcionario, Model model) {
+		FuncionarioDAO dao = new FuncionarioDAO();
+		model.addAttribute("funcionarios", dao.listarFuncionarios(funcionario));
+		return "filtroFuncionario";
 	}
-    
+    /*
     @RequestMapping("/filtroAtivos")
 	public String filtroAtivo(Model model) {
 		AlunoDAO dao = new AlunoDAO();

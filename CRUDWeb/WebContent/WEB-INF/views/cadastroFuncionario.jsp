@@ -30,7 +30,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label hidden id="status_label" for="campoStatus">Status:</label>
-                        <select hidden id="status" name="status">
+                        <select hidden class="form-control" id="status" name="status">
 							<option value="ATIVO" <c:if test="${funcionario.status eq 'ATIVO' }">selected</c:if>>ATIVO</option>
 							<option value="SUSPENSO" <c:if test="${funcionario.status eq 'SUSPENSO' }">selected</c:if>>SUSPENSO</option>
 							<option value="FÉRIAS" <c:if test="${funcionario.status eq 'FÉRIAS' }">selected</c:if>>FÉRIAS</option>

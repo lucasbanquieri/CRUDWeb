@@ -88,9 +88,10 @@ public class Util {
 	public double mascaraPagamento(String dinheiro) {
 		double money = 0;
 		if (dinheiro.contains(",") || dinheiro.contains(".")) {
-			dinheiro.replaceAll("[.]", "");
+			dinheiro = dinheiro.replace(".", "");
+			dinheiro = dinheiro.replace(",", ".");
 			try {
-				money = Double.parseDouble(dinheiro.replace(",","."));
+				money = Double.parseDouble(dinheiro);
 			} catch(Exception e) {
 				System.out.println("Erro no método mascaraPagamento.");
 			}
@@ -106,6 +107,10 @@ public class Util {
 		} else if (status.equals("3")) {
 			status = "REPROVADO";
 		} else if (status.equals("4")) {
+			status = "FÈRIAS";
+		} else if (status.equals("5")) {
+			status = "LICENÇA";
+		} else if (status.equals("6")) {
 			status = "INATIVO";
 		} else {
 			if (status.equals("ATIVO")) {
@@ -114,8 +119,12 @@ public class Util {
 				status = "2";
 			} else if (status.equals("REPROVADO")) {
 				status = "3";
-			} else if (status.equals("INATIVO")) {
+			} else if (status.equals("FÉRIAS")) {
 				status = "4";
+			} else if (status.equals("LICENÇA")) {
+				status = "5";
+			} else if (status.equals("INATIVO")) {
+				status = "6";
 			}
 		}
 		return status;

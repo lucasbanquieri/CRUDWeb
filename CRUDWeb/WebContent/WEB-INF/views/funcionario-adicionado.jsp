@@ -20,6 +20,6 @@
 		<h2>Funcionário cadastrado com sucesso!</h2>
 		<br/>
 		<button class="botao" onclick='location.href="cadastroFuncionario";'>Voltar</button>
-		<button class="botao" onclick='location.href="listaFuncionario";'>Ver Lista</button>
+		<button class="botao" onclick='location.href="listaFuncionarios";'>Ver Lista</button>
 	</body>
 </html>

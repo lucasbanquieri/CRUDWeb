@@ -77,39 +77,71 @@ public class Funcionario extends Pessoa {
 	}
 
 	public double getSalario() {
-		return salario;
+		Util util = new Util();
+		if (salarioStr != null) {
+			return util.mascaraPagamento(salarioStr);
+		}
+		return this.salario;
 	}
 
 	public void setSalario(double salario) {
 		Util util = new Util();
-		this.salario = util.mascaraPagamento(getSalarioStr());
+		if (salarioStr != null) {
+			salario = util.mascaraPagamento(salarioStr);
+		} else {
+			this.salario = salario;
+		}
 	}
 
 	public double getVA() {
-		return VA;
+		Util util = new Util();
+		if (VAStr != null) {
+			return util.mascaraPagamento(VAStr);
+		}
+		return this.VA;
 	}
 
 	public void setVA(double vA) {
 		Util util = new Util();
-		this.VA = util.mascaraPagamento(getVAStr());
+		if (VAStr != null) {
+			vA = util.mascaraPagamento(VAStr);
+		} else {
+			this.VA = vA;
+		}
 	}
 
 	public double getVR() {
-		return VR;
+		Util util = new Util();
+		if (VRStr != null) {
+			return util.mascaraPagamento(VRStr);
+		}
+		return this.VR;
 	}
 
 	public void setVR(double vR) {
 		Util util = new Util();
-		this.VR = util.mascaraPagamento(getVRStr());
+		if (VAStr != null) {
+			vR = util.mascaraPagamento(VRStr);
+		} else {
+			this.VR = vR;
+		}
 	}
 
 	public double getVT() {
-		return VT;
+		Util util = new Util();
+		if (VTStr != null) {
+			return util.mascaraPagamento(VTStr);
+		}
+		return this.VT;
 	}
 
 	public void setVT(double vT) {
 		Util util = new Util();
-		this.VT = util.mascaraPagamento(getVTStr());
+		if (VTStr != null) {
+			vT = util.mascaraPagamento(VTStr);
+		} else {
+			this.VT = vT;
+		}
 	}
 
 	public int getKids() {

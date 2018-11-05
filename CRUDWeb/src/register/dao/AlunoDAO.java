@@ -353,7 +353,7 @@ public class AlunoDAO {
 
 			stmt = conn.prepareStatement(sql.toString());
 
-			stmt.setString(1, "4");
+			stmt.setString(1, "6");
 			stmt.setInt(2, aluno.getMatricula());
 
 			stmt.execute();
