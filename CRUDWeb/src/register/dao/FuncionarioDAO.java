@@ -55,12 +55,12 @@ public class FuncionarioDAO {
 			stmt.setInt(11, func.getKids());
 			stmt.setString(12, func.getCargo());
 			if (!func.getDisciplina().equals("")) {
-				stmt.setString(14, func.getDisciplina());
+				stmt.setString(13, func.getDisciplina());
 			} else {
-				stmt.setNull(14, Types.NULL);
+				stmt.setNull(13, Types.NULL);
 			}
-			stmt.setString(15, func.getCpf());
-			stmt.setString(16, "1");
+			stmt.setString(14, func.getCpf());
+			stmt.setString(15, "1");
 
 			stmt.execute();
 			conn.commit();
@@ -71,11 +71,11 @@ public class FuncionarioDAO {
 			stmt = conn.prepareStatement(sqlLastInsert);
 			rs = stmt.executeQuery();
 
-			if (rs.next()) {
+			/*if (rs.next()) {
 				func.setCodCadastro(rs.getInt(1));
 				cadastrarKids(func);
 				db.finalizaObjetos(null, stmt, null);
-			}
+			}*/
 			
 		} catch (SQLException e) {
 			if (conn != null) {
@@ -133,7 +133,7 @@ public class FuncionarioDAO {
 		}
 	}
 	
-	public List<Funcionario> listarFuncionarios() {
+	public List<Funcionario> listarFuncionarios(Funcionario filtroFuncionario) {
 		ArrayList<Funcionario> arrayFunc = new ArrayList<Funcionario>();
 		
 		Connection conn = null;
@@ -142,11 +142,18 @@ public class FuncionarioDAO {
 
 		try {
 			conn = db.obterConexao();
+			
+			StringBuffer sql = new StringBuffer();
 
-			String sql = "SELECT telefone, nome, data_nascimento, sexo, endereco, email, salario, vale_alimentacao, vale_refeicao, vale_transporte, kids, cargo, cod_cadastro, disciplina, cpf"
-					+ " FROM  funcionario"
-					+ " WHERE ativo = 1"
-					+ " ORDER BY cod_cadastro ASC";
+			sql.append("SELECT telefone, nome, data_nascimento, sexo, endereco, email, salario, vale_alimentacao, vale_refeicao, vale_transporte, kids, cargo, cod_cadastro, disciplina, cpf, status");
+			sql.append(" FROM  funcionario");
+			sql.append(" WHERE cod_cadastro > 0");
+			
+			if(filtroFuncionario != null || filtroFuncionario.getStatus() != null || filtroFuncionario.getStatus().equalsIgnoreCase("")) {
+				
+			}
+			
+			sql.append(" ORDER BY cod_cadastro ASC");
 
 			stmt = conn.prepareStatement(sql.toString());
 
@@ -170,6 +177,7 @@ public class FuncionarioDAO {
 				func.setCodCadastro(rs.getInt(13));
 				func.setDisciplina(rs.getString(14));
 				func.setCpf(rs.getString(15));
+				func.setStatus(rs.getString(16));
 				
 				arrayFunc.add(func);
 			}
@@ -252,8 +260,8 @@ public class FuncionarioDAO {
 			stmt.setInt(11, func.getKids());
 			stmt.setString(12, func.getCargo());
 			stmt.setString(13, func.getDisciplina());
-			stmt.setInt(14, Integer.valueOf(func.getCodCadastro()));
-			stmt.setString(15, func.getStatus());
+			stmt.setInt(15, Integer.valueOf(func.getCodCadastro()));
+			stmt.setString(14, func.getStatus());
 
 			stmt.execute();
 			conn.commit();
@@ -283,12 +291,12 @@ public class FuncionarioDAO {
 
 			StringBuffer sql = new StringBuffer();
 			
-			sql.append("UPDATE funcionario SET ativo = ? ");
+			sql.append("UPDATE funcionario SET status = ? ");
 			sql.append("WHERE cod_cadastro = ?;");
 
 			stmt = conn.prepareStatement(sql.toString());
 
-			stmt.setInt(1, 0);
+			stmt.setString(1, "6");
 			stmt.setInt(2, Integer.valueOf(func.getCodCadastro()));
 
 			stmt.execute();
@@ -391,7 +399,7 @@ public class FuncionarioDAO {
 		try {
 			conn = db.obterConexao();
 
-			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, cod_cadastro, cargo, status, salario, vale_alimentacao, vale_refeicao, vale_transporte, kids, disciplina"
+			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, cod_cadastro, cargo, status, salario, vale_alimentacao, vale_refeicao, vale_transporte, kids, disciplina, status"
 					+ " FROM  funcionario"
 					+ " WHERE cod_cadastro = ?";
 
@@ -417,6 +425,7 @@ public class FuncionarioDAO {
 				funcionario.setVR(rs.getDouble(13));
 				funcionario.setVT(rs.getDouble(14));
 				funcionario.setKids(rs.getInt(15));
+				funcionario.setStatus(rs.getString(17));
 				if (funcionario.getCargo().equals("Professor")) {
 					funcionario.setDisciplina(rs.getString(16));
 				} else {
