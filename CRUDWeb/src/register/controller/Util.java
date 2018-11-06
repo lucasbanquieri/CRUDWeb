@@ -1,10 +1,11 @@
 package register.controller;
 
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.InputMismatchException;
-import java.text.SimpleDateFormat;
 
 public class Util {
 	public boolean validaData(String inDate) {
@@ -99,6 +100,16 @@ public class Util {
 		return money;
 	}
 	
+	public String doubleToString(Double valor) {
+		String valorStr = "";
+		DecimalFormat df = new DecimalFormat("#.00");
+		if (valor > 0 && valor != null) {
+			valorStr = String.valueOf(df.format(valor));
+			return valorStr;
+		}
+		return null;
+	}
+	
 	public String converteStatus(String status) {
 		if (status.equals("1")) {
 			status = "ATIVO";
@@ -107,9 +118,9 @@ public class Util {
 		} else if (status.equals("3")) {
 			status = "REPROVADO";
 		} else if (status.equals("4")) {
-			status = "FÈRIAS";
+			status = "FERIAS";
 		} else if (status.equals("5")) {
-			status = "LICENÇA";
+			status = "LICENCA";
 		} else if (status.equals("6")) {
 			status = "INATIVO";
 		} else {
@@ -119,9 +130,9 @@ public class Util {
 				status = "2";
 			} else if (status.equals("REPROVADO")) {
 				status = "3";
-			} else if (status.equals("FÉRIAS")) {
+			} else if (status.equals("FERIAS")) {
 				status = "4";
-			} else if (status.equals("LICENÇA")) {
+			} else if (status.equals("LICENCA")) {
 				status = "5";
 			} else if (status.equals("INATIVO")) {
 				status = "6";

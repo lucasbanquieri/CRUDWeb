@@ -50,7 +50,7 @@ public class ControllerFuncionario {
     @RequestMapping("/listaFuncionarios")
 	public String listaFuncionarios(Model model) {
 		FuncionarioDAO dao = new FuncionarioDAO();
-		List<Funcionario> funcionarios = dao.listarFuncionarios(null);
+		List<Funcionario> funcionarios = dao.listarFuncionarios(false);
 		model.addAttribute("funcionarios", funcionarios);
 		return "listaFuncionario";
 	}
@@ -59,15 +59,15 @@ public class ControllerFuncionario {
 	public String remove(Funcionario funcionario, Model model) {
 		FuncionarioDAO dao = new FuncionarioDAO();
 		dao.excluirFuncionario(funcionario);
-		List<Funcionario> funcionarios = dao.listarFuncionarios(null);
+		List<Funcionario> funcionarios = dao.listarFuncionarios(false);
 		model.addAttribute("funcionarios", funcionarios);
 		return "redirect:listaFuncionarios";
 	}
     
     @RequestMapping("/filtroFuncionario")
-	public String filtroFuncionario(Funcionario funcionario, Model model) {
+	public String filtroFuncionario(Model model) {
 		FuncionarioDAO dao = new FuncionarioDAO();
-		model.addAttribute("funcionarios", dao.listarFuncionarios(funcionario));
+		model.addAttribute("funcionarios", dao.listarFuncionarios(true));
 		return "filtroFuncionario";
 	}
     /*

@@ -33,8 +33,8 @@
                         <select hidden class="form-control" id="status" name="status">
 							<option value="ATIVO" <c:if test="${funcionario.status eq 'ATIVO' }">selected</c:if>>ATIVO</option>
 							<option value="SUSPENSO" <c:if test="${funcionario.status eq 'SUSPENSO' }">selected</c:if>>SUSPENSO</option>
-							<option value="FÉRIAS" <c:if test="${funcionario.status eq 'FÉRIAS' }">selected</c:if>>FÉRIAS</option>
-                            <option value="LINCENÇA" <c:if test="${funcionario.status eq 'LICENÇA' }">selected</c:if>>LICENÇA</option>
+							<option value="FERIAS" <c:if test="${funcionario.status eq 'FERIAS' }">selected</c:if>>FÉRIAS</option>
+                            <option value="LICENCA" <c:if test="${funcionario.status eq 'LICENCA' }">selected</c:if>>LICENÇA</option>
                             <option value="INATIVO" <c:if test="${funcionario.status eq 'INATIVO' }">selected</c:if>>INATIVO</option>
 						</select>
                     </div>
@@ -102,22 +102,22 @@
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label for="campoSalario">Salário(R$):</label>
-                        <input class="form-control" id="salario" type="text" name="salarioStr" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.salario}</c:if>">
+                        <input class="form-control" id="salario" type="text" name="salarioStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.salario}</c:if>">
                     	<span id="salario_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVa">Vale Alimentação(R$):</label>
-                        <input class="form-control" id="va" type="text" name="VAStr" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VA}</c:if>">
+                        <input class="form-control" id="va" type="text" name="VAStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VA}</c:if>">
                     	<span id="va_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVr">Vale Refeição(R$):</label>
-                        <input class="form-control" id="vr" type="text" name="VRStr" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VR}</c:if>">
+                        <input class="form-control" id="vr" type="text" name="VRStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VR}</c:if>">
                     	<span id="vr_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVt">Vale Transporte(R$):</label>
-                        <input class="form-control" id="vt" type="text" name="VTStr" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VT}</c:if>">
+                        <input class="form-control" id="vt" type="text" name="VTStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VT}</c:if>">
                     	<span id="vt_erro"></span>
                     </div>
                 </div>

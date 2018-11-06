@@ -18,6 +18,12 @@
 		#status_suspenso {
 			color: #FFA500;
 		}
+		#status_ferias {
+			color: #FFA500;
+		}
+		#status_licenca {
+			color: #FFA500;
+		}
 		#status_reprovado {
 			color: red;
 		}
@@ -34,11 +40,11 @@
 	<body>
 		<h2 align="center">Tabela de Funcionarios</h2>
 		Filtro:
-		<select name="filtro" id="filtro">
+		<select name="status" id="filtro">
 			<option value="todos">Todos</option>
 			<option value="ativos">Ativos</option>
 			<option value="suspensos">Suspensos</option>
-			<option value="ferias">Férias</option>
+			<option value="ferias">Ferias</option>
 			<option value="licenca">Licença</option>
 			<option value="inativos">Inativos</option>
 		</select>
@@ -94,10 +100,10 @@
 				<c:if test="${funcionario.status == 'SUSPENSO'}">
 					<td id="status_suspenso">${funcionario.status}</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'FÉRIAS'}">
+				<c:if test="${funcionario.status == 'FERIAS'}">
 					<td id="status_ferias">${funcionario.status}</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'LICENÇA'}">
+				<c:if test="${funcionario.status == 'LICENCA'}">
 					<td id="status_licenca">${funcionario.status}</td>
 				</c:if>
 				<c:if test="${funcionario.status == 'INATIVO'}">
