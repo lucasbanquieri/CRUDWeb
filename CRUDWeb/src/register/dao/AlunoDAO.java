@@ -67,7 +67,7 @@ public class AlunoDAO {
 		}
 	}
 	
-	public List<Aluno> listarAlunos() {
+	public List<Aluno> listarAlunos(Aluno filtroAluno) {
 		ArrayList<Aluno> arrayAluno = new ArrayList<Aluno>();
 		
 		Connection conn = null;
@@ -76,194 +76,25 @@ public class AlunoDAO {
 
 		try {
 			conn = db.obterConexao();
+			
+			StringBuffer sql = new StringBuffer();
 
-			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, status"
-					+ " FROM  aluno"
-					+ " WHERE matricula > 0"
-					+ " ORDER BY matricula ASC";
-
-			stmt = conn.prepareStatement(sql.toString());
-
-			rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Aluno aluno = new Aluno();
-				
-				aluno.setCpf(rs.getString(1));
-				aluno.setTelefone(rs.getString(2));
-				aluno.setNome(rs.getString(3));
-				aluno.setDataNascimento(new Date(rs.getTimestamp("data_nascimento").getTime()));
-				aluno.setSexo(rs.getString(5));
-				aluno.setEndereco(rs.getString(6));
-				aluno.setEmail(rs.getString(7));
-				aluno.setMatricula(rs.getInt(8));
-				aluno.setCurso(rs.getString(9));
-				aluno.setStatus(rs.getString(10));
-				
-				arrayAluno.add(aluno);
+			sql.append("SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, status");
+			sql.append(" FROM  aluno");
+			sql.append(" WHERE matricula > 0");
+			
+			if(filtroAluno != null && filtroAluno.getStatus() != null && !filtroAluno.getStatus().equals("")) {
+				sql.append(" AND status = ?");
 			}
-
-		} catch (SQLException e) {
-			System.out.println("Erro no método lerAluno");
-			e.printStackTrace();
-		} finally {
-			db.finalizaObjetos(rs, stmt, conn);
-		}
-		return arrayAluno;
-	}
-	
-	public List<Aluno> listarAlunosAtivos() {
-		ArrayList<Aluno> arrayAluno = new ArrayList<Aluno>();
-		
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = db.obterConexao();
-
-			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, status"
-					+ " FROM  aluno"
-					+ " WHERE status = '1'"
-					+ " ORDER BY matricula ASC";
+			
+			sql.append(" ORDER BY matricula ASC");
 
 			stmt = conn.prepareStatement(sql.toString());
-
-			rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Aluno aluno = new Aluno();
-				
-				aluno.setCpf(rs.getString(1));
-				aluno.setTelefone(rs.getString(2));
-				aluno.setNome(rs.getString(3));
-				aluno.setDataNascimento(new Date(rs.getTimestamp("data_nascimento").getTime()));
-				aluno.setSexo(rs.getString(5));
-				aluno.setEndereco(rs.getString(6));
-				aluno.setEmail(rs.getString(7));
-				aluno.setMatricula(rs.getInt(8));
-				aluno.setCurso(rs.getString(9));
-				aluno.setStatus(rs.getString(10));
-				
-				arrayAluno.add(aluno);
+			
+			if(filtroAluno != null && filtroAluno.getStatus() != null && !filtroAluno.getStatus().equals("")) {
+				stmt.setString(1, filtroAluno.getStatus());
 			}
-
-		} catch (SQLException e) {
-			System.out.println("Erro no método lerAluno");
-			e.printStackTrace();
-		} finally {
-			db.finalizaObjetos(rs, stmt, conn);
-		}
-		return arrayAluno;
-	}
-	
-	public List<Aluno> listarAlunosSuspensos() {
-		ArrayList<Aluno> arrayAluno = new ArrayList<Aluno>();
-		
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = db.obterConexao();
-
-			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, status"
-					+ " FROM  aluno"
-					+ " WHERE status = '2'"
-					+ " ORDER BY matricula ASC";
-
-			stmt = conn.prepareStatement(sql.toString());
-
-			rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Aluno aluno = new Aluno();
-				
-				aluno.setCpf(rs.getString(1));
-				aluno.setTelefone(rs.getString(2));
-				aluno.setNome(rs.getString(3));
-				aluno.setDataNascimento(new Date(rs.getTimestamp("data_nascimento").getTime()));
-				aluno.setSexo(rs.getString(5));
-				aluno.setEndereco(rs.getString(6));
-				aluno.setEmail(rs.getString(7));
-				aluno.setMatricula(rs.getInt(8));
-				aluno.setCurso(rs.getString(9));
-				aluno.setStatus(rs.getString(10));
-				
-				arrayAluno.add(aluno);
-			}
-
-		} catch (SQLException e) {
-			System.out.println("Erro no método lerAluno");
-			e.printStackTrace();
-		} finally {
-			db.finalizaObjetos(rs, stmt, conn);
-		}
-		return arrayAluno;
-	}
-	
-	public List<Aluno> listarAlunosReprovados() {
-		ArrayList<Aluno> arrayAluno = new ArrayList<Aluno>();
-		
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = db.obterConexao();
-
-			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, status"
-					+ " FROM  aluno"
-					+ " WHERE status = '3'"
-					+ " ORDER BY matricula ASC";
-
-			stmt = conn.prepareStatement(sql.toString());
-
-			rs = stmt.executeQuery();
-
-			while (rs.next()) {
-				Aluno aluno = new Aluno();
-				
-				aluno.setCpf(rs.getString(1));
-				aluno.setTelefone(rs.getString(2));
-				aluno.setNome(rs.getString(3));
-				aluno.setDataNascimento(new Date(rs.getTimestamp("data_nascimento").getTime()));
-				aluno.setSexo(rs.getString(5));
-				aluno.setEndereco(rs.getString(6));
-				aluno.setEmail(rs.getString(7));
-				aluno.setMatricula(rs.getInt(8));
-				aluno.setCurso(rs.getString(9));
-				aluno.setStatus(rs.getString(10));
-				
-				arrayAluno.add(aluno);
-			}
-
-		} catch (SQLException e) {
-			System.out.println("Erro no método lerAluno");
-			e.printStackTrace();
-		} finally {
-			db.finalizaObjetos(rs, stmt, conn);
-		}
-		return arrayAluno;
-	}
-	
-	public List<Aluno> listarAlunosInativos() {
-		ArrayList<Aluno> arrayAluno = new ArrayList<Aluno>();
-		
-		Connection conn = null;
-		PreparedStatement stmt = null;
-		ResultSet rs = null;
-
-		try {
-			conn = db.obterConexao();
-
-			String sql = "SELECT cpf, telefone, nome, data_nascimento, sexo, endereco, email, matricula, curso, status"
-					+ " FROM  aluno"
-					+ " WHERE status = '4'"
-					+ " ORDER BY matricula ASC";
-
-			stmt = conn.prepareStatement(sql.toString());
-
+			
 			rs = stmt.executeQuery();
 
 			while (rs.next()) {

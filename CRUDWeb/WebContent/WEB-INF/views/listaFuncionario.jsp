@@ -42,11 +42,11 @@
 		Filtro:
 		<select name="status" id="filtro">
 			<option value="todos">Todos</option>
-			<option value="ativos">Ativos</option>
-			<option value="suspensos">Suspensos</option>
+			<option value="ativo">Ativos</option>
+			<option value="suspenso">Suspensos</option>
 			<option value="ferias">Ferias</option>
 			<option value="licenca">Licença</option>
-			<option value="inativos">Inativos</option>
+			<option value="inativo">Inativos</option>
 		</select>
 		<table class="greenTable" id="funcionarios">
 		<thead>
@@ -120,28 +120,10 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 		<script>
 		$("#filtro").on("change", function() {
-			if ($("#filtro").val() == "todos") {
-				$.post("filtroFuncionario", function(resposta) {
+				$.post("filtroFuncionario?status=" + $("#filtro").val(), function(resposta) {
 					$("#funcionarios").html(resposta);
 				});
-			} else if ($("#filtro").val() == "ativos") {
-				$.post("filtroFuncionario", function(resposta) {
-					$("#funcionarios").html(resposta);
-				});
-			} else if ($("#filtro").val() == "suspensos") {
-				$.post("filtroFuncionario", function(resposta) {
-					$("#funcionarios").html(resposta);
-				});
-			} else if ($("#filtro").val() == "reprovados") {
-				$.post("filtroFuncionario", function(resposta) {
-					$("#funcionarios").html(resposta);
-				});
-			} else {
-				$.post("filtroFuncionario", function(resposta) {
-					$("#funcionarios").html(resposta);
-				});
-			}
-		})
+		});
 		</script>
 	</body>
 </html>

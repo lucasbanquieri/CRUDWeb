@@ -15,8 +15,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
     </script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous">
-    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="js/jquery.livejquery.js"></script>
         <div id="main" class="container-fluid">
             <h2 id="titulo" class="page-header" align="center">Cadastro de Funcionário</h2>
             <h4 class="page-header">Informações Pessoais</h4>
@@ -89,14 +89,25 @@
                 </div>
                 <div class="row">
                     <div class="form-group col-md-1">
-                        <label for="campoDependentes">Dependentes:</label>
-                        <input class="form-control" id="dependentes" type="number" name="Kids" minlenght="1" maxlength="2" value="${funcionario.kids}" placeholder="0">
-                    	<span id="kids_erro"></span>
+                    <button class="btn btn-primary" id="addDep">Adicionar Dependente</button>
                     </div>
                 </div>
-                <hr />
                 <h4 class="page-header">Dependentes</h4>
-                <p>Nenhum dependente adicionado.</p>
+                <hr />
+                <div class="row modelo">
+                	<div class="form-group col-md-3">
+                		<label>Nome:</label>
+                		<input type="text" name="nome" class="form-control" value=""/>
+                	</div>
+                	<div class="form-group col-md-3">
+                		<label>Data de Nascimento:</label>
+                		<input type="date" name="dataNK" class="form-control" value=""/>
+                	</div>
+                	<div class="form-group col-md-1">
+                		<input type="button" style="display: none; margin-top: 33px;" id="excluirDep" name="excluir" class="form-control btn btn-danger" value="Remover">
+                	</div>
+                </div>
+                <div class="fim"></div>
                 <hr />
                 <h4 class="page-header">Informações do Cargo</h4>
                 <div class="row">
@@ -174,6 +185,26 @@
     			}
    		 	});
 		</script>
+		<script src="js/jquery.livejquery.js"></script>
+		<script type="text/javascript">
+			$(document).ready(function(e) {
+				$("#addDep").on("click", function(e) {
+					var novaLinha = $(".modelo").clone();
+					novaLinha.removeClass("modelo").addClass("nova").find("input[name=nome]").focus();
+					novaLinha.find("input[name=excluir]").css("display", "inline-block");
+					
+					novaLinha.insertBefore(".fim");
+					
+					return false;
+				})
+				
+				$("#excluirDep").livequery("click", function(e) {
+					if ($(this).length > 1) {
+						$(this).closest(".nova").remove();
+					}
+				})
+			})
+		</script>
 		<script>
 			//VARIÁBEIS INICIAIS
 			var erro_nome = true;
@@ -185,7 +216,7 @@
 			var erro_va = true;
 			var erro_vr = true;
 			var erro_vt = true;
-			var erro_kids = true;
+			//var erro_kids = true;
 			var erro_cargo = true;
 			
 			//VERIFICA SE É UMA ALTERAÇÃO
@@ -199,7 +230,7 @@
 				var erro_va = false;
 				var erro_vr = false;
 				var erro_vt = false;
-				var erro_kids = false;
+				//var erro_kids = false;
 				var erro_cargo = false;
 				$("#titulo").html("Alterar Funcionario");
 				$("#cod_label").removeAttr("hidden");
@@ -378,7 +409,7 @@
 			})
 			
 			$("#salvar").on("click", function checarErro() {
-				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco || erro_salario || erro_va || erro_vr || erro_vt || erro_kids) {
+				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco || erro_salario || erro_va || erro_vr || erro_vt) {
 					alert("Campos não preenchidos ou inválidos.");
 					return false;
 				} else if ($("#dataN").val() == "") {

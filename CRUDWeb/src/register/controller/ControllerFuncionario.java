@@ -50,7 +50,7 @@ public class ControllerFuncionario {
     @RequestMapping("/listaFuncionarios")
 	public String listaFuncionarios(Model model) {
 		FuncionarioDAO dao = new FuncionarioDAO();
-		List<Funcionario> funcionarios = dao.listarFuncionarios(false);
+		List<Funcionario> funcionarios = dao.listarFuncionarios(null);
 		model.addAttribute("funcionarios", funcionarios);
 		return "listaFuncionario";
 	}
@@ -59,45 +59,23 @@ public class ControllerFuncionario {
 	public String remove(Funcionario funcionario, Model model) {
 		FuncionarioDAO dao = new FuncionarioDAO();
 		dao.excluirFuncionario(funcionario);
-		List<Funcionario> funcionarios = dao.listarFuncionarios(false);
+		List<Funcionario> funcionarios = dao.listarFuncionarios(null);
 		model.addAttribute("funcionarios", funcionarios);
 		return "redirect:listaFuncionarios";
 	}
     
     @RequestMapping("/filtroFuncionario")
-	public String filtroFuncionario(Model model) {
+	public String filtroFuncionario(String status, Model model) {
 		FuncionarioDAO dao = new FuncionarioDAO();
-		model.addAttribute("funcionarios", dao.listarFuncionarios(true));
+    	Funcionario funcionario = new Funcionario();
+    	if (!status.equalsIgnoreCase("TODOS")) {
+        	funcionario.setStatus(status);
+    		model.addAttribute("funcionarios", dao.listarFuncionarios(funcionario));
+    	} else {
+    		model.addAttribute("funcionarios", dao.listarFuncionarios(null));
+    	}
 		return "filtroFuncionario";
 	}
-    /*
-    @RequestMapping("/filtroAtivos")
-	public String filtroAtivo(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunosAtivos());
-		return "filtroAtivo";
-	}
-    
-    @RequestMapping("/filtroSuspensos")
-	public String filtroSuspensos(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunosSuspensos());
-		return "filtroSuspensos";
-	}
-    
-    @RequestMapping("/filtroReprovados")
-	public String filtroReprovados(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunosReprovados());
-		return "filtroReprovados";
-	}
-    
-    @RequestMapping("/filtroInativos")
-	public String filtroInativos(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunosInativos());
-		return "filtroInativos";
-	}*/
     
     public String temErro(Funcionario funcionario) {
 		Util util = new Util();

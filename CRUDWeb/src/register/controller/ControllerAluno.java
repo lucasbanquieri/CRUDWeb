@@ -50,7 +50,7 @@ public class ControllerAluno {
     @RequestMapping("/listaAlunos")
 	public String listaAlunos(Model model) {
 		AlunoDAO dao = new AlunoDAO();
-		List<Aluno> alunos = dao.listarAlunos();
+		List<Aluno> alunos = dao.listarAlunos(null);
 		model.addAttribute("alunos", alunos);
 		return "listaAluno";
 	}
@@ -59,44 +59,22 @@ public class ControllerAluno {
 	public String remove(Aluno aluno, Model model) {
 		AlunoDAO dao = new AlunoDAO();
 		dao.excluirAluno(aluno);
-		List<Aluno> alunos = dao.listarAlunos();
+		List<Aluno> alunos = dao.listarAlunos(null);
 		model.addAttribute("alunos", alunos);
 		return "redirect:listaAlunos";
 	}
     
-    @RequestMapping("/filtroTodos")
-	public String filtroTodos(Model model) {
+    @RequestMapping("/filtroAluno")
+	public String filtroTodos(String status, Model model) {
 		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunos());
-		return "filtroTodos";
-	}
-    
-    @RequestMapping("/filtroAtivos")
-	public String filtroAtivo(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunosAtivos());
-		return "filtroAtivo";
-	}
-    
-    @RequestMapping("/filtroSuspensos")
-	public String filtroSuspensos(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunosSuspensos());
-		return "filtroSuspensos";
-	}
-    
-    @RequestMapping("/filtroReprovados")
-	public String filtroReprovados(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunosReprovados());
-		return "filtroReprovados";
-	}
-    
-    @RequestMapping("/filtroInativos")
-	public String filtroInativos(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		model.addAttribute("alunos", dao.listarAlunosInativos());
-		return "filtroInativos";
+    	Aluno aluno = new Aluno();
+    	if (!status.equalsIgnoreCase("TODOS")) {
+        	aluno.setStatus(status);
+    		model.addAttribute("alunos", dao.listarAlunos(aluno));
+    	} else {
+    		model.addAttribute("alunos", dao.listarAlunos(null));
+    	}
+		return "filtroAluno";
 	}
     
     public String temErro(Aluno aluno) {

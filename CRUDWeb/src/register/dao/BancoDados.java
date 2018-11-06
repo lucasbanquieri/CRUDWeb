@@ -29,7 +29,7 @@ public class BancoDados {
             ds.setPortNumber(3306);
             ds.setDatabaseName("curso_javaweb?zeroDateTimeBehavior=CONVERT_TO_NULL&useSSL=false");
             ds.setUser("root");
-            ds.setPassword("302553");
+            ds.setPassword("sacifti");
             dataSource = ds;
         }
     }

@@ -104,7 +104,7 @@ public class Util {
 		String valorStr = "";
 		DecimalFormat df = new DecimalFormat("#.00");
 		if (valor > 0 && valor != null) {
-			valorStr = String.valueOf(df.format(valor));
+			valorStr = String.valueOf(df.format(valor).replace(".", ","));
 			return valorStr;
 		}
 		return null;
@@ -124,17 +124,17 @@ public class Util {
 		} else if (status.equals("6")) {
 			status = "INATIVO";
 		} else {
-			if (status.equals("ATIVO")) {
+			if (status.equalsIgnoreCase("ATIVO")) {
 				status = "1";
-			} else if (status.equals("SUSPENSO")) {
+			} else if (status.equalsIgnoreCase("SUSPENSO")) {
 				status = "2";
-			} else if (status.equals("REPROVADO")) {
+			} else if (status.equalsIgnoreCase("REPROVADO")) {
 				status = "3";
-			} else if (status.equals("FERIAS")) {
+			} else if (status.equalsIgnoreCase("FERIAS")) {
 				status = "4";
-			} else if (status.equals("LICENCA")) {
+			} else if (status.equalsIgnoreCase("LICENCA")) {
 				status = "5";
-			} else if (status.equals("INATIVO")) {
+			} else if (status.equalsIgnoreCase("INATIVO")) {
 				status = "6";
 			}
 		}

@@ -31,12 +31,12 @@
 	<body>
 		<h2 align="center">Tabela de Alunos</h2>
 		Filtro:
-		<select name="filtro" id="filtro">
+		<select name="status" id="filtro">
 			<option value="todos">Todos</option>
-			<option value="ativos">Ativos</option>
-			<option value="suspensos">Suspensos</option>
-			<option value="reprovados">Reprovados</option>
-			<option value="inativos">Inativos</option>
+			<option value="ativo">Ativos</option>
+			<option value="suspenso">Suspensos</option>
+			<option value="reprovado">Reprovados</option>
+			<option value="inativo">Inativos</option>
 		</select>
 		<table class="greenTable" id="alunos">
 		<thead>
@@ -90,28 +90,10 @@
 		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 		<script>
 		$("#filtro").on("change", function() {
-			if ($("#filtro").val() == "todos") {
-				$.post("filtroTodos", function(resposta) {
+				$.post("filtroAluno?status=" + $("#filtro").val(), function(resposta) {
 					$("#alunos").html(resposta);
-				});
-			} else if ($("#filtro").val() == "ativos") {
-				$.post("filtroAtivos", function(resposta) {
-					$("#alunos").html(resposta);
-				});
-			} else if ($("#filtro").val() == "suspensos") {
-				$.post("filtroSuspensos", function(resposta) {
-					$("#alunos").html(resposta);
-				});
-			} else if ($("#filtro").val() == "reprovados") {
-				$.post("filtroReprovados", function(resposta) {
-					$("#alunos").html(resposta);
-				});
-			} else {
-				$.post("filtroInativos", function(resposta) {
-					$("#alunos").html(resposta);
-				});
-			}
-		})
+				})
+		});
 		</script>
 	</body>
 </html>

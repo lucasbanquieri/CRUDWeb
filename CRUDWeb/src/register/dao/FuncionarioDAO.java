@@ -133,7 +133,7 @@ public class FuncionarioDAO {
 		}
 	}*/
 	
-	public List<Funcionario> listarFuncionarios(boolean filtro) {
+	public List<Funcionario> listarFuncionarios(Funcionario filtroFuncionario) {
 		ArrayList<Funcionario> arrayFunc = new ArrayList<Funcionario>();
 		
 		Connection conn = null;
@@ -149,7 +149,7 @@ public class FuncionarioDAO {
 			sql.append(" FROM  funcionario");
 			sql.append(" WHERE cod_cadastro > 0");
 			
-			if(filtro) {
+			if(filtroFuncionario != null && filtroFuncionario.getStatus() != null && !filtroFuncionario.getStatus().equals("")) {
 				sql.append(" AND status = ?");
 			}
 			
@@ -157,9 +157,8 @@ public class FuncionarioDAO {
 
 			stmt = conn.prepareStatement(sql.toString());
 			
-			if(filtro) {
-				
-				//stmt.setString(1, );
+			if(filtroFuncionario != null && filtroFuncionario.getStatus() != null && !filtroFuncionario.getStatus().equals("")) {
+				stmt.setString(1, filtroFuncionario.getStatus());
 			}
 			
 			rs = stmt.executeQuery();
