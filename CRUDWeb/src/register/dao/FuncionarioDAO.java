@@ -71,11 +71,11 @@ public class FuncionarioDAO {
 			stmt = conn.prepareStatement(sqlLastInsert);
 			rs = stmt.executeQuery();
 
-			/*if (rs.next()) {
-				//func.setCodCadastro(rs.getInt(1));
-				//cadastrarKids(func);
-				//db.finalizaObjetos(null, stmt, null);
-			}*/
+			if (rs.next()) {
+				func.setCodCadastro(rs.getInt(1));
+				cadastrarKids(func);
+				db.finalizaObjetos(null, stmt, null);
+			}
 			
 		} catch (SQLException e) {
 			if (conn != null) {
@@ -92,7 +92,7 @@ public class FuncionarioDAO {
 		}
 	}
 	
-	/*private void cadastrarKids(Funcionario funcionario) {
+	private void cadastrarKids(Funcionario funcionario) {
 		Connection conn = null;
 		PreparedStatement stmt = null;
 		ResultSet rs = null;
@@ -131,7 +131,7 @@ public class FuncionarioDAO {
 		} finally {
 			db.finalizaObjetos(rs, stmt, conn);
 		}
-	}*/
+	}
 	
 	public List<Funcionario> listarFuncionarios(Funcionario filtroFuncionario) {
 		ArrayList<Funcionario> arrayFunc = new ArrayList<Funcionario>();

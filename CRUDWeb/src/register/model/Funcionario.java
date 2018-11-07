@@ -37,34 +37,46 @@ public class Funcionario extends Pessoa {
 	}
 	
 	public String getVAStr() {
-		return VAStr;
+		Util util = new Util();
+		return util.doubleToString(this.VA);
 	}
 
 	public void setVAStr(String vAStr) {
+		Util util = new Util();
+		this.VA = util.mascaraPagamento(vAStr);
 		VAStr = vAStr;
 	}
 
 	public String getVRStr() {
-		return VRStr;
+		Util util = new Util();
+		return util.doubleToString(this.VR);
 	}
 
 	public void setVRStr(String vRStr) {
+		Util util = new Util();
+		this.VR = util.mascaraPagamento(vRStr);
 		VRStr = vRStr;
 	}
 
 	public String getVTStr() {
-		return VTStr;
+		Util util = new Util();
+		return util.doubleToString(this.VT);
 	}
 
 	public void setVTStr(String vTStr) {
+		Util util = new Util();
+		this.VT = util.mascaraPagamento(vTStr);
 		VTStr = vTStr;
 	}
 
 	public String getSalarioStr() {
-		return salarioStr;
+		Util util = new Util();
+		return util.doubleToString(this.salario);
 	}
 
 	public void setSalarioStr(String salarioStr) {
+		Util util = new Util();
+		this.salario = util.mascaraPagamento(salarioStr);
 		this.salarioStr = salarioStr;
 	}
 
@@ -79,7 +91,7 @@ public class Funcionario extends Pessoa {
 	public double getSalario() {
 		Util util = new Util();
 		if (salarioStr != null) {
-			return util.mascaraPagamento(salarioStr);
+			return util.mascaraPagamento(getSalarioStr());
 		}
 		return this.salario;
 	}

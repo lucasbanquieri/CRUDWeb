@@ -1,5 +1,6 @@
 package register.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -13,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import register.dao.FuncionarioDAO;
 //import register.model.Aluno;
 import register.model.Funcionario;
+import register.model.Kid;
 
 @Controller
 public class ControllerFuncionario {
@@ -27,10 +29,19 @@ public class ControllerFuncionario {
 	}
     
     @RequestMapping("/adicionaFuncionario")
-	public String adicionaFuncionario(@Valid Funcionario funcionario, BindingResult result, Model model, @RequestParam("dataNascimentoStr") String dataN) {
+	public String adicionaFuncionario(@Valid Funcionario funcionario, BindingResult result, Model model, @RequestParam("dataNascimentoStr") String dataN, String[] nomeK, String[] dataNK) {
 		FuncionarioDAO dao = new FuncionarioDAO();
     	Util util = new Util();
     	funcionario.setDataNascimento(util.transformaData(dataN));
+    	//FAZER CHECKLIST DE ERROS DOS FILHO
+    	List<Kid> listKids = new ArrayList<Kid>();
+    	for (int i=0; i < nomeK.length; i++) {
+    		Kid kid = new Kid();
+    		kid.setNome(nomeK[i]);
+    		kid.setDataNascimento(util.transformaData(dataNK[i]));
+    		listKids.add(kid);
+    	}
+    	funcionario.setArrayKids(listKids);
     	
 		if (temErro(funcionario) != "" || result.hasFieldErrors("nome, cpf, telefone, sexo, endereco, dataNascimentoStr, curso, email")) {
 			System.out.println(temErro(funcionario));

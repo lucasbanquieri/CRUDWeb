@@ -48,7 +48,7 @@
 			<option value="licenca">Licença</option>
 			<option value="inativo">Inativos</option>
 		</select>
-		<table class="greenTable" id="funcionarios">
+		<table class="greenTable" id="funcionarios" cellpadding="15">
 		<thead>
 			<tr>
 				<th>Código de Cadastro</th>
@@ -89,10 +89,10 @@
 				<c:if test="${funcionario.cargo != 'Professor'}">
 					<td>N/A</td>
 				</c:if>
-				<td>R$ ${funcionario.salario}</td>
-				<td>R$ ${funcionario.VA}</td>
-				<td>R$ ${funcionario.VR}</td>
-				<td>R$ ${funcionario.VT}</td>
+				<td>R$ ${funcionario.salarioStr}</td>
+				<td>R$ ${funcionario.VAStr}</td>
+				<td>R$ ${funcionario.VRStr}</td>
+				<td>R$ ${funcionario.VTStr}</td>
 				<td>${funcionario.kids}</td>
 				<c:if test="${funcionario.status == 'ATIVO'}">
 					<td id="status_ativo">${funcionario.status}</td>

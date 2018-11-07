@@ -97,14 +97,14 @@
                 <div class="row modelo">
                 	<div class="form-group col-md-3">
                 		<label>Nome:</label>
-                		<input type="text" name="nome" class="form-control" value=""/>
+                		<input type="text" name="nomeK" class="form-control" value=""/>
                 	</div>
                 	<div class="form-group col-md-3">
                 		<label>Data de Nascimento:</label>
                 		<input type="date" name="dataNK" class="form-control" value=""/>
                 	</div>
                 	<div class="form-group col-md-1">
-                		<input type="button" style="display: none; margin-top: 33px;" id="excluirDep" name="excluir" class="form-control btn btn-danger" value="Remover">
+                		<span style="display: none; margin-top: 33px;" id="excluirDep" onClick="excluiDep(this)" class="form-control btn btn-danger">Remover</span>
                 	</div>
                 </div>
                 <div class="fim"></div>
@@ -113,22 +113,22 @@
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label for="campoSalario">Salário(R$):</label>
-                        <input class="form-control" id="salario" type="text" name="salarioStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.salario}</c:if>">
+                        <input class="form-control" id="salario" type="text" name="salarioStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.salarioStr}</c:if>">
                     	<span id="salario_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVa">Vale Alimentação(R$):</label>
-                        <input class="form-control" id="va" type="text" name="VAStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VA}</c:if>">
+                        <input class="form-control" id="va" type="text" name="VAStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VAStr}</c:if>">
                     	<span id="va_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVr">Vale Refeição(R$):</label>
-                        <input class="form-control" id="vr" type="text" name="VRStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VR}</c:if>">
+                        <input class="form-control" id="vr" type="text" name="VRStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VRStr}</c:if>">
                     	<span id="vr_erro"></span>
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoVt">Vale Transporte(R$):</label>
-                        <input class="form-control" id="vt" type="text" name="VTStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VT}</c:if>">
+                        <input class="form-control" id="vt" type="text" name="VTStr" maxlength="12" value="<c:if test='${funcionario.codCadastro > 0}'>${funcionario.VTStr}</c:if>">
                     	<span id="vt_erro"></span>
                     </div>
                 </div>
@@ -191,19 +191,17 @@
 				$("#addDep").on("click", function(e) {
 					var novaLinha = $(".modelo").clone();
 					novaLinha.removeClass("modelo").addClass("nova").find("input[name=nome]").focus();
-					novaLinha.find("input[name=excluir]").css("display", "inline-block");
+					novaLinha.find("#excluirDep").css("display", "inline-block");
 					
 					novaLinha.insertBefore(".fim");
 					
 					return false;
 				})
-				
-				$("#excluirDep").livequery("click", function(e) {
-					if ($(this).length > 1) {
-						$(this).closest(".nova").remove();
-					}
-				})
 			})
+			
+			function excluiDep(elemento) {
+					elemento.closest(".nova").remove();
+			}
 		</script>
 		<script>
 			//VARIÁBEIS INICIAIS
