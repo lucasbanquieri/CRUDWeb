@@ -23,6 +23,7 @@
             <form:errors path="*"/>
             <form action="adicionaFuncionario" method="post" accept-charset="UTF-8">
             <input type="hidden" id="cod_cadastro" name="codCadastro" value="${funcionario.codCadastro}">
+            <input type="hidden" id="qtd_dep" name="kids" value="${funcionario.kids}">
                 <div class="row">
                     <div class="form-group col-md-2">
                         <label hidden id="cod_label" for="campoCod">Código de Cadastro:</label>
@@ -47,7 +48,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="campoCpf">CPF:</label>
-                        <input class="form-control" id="cpf" type="text" name="cpf" maxlength="14" value="${funcionario.cpf}">
+                        <input class="form-control" id="cpf" type="text" name="cpf" maxlength="14" <c:if test="${funcionario.codCadastro > 0}">readonly</c:if> value="${funcionario.cpf}">
                         <span id="cpf_erro"></span>
                     </div>
                 </div>
@@ -76,7 +77,7 @@
                     </div>
                     <div class="form-group col-md-3">
                         <label for="campoEmail">E-Mail:</label>
-                        <input class="form-control" id="email" type="text" name="email" value="${funcionario.email}">
+                        <input class="form-control" id="email" type="email" name="email" value="${funcionario.email}">
                         <span id="email_erro"></span>
                     </div>
                 </div>
@@ -94,14 +95,15 @@
                 </div>
                 <h4 class="page-header">Dependentes</h4>
                 <hr />
-                <div class="row modelo">
+                <div class="row linhaKid modelo">
                 	<div class="form-group col-md-3">
                 		<label>Nome:</label>
-                		<input type="text" name="nomeK" class="form-control" value=""/>
+                		<input type="text" name="nomeK" class="form-control nomeK" value="<c:if test='${funcionario.codCadastro > 0}'></c:if>">
+                		<span name="nomeK_erro"></span>
                 	</div>
                 	<div class="form-group col-md-3">
                 		<label>Data de Nascimento:</label>
-                		<input type="date" name="dataNK" class="form-control" value=""/>
+                		<input type="date" name="dataNK" class="form-control dataNK" value="<c:if test='${funcionario.codCadastro > 0}'></c:if>">
                 	</div>
                 	<div class="form-group col-md-1">
                 		<span style="display: none; margin-top: 33px;" id="excluirDep" onClick="excluiDep(this)" class="form-control btn btn-danger">Remover</span>
@@ -195,12 +197,15 @@
 					
 					novaLinha.insertBefore(".fim");
 					
+					novaLinha.find(".nomeK").val("");
+					novaLinha.find(".dataNK").val("");
+					
 					return false;
 				})
 			})
 			
 			function excluiDep(elemento) {
-					elemento.closest(".nova").remove();
+				elemento.closest(".nova").remove();
 			}
 		</script>
 		<script>
@@ -214,7 +219,7 @@
 			var erro_va = true;
 			var erro_vr = true;
 			var erro_vt = true;
-			//var erro_kids = true;
+			var erro_nomeK = true;
 			var erro_cargo = true;
 			
 			//VERIFICA SE É UMA ALTERAÇÃO
@@ -228,7 +233,7 @@
 				var erro_va = false;
 				var erro_vr = false;
 				var erro_vt = false;
-				//var erro_kids = false;
+				var erro_nomeK = true;
 				var erro_cargo = false;
 				$("#titulo").html("Alterar Funcionario");
 				$("#cod_label").removeAttr("hidden");
@@ -258,6 +263,22 @@
 					$("#nome_erro").html("");
 					erro_nome = false;
 				}
+			})
+			
+			$(".nomeK").livequery("input", function(){
+					if ($(this).val().length < 2 || $(this).val().length > 50) {
+						var input = $(this).val();
+						input = input.replace(/[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]/g,'');
+						$(this).val(input);
+						$(this).css("border", "1px solid red");
+						$(this).closest(".linhaKid").find("span[name=nomeK_erro]").html("Nome inválido.");
+						$(this).closest(".linhaKid").find("span[name=nomeK_erro]").css("color", "red");
+						erro_nome = true;
+					} else {
+						$(this).css("border", "1px solid green");
+						$(this).closest(".linhaKid").find("span[name=nomeK_erro]").html("");
+						erro_nome = false;
+					}
 			})
 			
 			$(function() {
@@ -407,7 +428,7 @@
 			})
 			
 			$("#salvar").on("click", function checarErro() {
-				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco || erro_salario || erro_va || erro_vr || erro_vt) {
+				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco || erro_salario || erro_va || erro_vr || erro_vt || erro_nomeK) {
 					alert("Campos não preenchidos ou inválidos.");
 					return false;
 				} else if ($("#dataN").val() == "") {

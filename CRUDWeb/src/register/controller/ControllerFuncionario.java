@@ -33,13 +33,16 @@ public class ControllerFuncionario {
 		FuncionarioDAO dao = new FuncionarioDAO();
     	Util util = new Util();
     	funcionario.setDataNascimento(util.transformaData(dataN));
-    	//FAZER CHECKLIST DE ERROS DOS FILHO
     	List<Kid> listKids = new ArrayList<Kid>();
     	for (int i=0; i < nomeK.length; i++) {
-    		Kid kid = new Kid();
-    		kid.setNome(nomeK[i]);
-    		kid.setDataNascimento(util.transformaData(dataNK[i]));
-    		listKids.add(kid);
+    		if (!nomeK[i].isEmpty() && util.validaData(dataNK[i])) {
+    			Kid kid = new Kid();
+        		kid.setNome(nomeK[i]);
+        		kid.setDataNascimento(util.transformaData(dataNK[i]));
+        		listKids.add(kid);
+    		} else {
+    			System.out.println("Dados do dependente inválido.");
+    		}
     	}
     	funcionario.setArrayKids(listKids);
     	

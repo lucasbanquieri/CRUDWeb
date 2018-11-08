@@ -48,7 +48,7 @@
 				<tr>
 					<td>CPF: </td>
 					<td>
-						<input class="cpf" type="text" name="cpf" maxlength="14" value="${aluno.cpf}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)">
+						<input class="cpf" type="text" name="cpf" maxlength="14" value="${aluno.cpf}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)" <c:if test="${funcionario.codCadastro > 0}">readonly</c:if>>
 						<span id="cpf_erro" class="validacao"></span>
 					</td>
 				</tr>

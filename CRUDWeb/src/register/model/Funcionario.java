@@ -1,6 +1,5 @@
 package register.model;
 
-import java.util.Date;
 import java.util.List;
 
 import register.controller.Util;
@@ -14,23 +13,23 @@ public class Funcionario extends Pessoa {
 	private String VRStr;
 	private double VT;
 	private String VTStr;
-	private int Kids;
+	private int kids;
 	private String cargo;
 	private int codCadastro;
 	private String disciplina;
 	private List<Kid> arrayKids;
 	
-	public Funcionario(String cpf, String telefone, String nome, Date dataNascimento, String sexo, String endereco,
+	/*public Funcionario(String cpf, String telefone, String nome, Date dataNascimento, String sexo, String endereco,
 			String email, double salario, double vA, double vR, double vT, int kids, String cargo, String disciplina) {
 		super(cpf, telefone, nome, dataNascimento, sexo, endereco, email);
 		this.salario = salario;
 		VA = vA;
 		VR = vR;
 		VT = vT;
-		Kids = kids;
+		kids = kids;
 		this.cargo = cargo;
 		this.disciplina = disciplina;
-	}
+	}*/
 	
 	public Funcionario() {
 		super();
@@ -157,11 +156,11 @@ public class Funcionario extends Pessoa {
 	}
 
 	public int getKids() {
-		return Kids;
+		return kids;
 	}
 
 	public void setKids(int kids) {
-		Kids = kids;
+		this.kids = kids;
 	}
 
 	public String getCargo() {
