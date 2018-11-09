@@ -2,9 +2,12 @@ package register.model;
 
 import java.util.Date;
 
+import register.controller.Util;
+
 public class Kid {
 	private String nome;
 	private Date dataNascimento;
+	private String dataNascimentoStr;
 	private int fkCodCadastro;
 	private int kidId;
 	
@@ -16,6 +19,14 @@ public class Kid {
 	
 	public Kid() {
 		super();
+	}
+	
+	public String getDataNascimentoStr() {
+		return dataNascimentoStr;
+	}
+
+	public void setDataNascimentoStr(String dataNascimentoStr) {
+		this.dataNascimentoStr = dataNascimentoStr;
 	}
 
 	public int getKidId() {
@@ -43,7 +54,13 @@ public class Kid {
 	}
 
 	public Date getDataNascimento() {
-		return dataNascimento;
+		Util util = new Util();
+		if (getDataNascimentoStr() != null) {
+			dataNascimento = util.transformaData(getDataNascimentoStr());
+			return dataNascimento;
+		} else {
+			return dataNascimento;
+		}
 	}
 
 	public void setDataNascimento(Date dataNascimento) {

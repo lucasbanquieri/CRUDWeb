@@ -73,7 +73,9 @@ public class FuncionarioDAO {
 
 			if (rs.next()) {
 				func.setCodCadastro(rs.getInt(1));
-				cadastrarKids(func);
+				if (!func.getArrayKids().isEmpty()) {
+					cadastrarKids(func);
+				}
 				db.finalizaObjetos(null, stmt, null);
 			}
 			
@@ -269,6 +271,18 @@ public class FuncionarioDAO {
 
 			stmt.execute();
 			conn.commit();
+			
+			
+			//excluir filhos deste funcionario
+			
+				excluirAllKids(func);
+			
+			
+			//incluir filhos cadastrarKids
+			if (!func.getArrayKids().isEmpty()) {
+				cadastrarKids(func);
+			}
+			
 		} catch (SQLException e) {
 			if (conn != null) {
 				try {
@@ -337,6 +351,41 @@ public class FuncionarioDAO {
 			stmt = conn.prepareStatement(sql.toString());
 
 			stmt.setInt(1, Integer.valueOf(kid.getKidId()));
+
+			stmt.execute();
+			conn.commit();
+		} catch (SQLException e) {
+			if (conn != null) {
+				try {
+					conn.rollback();
+				} catch (SQLException e1) {
+					System.out.println("Erro no método excluirKid - rollback");
+				}
+			}
+			System.out.println("Erro no método excluirKid");
+			e.printStackTrace();
+		} finally {
+			db.finalizaObjetos(rs, stmt, conn);
+		}
+	}
+	
+	public void excluirAllKids(Funcionario funcionario) {
+		Connection conn = null;
+		PreparedStatement stmt = null;
+		ResultSet rs = null;
+
+		try {
+			conn = db.obterConexao();
+			conn.setAutoCommit(false);
+
+			StringBuffer sql = new StringBuffer();
+			
+			sql.append("DELETE FROM filhos ");
+			sql.append("WHERE fk_cod_cadastro = ?;");
+
+			stmt = conn.prepareStatement(sql.toString());
+
+			stmt.setInt(1, funcionario.getCodCadastro());
 
 			stmt.execute();
 			conn.commit();

@@ -23,6 +23,7 @@ public class ControllerFuncionario {
     	FuncionarioDAO dao = new FuncionarioDAO();
     	if (funcionario.getCodCadastro() > 0) {
     		model.addAttribute("funcionario", dao.buscarFuncionario(funcionario.getCodCadastro()));
+    		model.addAttribute("kid", dao.listarKids(funcionario));
     		return "cadastroFuncionario";
     	}
     	return "cadastroFuncionario";
@@ -38,7 +39,8 @@ public class ControllerFuncionario {
     		if (!nomeK[i].isEmpty() && util.validaData(dataNK[i])) {
     			Kid kid = new Kid();
         		kid.setNome(nomeK[i]);
-        		kid.setDataNascimento(util.transformaData(dataNK[i]));
+        		kid.setDataNascimentoStr(dataNK[i]);
+        		kid.setDataNascimento(util.transformaData(kid.getDataNascimentoStr()));
         		listKids.add(kid);
     		} else {
     			System.out.println("Dados do dependente inválido.");

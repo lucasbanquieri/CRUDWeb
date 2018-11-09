@@ -98,12 +98,12 @@
                 <div class="row linhaKid modelo">
                 	<div class="form-group col-md-3">
                 		<label>Nome:</label>
-                		<input type="text" name="nomeK" class="form-control nomeK" value="<c:if test='${funcionario.codCadastro > 0}'></c:if>">
+                		<input type="text" name="nomeK" class="form-control nomeK" value="">
                 		<span name="nomeK_erro"></span>
                 	</div>
                 	<div class="form-group col-md-3">
                 		<label>Data de Nascimento:</label>
-                		<input type="date" name="dataNK" class="form-control dataNK" value="<c:if test='${funcionario.codCadastro > 0}'></c:if>">
+                		<input type="date" name="dataNK" class="form-control dataNK" value="" pattern="dd/MM/yyyy">
                 	</div>
                 	<div class="form-group col-md-1">
                 		<span style="display: none; margin-top: 33px;" id="excluirDep" onClick="excluiDep(this)" class="form-control btn btn-danger">Remover</span>
@@ -199,9 +199,30 @@
 					
 					novaLinha.find(".nomeK").val("");
 					novaLinha.find(".dataNK").val("");
+					novaLinha.find(".nomeK").css("border", "1px solid #ced4da");
 					
 					return false;
 				})
+				var pv = true;
+				
+				if ($("#qtd_dep").val() > 0) {
+					<c:forEach items="${kid}" var="kid">
+						if (pv) {
+							$(".nomeK").val("${kid.nome}");
+							$(".dataNK").val('<fmt:formatDate value="${kid.dataNascimento}" pattern="yyyy-MM-dd"/>');
+							pv = false;
+						} else {
+							var novaLinha = $(".modelo").clone();
+							novaLinha.removeClass("modelo").addClass("nova").find("input[name=nome]").focus();
+							novaLinha.find("#excluirDep").css("display", "inline-block");
+							
+							novaLinha.insertBefore(".fim");
+							
+							novaLinha.find(".nomeK").val("${kid.nome}");
+							novaLinha.find(".dataNK").val('<fmt:formatDate value="${kid.dataNascimento}" pattern="yyyy-MM-dd"/>');
+						}
+					</c:forEach>
+				}
 			})
 			
 			function excluiDep(elemento) {
@@ -219,7 +240,7 @@
 			var erro_va = true;
 			var erro_vr = true;
 			var erro_vt = true;
-			var erro_nomeK = true;
+			var erro_nomeK = false;
 			var erro_cargo = true;
 			
 			//VERIFICA SE É UMA ALTERAÇÃO
@@ -233,7 +254,7 @@
 				var erro_va = false;
 				var erro_vr = false;
 				var erro_vt = false;
-				var erro_nomeK = true;
+				//var erro_nomeK = true;
 				var erro_cargo = false;
 				$("#titulo").html("Alterar Funcionario");
 				$("#cod_label").removeAttr("hidden");
@@ -266,18 +287,19 @@
 			})
 			
 			$(".nomeK").livequery("input", function(){
-					if ($(this).val().length < 2 || $(this).val().length > 50) {
+					if ($(this).val().length == 0) {
+						$(this).css("border", "1px solid #ced4da");
+						$(this).closest(".linhaKid").find("span[name=nomeK_erro]").html("");
+					} else if ($(this).val().length < 2 || $(this).val().length > 50) {
 						var input = $(this).val();
 						input = input.replace(/[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]/g,'');
 						$(this).val(input);
 						$(this).css("border", "1px solid red");
 						$(this).closest(".linhaKid").find("span[name=nomeK_erro]").html("Nome inválido.");
 						$(this).closest(".linhaKid").find("span[name=nomeK_erro]").css("color", "red");
-						erro_nome = true;
 					} else {
 						$(this).css("border", "1px solid green");
 						$(this).closest(".linhaKid").find("span[name=nomeK_erro]").html("");
-						erro_nome = false;
 					}
 			})
 			
@@ -393,11 +415,9 @@
 					$(this).css("border", "1px solid red");
 					$("#kids_erro").html("Número de dependentes inválido.");
 					$("#kids_erro").css("color", "red");
-					erro_kids = true;
 				} else {
 					$(this).css("border", "1px solid green");
 					$("#kids_erro").html("");
-					erro_kids = false;
 				}
 			})
 			
@@ -427,9 +447,14 @@
 				}
 			})
 			
-			$("#salvar").on("click", function checarErro() {
-				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco || erro_salario || erro_va || erro_vr || erro_vt || erro_nomeK) {
+			$("#salvar").on("click", function() {
+				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco || erro_salario || erro_va || erro_vr || erro_vt) {
 					alert("Campos não preenchidos ou inválidos.");
+					if (erro_nome) {
+						$("#nome").css("border", "1px solid red");
+					} if (erro_cpf) {
+						$("#cpf").css("border", "1px solid red");
+					} //CONTINUAR OS IFS DE DEIXAR CAMPO VAZIO VERMELHO AQUI//
 					return false;
 				} else if ($("#dataN").val() == "") {
 					alert("Data de nascimento não preenchida.");
@@ -437,10 +462,33 @@
 				} else if ($("#cargo").val() == "Selecionar Cargo..") {
 					alert("Selecione um cargo.");
 					return false;
-				} if ($("#cargo").val() == "Professor" && $("#disc").val() == "Selecionar Disciplina..") {
+				} else if ($(".linhaKid").length > 1) {
+					$(".linhaKid").each(function() {
+						if ($(this).find(".nomeK").val() == "") {
+							alert("Dependente inválido.");
+							erro_nomeK = true;
+							return false;
+						}
+					})
+					
+					if (erro_nomeK) {
+						return false;
+					}
+					
+					$("#qtd_dep").val($(".linhaKid").length);				
+					
+				} else if ($(".linhaKid").length == 1) {
+					if ($(".linhaKid").find(".nomeK").val() == "") {
+						$("#qtd_dep").val(0);
+					} else {
+						$("#qtd_dep").val(1);	
+					}
+				}
+				
+				if ($("#cargo").val() == "Professor" && $("#disc").val() == "Selecionar Disciplina..") {
 					alert("Selecione uma disciplina.");
 					return false;
-				}
+				} 
 			})
 		</script>
     </body>
