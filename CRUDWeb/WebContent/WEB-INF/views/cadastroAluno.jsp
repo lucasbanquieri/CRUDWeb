@@ -9,114 +9,117 @@
 	<head>
 		<meta charset="UTF-8"/>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<link rel="stylesheet" type="text/css" href="css/formStyle.css">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<title>Cadastrar Aluno</title>
 	</head>
-	<style>
-		td {
-			text-align: left;
-		}
-	</style>
 	<body>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+		<div id="main" class="container-fluid">
 		<h3 class="titulo" align="center">Cadastrar Aluno</h3>
-		<form:errors path="*"/>
-		<form align="center" action="adicionaAluno" method="post" accept-charset="UTF-8">
-		<input type="hidden" id="matricula" name="matricula" value="${aluno.matricula}">
-			<table align="center" border="0">
-				<tr>
-					<td hidden class="mat">Matrícula: </td>
-					<td hidden class="mat"><input type="text" value="${aluno.matricula}" disabled></td>
-				</tr>
-				<tr>
-					<td class="status" hidden>Status: </td>
-					<td class="status" hidden>
-						<select name="status">
+		<form action="adicionaAluno" method="post" accept-charset="UTF-8">
+			<input type="hidden" id="matricula" name="matricula" value="${aluno.matricula}">
+			<div class="row">
+                    <div class="form-group col-md-2">
+                        <label hidden id="mat_label" for="campoMat">Matrícula:</label>
+                        <input hidden class="form-control" id="mat" type="text" value="${aluno.matricula}" readonly>
+                    </div>
+					<div class="form-group col-md-2">
+                        <label hidden id="status_label" for="campoStatus">Status:</label>
+                        <select hidden class="form-control" id="status" name="status">
 							<option value="ATIVO" <c:if test="${aluno.status eq 'ATIVO' }">selected</c:if>>ATIVO</option>
 							<option value="SUSPENSO" <c:if test="${aluno.status eq 'SUSPENSO' }">selected</c:if>>SUSPENSO</option>
 							<option value="REPROVADO" <c:if test="${aluno.status eq 'REPROVADO' }">selected</c:if>>REPROVADO</option>
-							<option value="INATIVO" <c:if test="${aluno.status eq 'INATIVO' }">selected</c:if>>INATIVO</option>
+							<option value="FERIAS" <c:if test="${aluno.status eq 'FERIAS' }">selected</c:if>>FÉRIAS</option>
+                            <option value="LICENCA" <c:if test="${aluno.status eq 'LICENCA' }">selected</c:if>>LICENÇA</option>
+                            <option value="INATIVO" <c:if test="${aluno.status eq 'INATIVO' }">selected</c:if>>INATIVO</option>
 						</select>
-					</td>
-				</tr>
-				<tr>
-					<td>Nome: </td>
-					<td>
-						<input class="nome" type="text" name="nome" minlength="1" maxlength="50" value="${aluno.nome}"><br />
-						<span id="nome_erro" class="validacao"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>CPF: </td>
-					<td>
-						<input class="cpf" type="text" name="cpf" maxlength="14" value="${aluno.cpf}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)" <c:if test="${funcionario.codCadastro > 0}">readonly</c:if>>
-						<span id="cpf_erro" class="validacao"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>Sexo: </td>
-					<td>
-					<c:if test="${aluno.sexo eq 'M' or aluno.sexo eq null or aluno.sexo eq ''}">
-						<input type="radio" name="sexo" value="M" checked>Masculino &nbsp
-						<input type="radio" name="sexo" value="F">Feminino
-					</c:if>
-					<c:if test="${aluno.sexo eq 'F'}">
-						<input type="radio" name="sexo" value="M">Masculino &nbsp
-						<input type="radio" name="sexo" value="F" checked>Feminino
-					</c:if>
-					</td>
-				</tr>
-				<tr>
-					<td>Data de Nascimento: </td>
-					<td><input type="date" class="dataN" name="dataNascimentoStr" value='<fmt:formatDate value="${aluno.dataNascimento}" pattern="yyyy-MM-dd"/>' pattern="dd/MM/yyyy"></td>
-				</tr>
-				<tr>
-					<td>Telefone: </td>
-					<td>
-						<input class="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${aluno.telefone}" onkeydown="return FilterInput(event)" onpaste="handlePaste(event)">
-						<span id="telefone_erro" class="validacao"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>E-Mail: </td>
-					<td>
-						<input class="email" type="text" name="email" value="${aluno.email}">
-						<span id="email_erro" class="validacao"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>Endereço: </td>
-					<td>
-						<textarea class="endereco" name="endereco" minlength="1" maxlength="50" rows="3" cols="50">${aluno.endereco}</textarea>
-						<span id="endereco_erro" class="validacao"></span>
-					</td>
-				</tr>
-				<tr>
-					<td>Curso: </td>
-					<td>
-						<select name="curso">
-							<option value="Java Web" <c:if test="${aluno.curso eq 'Java Web' }">selected</c:if>>Java Web</option>
-							<option value="Cobol" <c:if test="${aluno.curso eq 'Cobol' }">selected</c:if>>Cobol</option>
-							<option value=".NET" <c:if test="${aluno.curso eq '.NET' }">selected</c:if>>.NET</option>
-							<option value="Python" <c:if test="${aluno.curso eq 'Python' }">selected</c:if>>Python</option>
-							<option value="Redes" <c:if test="${aluno.curso eq 'Redes' }">selected</c:if>>Redes</option>
-						</select>
-					</td>
-				</tr>
-				<tr>
-					<td colspan="2"><button id="salvar">Salvar</button></td>
-				</tr>
-			</table>
-		</form>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-4">
+                        <label for="campoNome">Nome:</label>
+                        <input class="form-control" id="nome" type="text" name="nome" minlength="1" maxlength="50" value="${aluno.nome}">
+                        <span id="nome_erro"></span>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="campoCpf">CPF:</label>
+                        <input class="form-control" id="cpf" type="text" name="cpf" maxlength="14" <c:if test="${aluno.matricula > 0}">readonly</c:if> value="${aluno.cpf}">
+                        <span id="cpf_erro"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label for="campoDataN">Data de Nascimento:</label>
+                        <input type="date" class="form-control" id="dataN" name="dataNascimentoStr" value='<fmt:formatDate value="${aluno.dataNascimento}" pattern="yyyy-MM-dd"/>' pattern="dd/MM/yyyy">
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="campoSexo">Sexo:</label><br>
+                        <c:if test="${aluno.sexo eq 'M' or aluno.sexo eq null or aluno.sexo eq ''}">
+                            <input type="radio" id="campo1" value="M" name="sexo" checked> Masculino <br/>
+                            <input type="radio" id="campo1" value="F" name="sexo"> Feminino
+                        </c:if>
+                        <c:if test="${aluno.sexo eq 'F'}">
+                            <input type="radio" id="campo1" value="M" name="sexo"> Masculino <br/>
+                            <input type="radio" id="campo1" value="F" name="sexo" checked> Feminino
+                        </c:if>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-2">
+                        <label for="campoTelefone">Telefone:</label>
+                        <input class="form-control" id="telefone" type="text" name="telefone" minlenght="15" maxlength="17" value="${aluno.telefone}">
+                        <span id="telefone_erro"></span>
+                    </div>
+                    <div class="form-group col-md-3">
+                        <label for="campoEmail">E-Mail:</label>
+                        <input class="form-control" id="email" type="email" name="email" value="${aluno.email}">
+                        <span id="email_erro"></span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="form-group col-md-6">
+                        <label for="campoEndereco">Endereço:</label>
+                        <textarea class="form-control" id="endereco" name="endereco" minlength="1" maxlength="50" rows="3" cols="50">${aluno.endereco}</textarea>
+                        <span id="endereco_erro"></span>
+                    </div>
+                </div>
+                <div class="row">
+					<div id="disciplina" class="form-group col-md-2">
+	                      <label for="campoDisciplina">Curso:</label>
+	                       <select class="form-control" name="curso" id="curso">
+	                            <option>Selecionar Curso..</option>
+	                            <option value="Java Web" <c:if test="${aluno.curso eq 'Java Web' }">selected</c:if>>Java Web</option>
+	                            <option value="Cobol" <c:if test="${aluno.curso eq 'Cobol' }">selected</c:if>>Cobol</option>
+								<option value=".NET" <c:if test="${aluno.curso eq '.NET' }">selected</c:if>>.NET</option>
+								<option value="Python" <c:if test="${aluno.curso eq 'Python' }">selected</c:if>>Python</option>
+								<option value="Redes" <c:if test="${aluno.curso eq 'Redes' }">selected</c:if>>Redes</option>
+	                       </select>
+	                </div>
+                </div>
+                <hr/>
+                <div id="actions" class="row">
+                    <div class="col-md-12">
+                        <button id="salvar" type="submit" class="btn btn-primary">Salvar</button>
+                        <a href="listaAlunos" class="btn btn-dark">Cancelar</a>
+                    </div>
+                </div>
+			</form>
+		</div>
 		<script src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 		<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery.mask/1.14.0/jquery.mask.js"></script>
 		<script>
     		$(document).ready(function () { 
-       			var $seuCampoCpf = $(".cpf");
+       			var $seuCampoCpf = $("#cpf");
         		$seuCampoCpf.mask('000.000.000-00', {reverse: true});
    		 	});
     		
     		$(document).ready(function () { 
-        		$(".telefone").mask('(00) 0000-0000');
+        		$("#telefone").mask('(00) 0000-0000');
    		 	});
 		</script>
 		<script>
@@ -133,8 +136,10 @@
 				var erro_email = false;
 				var erro_endereco = false;
 				$(".titulo").html("Alterar Aluno");
-				$(".mat").removeAttr("hidden");
-				$(".status").removeAttr("hidden");
+				$("#mat_label").removeAttr("hidden");
+				$("#mat").removeAttr("hidden");
+				$("#status_label").removeAttr("hidden");
+				$("#status").removeAttr("hidden");
 			}
 			
 			$(".nome").on("input", function(){

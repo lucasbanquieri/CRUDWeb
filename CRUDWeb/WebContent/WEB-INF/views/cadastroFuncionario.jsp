@@ -6,7 +6,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <html>
     <head>
-        <title>Cadastro de Funcionários</title>
+        <title>Cadastro de Funcionarios</title>
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
@@ -454,7 +454,21 @@
 						$("#nome").css("border", "1px solid red");
 					} if (erro_cpf) {
 						$("#cpf").css("border", "1px solid red");
-					} //CONTINUAR OS IFS DE DEIXAR CAMPO VAZIO VERMELHO AQUI//
+					} if (erro_telefone) {
+						$("#telefone").css("border", "1px solid red");
+					} if (erro_email) {
+						$("#email").css("border", "1px solid red");
+					} if (erro_endereco) {
+						$("#endereco").css("border", "1px solid red");
+					} if (erro_salario) {
+						$("#salario").css("border", "1px solid red");
+					} if (erro_va) {
+						$("#va").css("border", "1px solid red");
+					} if (erro_vr) {
+						$("#vr").css("border", "1px solid red");
+					} if (erro_vt) {
+						$("#vt").css("border", "1px solid red");
+					}
 					return false;
 				} else if ($("#dataN").val() == "") {
 					alert("Data de nascimento não preenchida.");
