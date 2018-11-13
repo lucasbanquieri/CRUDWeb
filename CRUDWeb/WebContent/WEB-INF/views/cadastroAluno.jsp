@@ -142,7 +142,7 @@
 				$("#status").removeAttr("hidden");
 			}
 			
-			$(".nome").on("input", function(){
+			$("#nome").on("input", function(){
 				if ($(this).val().length < 2 || $(this).val().length > 50) {
 					this.value = this.value.replace(/[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]/g,'');
 					$(this).css("border", "1px solid red");
@@ -158,9 +158,9 @@
 			
 			$(function() {
     			//Executa a requisição quando o campo username perder o foco
-    			$('.cpf').blur(function()
+    			$('#cpf').blur(function()
     		{
-        	var cpf = $('.cpf').val().replace(/[^0-9]/g, '').toString();
+        	var cpf = $('#cpf').val().replace(/[^0-9]/g, '').toString();
 
         	if( cpf.length == 11 ) {
             	var v = [];
@@ -181,31 +181,31 @@
 
             	//Retorna Verdadeiro se os dígitos de verificação são os esperados.
             	if ( (v[0] != cpf[9]) || (v[1] != cpf[10]) ) {
-            		$(".cpf").css("border", "1px solid red");
+            		$("#cpf").css("border", "1px solid red");
             		erro_cpf = true;
             		$("#cpf_erro").html("CPF inválido.");
 					$("#cpf_erro").css("color", "red");
 
-                	$('.cpf').val($('.cpf').val());
+                	$('#cpf').val($('#cpf').val());
             	} else {
-            		$(".cpf").css("border", "1px solid green");
+            		$("#cpf").css("border", "1px solid green");
             		$("#cpf_erro").html("");
             		erro_cpf = false;
             	}
         	} else {
-        		$(".cpf").css("border", "1px solid red");
+        		$("#cpf").css("border", "1px solid red");
         		erro_cpf = true;
         		$("#cpf_erro").html("CPF deve conter 11 dígitos.");
 				$("#cpf_erro").css("color", "red");
 
-				$('.cpf').val($('.cpf').val());
+				$('#cpf').val($('#cpf').val());
         	}
     	});
 	});
 			
 			
 			
-			$(".telefone").on("input", function(){
+			$("#telefone").on("input", function(){
 				if ($(this).val().length < 14 || $(this).val().length > 18) {
 					$(this).css("border", "1px solid red");
 					$("#telefone_erro").html("Telefone inválido.");
@@ -218,7 +218,7 @@
 				}
 			})
 			
-			$(".email").on("input", function(){
+			$("#email").on("input", function(){
 				if ($(this).val().length < 5 || $(this).val().length > 30) {
 					$(this).css("border", "1px solid red");
 					$("#email_erro").html("E-mail inválido.");
@@ -231,7 +231,7 @@
 				}
 			})
 			
-			$(".endereco").on("input", function(){
+			$("#endereco").on("input", function(){
 				if ($(this).val().length < 10 || $(this).val().length > 50) {
 					$(this).css("border", "1px solid red");
 					$("#endereco_erro").html("Endereço inválido.");

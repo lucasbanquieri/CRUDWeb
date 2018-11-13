@@ -2,6 +2,9 @@ package register.controller;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -41,7 +44,13 @@ public class ControllerAluno {
 				//aluno.setStatus(util.converteStatus(aluno.getStatus()));
 				return "redirect:listaAlunos";
 			} else {
-				dao.adicionarAluno(aluno);
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+				EntityManager manager = factory.createEntityManager();
+				manager.getTransaction().begin();
+				manager.persist(aluno);
+				manager.getTransaction().commit();
+				manager.close();
+				//dao.adicionarAluno(aluno);
 				return "aluno-adicionado";
 			}
 		}

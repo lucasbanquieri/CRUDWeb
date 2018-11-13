@@ -18,6 +18,12 @@
 		#status_suspenso {
 			color: #FFA500;
 		}
+		#status_ferias {
+			color: #FFA500;
+		}
+		#status_licenca {
+			color: #FFA500;
+		}
 		#status_reprovado {
 			color: red;
 		}
@@ -35,6 +41,8 @@
 			<option value="todos">Todos</option>
 			<option value="ativo">Ativos</option>
 			<option value="suspenso">Suspensos</option>
+			<option value="ferias">Ferias</option>
+			<option value="licenca">Licença</option>
 			<option value="reprovado">Reprovados</option>
 			<option value="inativo">Inativos</option>
 		</select>
@@ -72,6 +80,12 @@
 				</c:if>
 				<c:if test="${aluno.status == 'SUSPENSO'}">
 					<td id="status_suspenso">${aluno.status}</td>
+				</c:if>
+				<c:if test="${aluno.status == 'FERIAS'}">
+					<td id="status_ferias">${aluno.status}</td>
+				</c:if>
+				<c:if test="${aluno.status == 'LICENCA'}">
+					<td id="status_licenca">${aluno.status}</td>
 				</c:if>
 				<c:if test="${aluno.status == 'REPROVADO'}">
 					<td id="status_reprovado">${aluno.status}</td>

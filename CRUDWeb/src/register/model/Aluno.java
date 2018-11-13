@@ -7,11 +7,16 @@ package register.model;
 
 import java.util.Date;
 
-/**
- *
- * @author LUCAS-UTF8
- */
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="aluno")
 public class Aluno extends Pessoa{
+	@Id
+	@GeneratedValue
     private int matricula;
     private String curso;
 

@@ -2,37 +2,23 @@ package register.model;
 
 import java.util.Date;
 
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Past;
-import javax.validation.constraints.Size;
-
-import org.springframework.format.annotation.DateTimeFormat;
+import javax.persistence.Entity;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import register.controller.Util;
 
+@Entity
 public class Pessoa {
-	@NotNull
-	@Size(min=11, max=11)
 	private String cpf;
-	@NotNull
-	@Size(max=11)
 	private String telefone;
-	@NotNull
-	@Size(max=50)
 	private String nome;
-	@NotNull
-	@Past
-	@DateTimeFormat(pattern="dd/MM/yyyy")
+	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
 	private String dataNascimentoStr;
 	private String sexo;
-	@NotNull
-	@Size(max=50)
 	private String endereco;
-	@NotNull
-	@Size(max=30)
 	private String email;
-	@NotNull
 	private String status;
 	
 	public Pessoa(String cpf, String telefone, String nome, Date dataNascimento, String sexo, String endereco, String email) {
