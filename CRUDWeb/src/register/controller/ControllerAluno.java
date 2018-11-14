@@ -5,6 +5,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -18,11 +19,15 @@ import register.model.Aluno;
 
 @Controller
 public class ControllerAluno {    
+	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    EntityManager manager = factory.createEntityManager();
+	
     @RequestMapping("/cadastroAluno")
 	public String form(Aluno aluno, Model model) {
-    	AlunoDAO dao = new AlunoDAO();
     	if (aluno.getMatricula() > 0) {
-    		model.addAttribute("aluno", dao.buscarAluno(aluno.getMatricula()));
+    		model.addAttribute("aluno", manager.find(Aluno.class, aluno.getMatricula()));
+    		manager.close();
+	        factory.close();
     		return "cadastroAluno";
     	}
     	return "cadastroAluno";
@@ -43,14 +48,13 @@ public class ControllerAluno {
 				dao.editarAluno(aluno);
 				//aluno.setStatus(util.converteStatus(aluno.getStatus()));
 				return "redirect:listaAlunos";
-			} else {
-				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
-				EntityManager manager = factory.createEntityManager();
-				manager.getTransaction().begin();
-				manager.persist(aluno);
-				manager.getTransaction().commit();
-				manager.close();
-				//dao.adicionarAluno(aluno);
+			} else {		        
+		        manager.getTransaction().begin();  
+			    manager.persist(aluno);
+			    manager.getTransaction().commit();
+			    
+		        manager.close();
+		        factory.close();
 				return "aluno-adicionado";
 			}
 		}
@@ -58,8 +62,11 @@ public class ControllerAluno {
     
     @RequestMapping("/listaAlunos")
 	public String listaAlunos(Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		List<Aluno> alunos = dao.listarAlunos(null);
+		Query query = manager.createQuery("SELECT a FROM Aluno as a where a.matricula > :matricula");
+		query.setParameter("matricula", 0);
+		List<Aluno> alunos = query.getResultList();
+		manager.close();
+	    factory.close();
 		model.addAttribute("alunos", alunos);
 		return "listaAluno";
 	}
@@ -67,8 +74,13 @@ public class ControllerAluno {
     @RequestMapping("/removeAluno")
 	public String remove(Aluno aluno, Model model) {
 		AlunoDAO dao = new AlunoDAO();
-		dao.excluirAluno(aluno);
-		List<Aluno> alunos = dao.listarAlunos(null);
+		aluno.setStatus("INATIVO");
+		manager.getTransaction().begin(); 
+		manager.merge(aluno);
+		Query querySelect = manager.createQuery("SELECT a FROM Aluno as a where a.matricula > :matricula");
+		querySelect.setParameter("matricula", 0);
+		manager.getTransaction().commit();
+		List<Aluno> alunos = querySelect.getResultList();
 		model.addAttribute("alunos", alunos);
 		return "redirect:listaAlunos";
 	}

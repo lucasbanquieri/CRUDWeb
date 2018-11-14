@@ -2,19 +2,23 @@ package register.model;
 
 import java.util.Date;
 
-import javax.persistence.Entity;
+import javax.persistence.Column;
+import javax.persistence.MappedSuperclass;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import register.controller.Util;
 
-@Entity
+@MappedSuperclass
 public class Pessoa {
 	private String cpf;
 	private String telefone;
 	private String nome;
+	@Column(name="data_nascimento")
 	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
+	@Transient
 	private String dataNascimentoStr;
 	private String sexo;
 	private String endereco;
