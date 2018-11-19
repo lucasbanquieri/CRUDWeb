@@ -21,7 +21,7 @@ public class GenerateTables {
         aluno.setEndereco("Rua Teste 101");
         aluno.setSexo("M");
         aluno.setTelefone("(43)3337-4591");
-        aluno.setStatus("ATIVO");
+        //aluno.setStatus("ATIVO");
         aluno.setCurso("Java Web");
         
 		manager.getTransaction().begin();  

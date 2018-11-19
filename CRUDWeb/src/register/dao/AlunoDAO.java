@@ -109,7 +109,7 @@ public class AlunoDAO {
 				aluno.setEmail(rs.getString(7));
 				aluno.setMatricula(rs.getInt(8));
 				aluno.setCurso(rs.getString(9));
-				aluno.setStatus(rs.getString(10));
+				//aluno.setStatus(rs.getString(10));
 				
 				arrayAluno.add(aluno);
 			}
@@ -234,7 +234,7 @@ public class AlunoDAO {
 				aluno.setEmail(rs.getString(7));
 				aluno.setMatricula(rs.getInt(8));
 				aluno.setCurso(rs.getString(9));
-				aluno.setStatus(rs.getString(10));
+				//aluno.setStatus(rs.getString(10));
 			}
 
 		} catch (SQLException e) {

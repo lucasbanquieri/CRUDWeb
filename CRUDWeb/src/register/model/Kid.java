@@ -2,13 +2,22 @@ package register.model;
 
 import java.util.Date;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import register.controller.Util;
 
+@Entity
+@Table(name="kid")
 public class Kid {
 	private String nome;
 	private Date dataNascimento;
 	private String dataNascimentoStr;
 	private int fkCodCadastro;
+	@Id
+	@GeneratedValue
 	private int kidId;
 	
 	public Kid(String nome, Date dataNascimento) {

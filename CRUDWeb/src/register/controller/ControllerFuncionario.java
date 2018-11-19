@@ -3,6 +3,10 @@ package register.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.validation.Valid;
 
 import org.springframework.stereotype.Controller;
@@ -12,18 +16,24 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import register.dao.FuncionarioDAO;
-//import register.model.Aluno;
 import register.model.Funcionario;
 import register.model.Kid;
 
 @Controller
 public class ControllerFuncionario {
-    @RequestMapping("/cadastroFuncionario")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/cadastroFuncionario")
 	public String form(Funcionario funcionario, Model model) {
-    	FuncionarioDAO dao = new FuncionarioDAO();
     	if (funcionario.getCodCadastro() > 0) {
-    		model.addAttribute("funcionario", dao.buscarFuncionario(funcionario.getCodCadastro()));
-    		model.addAttribute("kid", dao.listarKids(funcionario));
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    	    EntityManager manager = factory.createEntityManager();
+    		model.addAttribute("funcionario", manager.find(Funcionario.class, funcionario.getCodCadastro()));
+    		Query query = manager.createQuery("SELECT k FROM Kid as k where k.fk_cod_cadastro = :codCadastro");
+    		query.setParameter("codCadastro", funcionario.getCodCadastro());
+    		List<Kid> kids = query.getResultList();
+    		manager.close();
+            factory.close();
+    		model.addAttribute("kid", kids);
     		return "cadastroFuncionario";
     	}
     	return "cadastroFuncionario";
@@ -55,9 +65,24 @@ public class ControllerFuncionario {
 		} else {
 			if (funcionario.getCodCadastro() > 0) {
 				dao.editarFuncionario(funcionario);
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+			    EntityManager manager = factory.createEntityManager();
+				manager.getTransaction().begin();
+				manager.merge(funcionario);
+				manager.getTransaction().commit();
+				
+				manager.close();
+		        factory.close();
 				return "redirect:listaFuncionarios";
 			} else {
-				dao.cadastrarFuncionario(funcionario);
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+			    EntityManager manager = factory.createEntityManager();
+		        manager.getTransaction().begin();
+			    manager.persist(funcionario);
+			    manager.getTransaction().commit();
+			    
+		        manager.close();
+		        factory.close();
 				return "funcionario-adicionado";
 			}
 		}
@@ -85,7 +110,7 @@ public class ControllerFuncionario {
 		FuncionarioDAO dao = new FuncionarioDAO();
     	Funcionario funcionario = new Funcionario();
     	if (!status.equalsIgnoreCase("TODOS")) {
-        	funcionario.setStatus(status);
+        	//funcionario.setStatus(status);
     		model.addAttribute("funcionarios", dao.listarFuncionarios(funcionario));
     	} else {
     		model.addAttribute("funcionarios", dao.listarFuncionarios(null));

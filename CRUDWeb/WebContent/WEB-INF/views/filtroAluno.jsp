@@ -32,17 +32,23 @@
 				<td>${aluno.telefone}</td>
 				<td>${aluno.endereco}</td>
 				<td>${aluno.curso}</td>
-				<c:if test="${aluno.status == 'ATIVO'}">
-					<td id="status_ativo">${aluno.status}</td>
+				<c:if test="${aluno.status == '1'}">
+					<td id="status_ativo">ATIVO</td>
 				</c:if>
-				<c:if test="${aluno.status == 'SUSPENSO'}">
-					<td id="status_suspenso">${aluno.status}</td>
+				<c:if test="${aluno.status == '2'}">
+					<td id="status_suspenso">SUSPENSO</td>
 				</c:if>
-				<c:if test="${aluno.status == 'REPROVADO'}">
-					<td id="status_reprovado">${aluno.status}</td>
+				<c:if test="${aluno.status == '3'}">
+					<td id="status_reprovado">REPROVADO</td>
 				</c:if>
-				<c:if test="${aluno.status == 'INATIVO'}">
-					<td id="status_inativo">${aluno.status}</td>
+				<c:if test="${aluno.status == '4'}">
+					<td id="status_inativo">FÉRIAS</td>
+				</c:if>
+				<c:if test="${aluno.status == '5'}">
+					<td id="status_inativo">LICENÇA</td>
+				</c:if>
+				<c:if test="${aluno.status == '6'}">
+					<td id="status_inativo">INATIVO</td>
 				</c:if>
 				<td><a href="removeAluno?matricula=${aluno.matricula}">Remover</a></td>
 				<td><a href="cadastroAluno?matricula=${aluno.matricula}">Alterar</a></td>

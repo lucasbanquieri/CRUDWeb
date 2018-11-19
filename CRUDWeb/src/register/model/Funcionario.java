@@ -2,8 +2,15 @@ package register.model;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 import register.controller.Util;
 
+@Entity
+@Table(name="funcionario")
 public class Funcionario extends Pessoa {
 	private double salario;
 	private String salarioStr;
@@ -15,6 +22,8 @@ public class Funcionario extends Pessoa {
 	private String VTStr;
 	private int kids;
 	private String cargo;
+	@Id
+	@GeneratedValue
 	private int codCadastro;
 	private String disciplina;
 	private List<Kid> arrayKids;

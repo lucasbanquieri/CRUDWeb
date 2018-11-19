@@ -10,12 +10,15 @@
 		<!-- entidade mapeada -->
 		<class>register.model.Aluno</class>
 		<class>register.model.Pessoa</class>
+		<class>register.model.Funcionario</class>
+		<class>register.model.Kid</class>
 		<properties>
 			<!-- dados da conexao -->
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="javax.persistence.jdbc.driver"
 			value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-			value="jdbc:mysql://localhost/curso_javaweb?zeroDateTimeBehavior=CONVERT_TO_NULL" />
+			value="jdbc:mysql://localhost:3306/curso_javaweb?zeroDateTimeBehavior=CONVERT_TO_NULL" />
 			<property name="javax.persistence.jdbc.user"
 			value="root" />
 			<property name="javax.persistence.jdbc.password"

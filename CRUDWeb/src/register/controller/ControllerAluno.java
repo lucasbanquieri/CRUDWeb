@@ -14,17 +14,16 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import register.dao.AlunoDAO;
 import register.model.Aluno;
 
 @Controller
-public class ControllerAluno {    
-	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
-    EntityManager manager = factory.createEntityManager();
+public class ControllerAluno {
 	
     @RequestMapping("/cadastroAluno")
 	public String form(Aluno aluno, Model model) {
     	if (aluno.getMatricula() > 0) {
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    	    EntityManager manager = factory.createEntityManager();
     		model.addAttribute("aluno", manager.find(Aluno.class, aluno.getMatricula()));
     		manager.close();
 	        factory.close();
@@ -35,7 +34,6 @@ public class ControllerAluno {
     
     @RequestMapping("/adicionaAluno")
 	public String adicionaAluno(@Valid Aluno aluno, BindingResult result, Model model, @RequestParam("dataNascimentoStr") String dataN) {
-		AlunoDAO dao = new AlunoDAO();
     	Util util = new Util();
     	aluno.setDataNascimento(util.transformaData(dataN));
     	
@@ -45,10 +43,18 @@ public class ControllerAluno {
 			return "cadastroAluno";
 		} else {
 			if (aluno.getMatricula() > 0) {
-				dao.editarAluno(aluno);
-				//aluno.setStatus(util.converteStatus(aluno.getStatus()));
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+			    EntityManager manager = factory.createEntityManager();
+				manager.getTransaction().begin();
+				manager.merge(aluno);
+				manager.getTransaction().commit();
+				
+				manager.close();
+		        factory.close();
 				return "redirect:listaAlunos";
-			} else {		        
+			} else {
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+			    EntityManager manager = factory.createEntityManager();
 		        manager.getTransaction().begin();  
 			    manager.persist(aluno);
 			    manager.getTransaction().commit();
@@ -60,40 +66,82 @@ public class ControllerAluno {
 		}
 	}
     
-    @RequestMapping("/listaAlunos")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/listaAlunos")
 	public String listaAlunos(Model model) {
+    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+        EntityManager manager = factory.createEntityManager();
 		Query query = manager.createQuery("SELECT a FROM Aluno as a where a.matricula > :matricula");
 		query.setParameter("matricula", 0);
 		List<Aluno> alunos = query.getResultList();
+		for (Aluno aluno : alunos) {
+			if (aluno.getStatus().length() == 1) {
+				aluno.setStatus(aluno.getStatus());
+			}
+		}
 		manager.close();
-	    factory.close();
+        factory.close();
 		model.addAttribute("alunos", alunos);
 		return "listaAluno";
 	}
     
-    @RequestMapping("/removeAluno")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/removeAluno")
 	public String remove(Aluno aluno, Model model) {
-		AlunoDAO dao = new AlunoDAO();
-		aluno.setStatus("INATIVO");
-		manager.getTransaction().begin(); 
-		manager.merge(aluno);
+    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+        EntityManager manager = factory.createEntityManager();
+		Aluno update = manager.find(Aluno.class, aluno.getMatricula());
+		update.setMatricula(update.getMatricula());
+		update.setStatus("6");
+		manager.getTransaction().begin();
+		manager.merge(update);
+		manager.getTransaction().commit();
 		Query querySelect = manager.createQuery("SELECT a FROM Aluno as a where a.matricula > :matricula");
 		querySelect.setParameter("matricula", 0);
-		manager.getTransaction().commit();
 		List<Aluno> alunos = querySelect.getResultList();
+		for (Aluno alu : alunos) {
+			if (alu.getStatus().length() == 1) {
+				alu.setStatus(alu.getStatus());
+			}
+		}
+		manager.close();
+        factory.close();
 		model.addAttribute("alunos", alunos);
 		return "redirect:listaAlunos";
 	}
     
-    @RequestMapping("/filtroAluno")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/filtroAluno")
 	public String filtroTodos(String status, Model model) {
-		AlunoDAO dao = new AlunoDAO();
-    	Aluno aluno = new Aluno();
+    	//Aluno aluno = new Aluno();
     	if (!status.equalsIgnoreCase("TODOS")) {
-        	aluno.setStatus(status);
-    		model.addAttribute("alunos", dao.listarAlunos(aluno));
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+            EntityManager manager = factory.createEntityManager();
+    		Query query = manager.createQuery("SELECT a FROM Aluno as a where a.status = :status");
+    		query.setParameter("status", status);
+    		List<Aluno> alunos = query.getResultList();
+    		for (Aluno alu : alunos) {
+    			if (alu.getStatus().length() == 1) {
+    				alu.setStatus(alu.getStatus());
+    			}
+    		}
+    		manager.close();
+            factory.close();
+            model.addAttribute("alunos", alunos);
     	} else {
-    		model.addAttribute("alunos", dao.listarAlunos(null));
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+            EntityManager manager = factory.createEntityManager();
+    		Query query = manager.createQuery("SELECT a FROM Aluno as a where a.matricula > :matricula");
+    		query.setParameter("matricula", 0);
+    		List<Aluno> alunos = query.getResultList();
+    		for (Aluno alu : alunos) {
+    			if (alu.getStatus().length() == 1) {
+    				alu.setStatus(alu.getStatus());
+    			}
+    		}
+    		manager.close();
+            factory.close();
+    		model.addAttribute("alunos", alunos);
     	}
 		return "filtroAluno";
 	}

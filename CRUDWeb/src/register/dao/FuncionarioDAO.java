@@ -183,7 +183,7 @@ public class FuncionarioDAO {
 				func.setCodCadastro(rs.getInt(13));
 				func.setDisciplina(rs.getString(14));
 				func.setCpf(rs.getString(15));
-				func.setStatus(rs.getString(16));
+				//func.setStatus(rs.getString(16));
 				
 				arrayFunc.add(func);
 			}
@@ -472,13 +472,13 @@ public class FuncionarioDAO {
 				funcionario.setEmail(rs.getString(7));
 				funcionario.setCodCadastro(rs.getInt(8));
 				funcionario.setCargo(rs.getString(9));
-				funcionario.setStatus(rs.getString(10));
+				//funcionario.setStatus(rs.getString(10));
 				funcionario.setSalario(rs.getDouble(11));
 				funcionario.setVA(rs.getDouble(12));
 				funcionario.setVR(rs.getDouble(13));
 				funcionario.setVT(rs.getDouble(14));
 				funcionario.setKids(rs.getInt(15));
-				funcionario.setStatus(rs.getString(17));
+				//funcionario.setStatus(rs.getString(17));
 				if (funcionario.getCargo().equals("Professor")) {
 					funcionario.setDisciplina(rs.getString(16));
 				} else {

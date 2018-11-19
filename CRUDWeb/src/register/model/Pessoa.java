@@ -45,8 +45,8 @@ public class Pessoa {
 	}
 
 	public void setStatus(String status) {
-		Util util = new Util();
-		this.status = util.converteStatus(status);
+		//Util util = new Util();
+		this.status = status;
 	}
 
 	public String getDataNascimentoStr() {

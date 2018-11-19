@@ -39,12 +39,12 @@
 		Filtro:
 		<select name="status" id="filtro">
 			<option value="todos">Todos</option>
-			<option value="ativo">Ativos</option>
-			<option value="suspenso">Suspensos</option>
-			<option value="ferias">Ferias</option>
-			<option value="licenca">Licença</option>
-			<option value="reprovado">Reprovados</option>
-			<option value="inativo">Inativos</option>
+			<option value="1">Ativos</option>
+			<option value="2">Suspensos</option>
+			<option value="3">Ferias</option>
+			<option value="4">Licença</option>
+			<option value="5">Reprovados</option>
+			<option value="6">Inativos</option>
 		</select>
 		<table class="greenTable" id="alunos">
 		<thead>
@@ -75,23 +75,23 @@
 				<td>${aluno.telefone}</td>
 				<td>${aluno.endereco}</td>
 				<td>${aluno.curso}</td>
-				<c:if test="${aluno.status == 'ATIVO'}">
-					<td id="status_ativo">${aluno.status}</td>
+				<c:if test="${aluno.status == '1'}">
+					<td id="status_ativo">ATIVO</td>
 				</c:if>
-				<c:if test="${aluno.status == 'SUSPENSO'}">
-					<td id="status_suspenso">${aluno.status}</td>
+				<c:if test="${aluno.status == '2'}">
+					<td id="status_suspenso">SUSPENSO</td>
 				</c:if>
-				<c:if test="${aluno.status == 'FERIAS'}">
-					<td id="status_ferias">${aluno.status}</td>
+				<c:if test="${aluno.status == '3'}">
+					<td id="status_ferias">REPROVADO</td>
 				</c:if>
-				<c:if test="${aluno.status == 'LICENCA'}">
-					<td id="status_licenca">${aluno.status}</td>
+				<c:if test="${aluno.status == '4'}">
+					<td id="status_licenca">FÉRIAS</td>
 				</c:if>
-				<c:if test="${aluno.status == 'REPROVADO'}">
-					<td id="status_reprovado">${aluno.status}</td>
+				<c:if test="${aluno.status == '5'}">
+					<td id="status_reprovado">LICENÇA</td>
 				</c:if>
-				<c:if test="${aluno.status == 'INATIVO'}">
-					<td id="status_inativo">${aluno.status}</td>
+				<c:if test="${aluno.status == '6'}">
+					<td id="status_inativo">INATIVO</td>
 				</c:if>
 				<td><a href="removeAluno?matricula=${aluno.matricula}">Remover</a></td>
 				<td><a href="cadastroAluno?matricula=${aluno.matricula}">Alterar</a></td>

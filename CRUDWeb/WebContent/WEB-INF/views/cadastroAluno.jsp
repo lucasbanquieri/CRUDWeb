@@ -31,12 +31,12 @@
 					<div class="form-group col-md-2">
                         <label hidden id="status_label" for="campoStatus">Status:</label>
                         <select hidden class="form-control" id="status" name="status">
-							<option value="ATIVO" <c:if test="${aluno.status eq 'ATIVO' }">selected</c:if>>ATIVO</option>
-							<option value="SUSPENSO" <c:if test="${aluno.status eq 'SUSPENSO' }">selected</c:if>>SUSPENSO</option>
-							<option value="REPROVADO" <c:if test="${aluno.status eq 'REPROVADO' }">selected</c:if>>REPROVADO</option>
-							<option value="FERIAS" <c:if test="${aluno.status eq 'FERIAS' }">selected</c:if>>FÉRIAS</option>
-                            <option value="LICENCA" <c:if test="${aluno.status eq 'LICENCA' }">selected</c:if>>LICENÇA</option>
-                            <option value="INATIVO" <c:if test="${aluno.status eq 'INATIVO' }">selected</c:if>>INATIVO</option>
+							<option value="1" <c:if test="${aluno.status eq '1' }">selected</c:if>>ATIVO</option>
+							<option value="2" <c:if test="${aluno.status eq '2' }">selected</c:if>>SUSPENSO</option>
+							<option value="3" <c:if test="${aluno.status eq '3' }">selected</c:if>>REPROVADO</option>
+							<option value="4" <c:if test="${aluno.status eq '4' }">selected</c:if>>FÉRIAS</option>
+                            <option value="5" <c:if test="${aluno.status eq '5' }">selected</c:if>>LICENÇA</option>
+                            <option value="6" <c:if test="${aluno.status eq '6' }">selected</c:if>>INATIVO</option>
 						</select>
                     </div>
                 </div>
