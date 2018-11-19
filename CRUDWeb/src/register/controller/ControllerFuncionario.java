@@ -41,10 +41,10 @@ public class ControllerFuncionario {
     
     @RequestMapping("/adicionaFuncionario")
 	public String adicionaFuncionario(@Valid Funcionario funcionario, BindingResult result, Model model, @RequestParam("dataNascimentoStr") String dataN, String[] nomeK, String[] dataNK) {
-		FuncionarioDAO dao = new FuncionarioDAO();
     	Util util = new Util();
     	funcionario.setDataNascimento(util.transformaData(dataN));
     	List<Kid> listKids = new ArrayList<Kid>();
+    	//ADICIONA KIDS NO ARRAYLIST
     	for (int i=0; i < nomeK.length; i++) {
     		if (!nomeK[i].isEmpty() && util.validaData(dataNK[i])) {
     			Kid kid = new Kid();
@@ -57,14 +57,14 @@ public class ControllerFuncionario {
     		}
     	}
     	funcionario.setArrayKids(listKids);
-    	
+    	//VERIFICA ERROS NOS DADOS DO FUNCIONARIO
 		if (temErro(funcionario) != "" || result.hasFieldErrors("nome, cpf, telefone, sexo, endereco, dataNascimentoStr, curso, email")) {
 			System.out.println(temErro(funcionario));
 			model.addAttribute("funcionario", funcionario);
 			return "cadastroFuncionario";
 		} else {
 			if (funcionario.getCodCadastro() > 0) {
-				dao.editarFuncionario(funcionario);
+				//EDITAR FUNCIONARIO
 				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
 			    EntityManager manager = factory.createEntityManager();
 				manager.getTransaction().begin();
@@ -75,6 +75,7 @@ public class ControllerFuncionario {
 		        factory.close();
 				return "redirect:listaFuncionarios";
 			} else {
+				//NOVO FUNCIONARIO
 				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
 			    EntityManager manager = factory.createEntityManager();
 		        manager.getTransaction().begin();

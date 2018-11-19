@@ -2,20 +2,33 @@ package register.model;
 
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
 
 import register.controller.Util;
 
 @Entity
-@Table(name="kid")
+@Table(name="filhos")
 public class Kid {
 	private String nome;
+	@Column(name="data_nascimento")
+	@Temporal(TemporalType.DATE)
 	private Date dataNascimento;
+	@Transient
 	private String dataNascimentoStr;
-	private int fkCodCadastro;
+	@Transient
+	private int fk_cod_cadastro;
+	@ManyToOne
+	@JoinColumn(name="fk_cod_cadastro")
+	private Funcionario funcionario;
 	@Id
 	@GeneratedValue
 	private int kidId;
@@ -47,11 +60,11 @@ public class Kid {
 	}
 
 	public int getFkCodCadastro() {
-		return fkCodCadastro;
+		return fk_cod_cadastro;
 	}
 
 	public void setFkCodCadastro(int fkCodCadastro) {
-		this.fkCodCadastro = fkCodCadastro;
+		this.fk_cod_cadastro = fkCodCadastro;
 	}
 
 	public String getNome() {
