@@ -49,20 +49,20 @@
 				<td>R$ ${funcionario.VR}</td>
 				<td>R$ ${funcionario.VT}</td>
 				<td>${funcionario.kids}</td>
-				<c:if test="${funcionario.status == 'ATIVO'}">
-					<td id="status_ativo">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '1'}">
+					<td id="status_ativo">ATIVO</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'SUSPENSO'}">
-					<td id="status_suspenso">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '2'}">
+					<td id="status_suspenso">SUSPENSO</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'FÉRIAS'}">
-					<td id="status_ferias">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '4'}">
+					<td id="status_ferias">FÉRIAS</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'LICENÇA'}">
-					<td id="status_licenca">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '5'}">
+					<td id="status_licenca">LICENÇA</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'INATIVO'}">
-					<td id="status_inativo">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '6'}">
+					<td id="status_inativo">INATIVO</td>
 				</c:if>
 				<td><a href="removeFuncionario?codCadastro=${funcionario.codCadastro}">Remover</a></td>
 				<td><a href="cadastroFuncionario?codCadastro=${funcionario.codCadastro}">Alterar</a></td>

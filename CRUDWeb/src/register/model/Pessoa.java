@@ -45,7 +45,6 @@ public class Pessoa {
 	}
 
 	public void setStatus(String status) {
-		//Util util = new Util();
 		this.status = status;
 	}
 
@@ -58,6 +57,10 @@ public class Pessoa {
 	}
 
 	public String getTelefone() {
+		Util util = new Util();
+		if (this.telefone != null) {
+			return util.mascaraTelefone(telefone);
+		}
 		return telefone;
 	}
 	public void setTelefone(String telefone) {
@@ -83,6 +86,10 @@ public class Pessoa {
 		this.nome = nome;
 	}
 	public String getCpf() {
+		Util util = new Util();
+		if (this.cpf != null) {
+			return util.mascaraCpf(cpf);
+		}
 		return cpf;
 	}
 	public void setCpf(String cpf) {

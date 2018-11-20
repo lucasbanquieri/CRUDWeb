@@ -42,11 +42,11 @@
 		Filtro:
 		<select name="status" id="filtro">
 			<option value="todos">Todos</option>
-			<option value="ativo">Ativos</option>
-			<option value="suspenso">Suspensos</option>
-			<option value="ferias">Ferias</option>
-			<option value="licenca">Licença</option>
-			<option value="inativo">Inativos</option>
+			<option value="1">Ativos</option>
+			<option value="2">Suspensos</option>
+			<option value="4">Ferias</option>
+			<option value="5">Licença</option>
+			<option value="6">Inativos</option>
 		</select>
 		<table class="greenTable" id="funcionarios" cellpadding="15">
 		<thead>
@@ -94,20 +94,20 @@
 				<td>R$ ${funcionario.VRStr}</td>
 				<td>R$ ${funcionario.VTStr}</td>
 				<td>${funcionario.kids}</td>
-				<c:if test="${funcionario.status == 'ATIVO'}">
-					<td id="status_ativo">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '1'}">
+					<td id="status_ativo">ATIVO</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'SUSPENSO'}">
-					<td id="status_suspenso">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '2'}">
+					<td id="status_suspenso">SUSPENSO</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'FERIAS'}">
-					<td id="status_ferias">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '4'}">
+					<td id="status_ferias">FÉRIAS</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'LICENCA'}">
-					<td id="status_licenca">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '5'}">
+					<td id="status_licenca">LICENÇA</td>
 				</c:if>
-				<c:if test="${funcionario.status == 'INATIVO'}">
-					<td id="status_inativo">${funcionario.status}</td>
+				<c:if test="${funcionario.status == '6'}">
+					<td id="status_inativo">INATIVO</td>
 				</c:if>
 				<td><a href="removeFuncionario?codCadastro=${funcionario.codCadastro}">Remover</a></td>
 				<td><a href="cadastroFuncionario?codCadastro=${funcionario.codCadastro}">Alterar</a></td>

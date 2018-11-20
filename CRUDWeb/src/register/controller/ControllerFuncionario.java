@@ -15,7 +15,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import register.dao.FuncionarioDAO;
 import register.model.Funcionario;
 import register.model.Kid;
 
@@ -28,7 +27,7 @@ public class ControllerFuncionario {
     		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
     	    EntityManager manager = factory.createEntityManager();
     		model.addAttribute("funcionario", manager.find(Funcionario.class, funcionario.getCodCadastro()));
-    		Query query = manager.createQuery("SELECT k FROM Kid as k where k.fk_cod_cadastro = :codCadastro");
+    		Query query = manager.createQuery("SELECT k FROM Kid as k WHERE k.funcionario.codCadastro = :codCadastro");
     		query.setParameter("codCadastro", funcionario.getCodCadastro());
     		List<Kid> kids = query.getResultList();
     		manager.close();
@@ -39,7 +38,8 @@ public class ControllerFuncionario {
     	return "cadastroFuncionario";
 	}
     
-    @RequestMapping("/adicionaFuncionario")
+    @SuppressWarnings("unused")
+	@RequestMapping("/adicionaFuncionario")
 	public String adicionaFuncionario(@Valid Funcionario funcionario, BindingResult result, Model model, @RequestParam("dataNascimentoStr") String dataN, String[] nomeK, String[] dataNK) {
     	Util util = new Util();
     	funcionario.setDataNascimento(util.transformaData(dataN));
@@ -51,6 +51,8 @@ public class ControllerFuncionario {
         		kid.setNome(nomeK[i]);
         		kid.setDataNascimentoStr(dataNK[i]);
         		kid.setDataNascimento(util.transformaData(kid.getDataNascimentoStr()));
+        		kid.setStatus("1");
+        		kid.setFuncionario(funcionario);
         		listKids.add(kid);
     		} else {
     			System.out.println("Dados do dependente inválido.");
@@ -67,7 +69,20 @@ public class ControllerFuncionario {
 				//EDITAR FUNCIONARIO
 				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
 			    EntityManager manager = factory.createEntityManager();
+			    if (funcionario.getStatus().equalsIgnoreCase("1")
+			    	|| funcionario.getStatus().equalsIgnoreCase("2")
+			    	|| funcionario.getStatus().equalsIgnoreCase("4")
+			    	|| funcionario.getStatus().equalsIgnoreCase("5")) 
+			    {
+			    	for (Kid kid : funcionario.getArrayKids()) {
+				    	kid.setStatus("1");
+				    }
+			    }
+			    
 				manager.getTransaction().begin();
+				Query queryFilhos = manager.createQuery("Delete from Kid c WHERE c.funcionario.codCadastro = :id");
+				queryFilhos.setParameter("id", funcionario.getCodCadastro());
+				int rowsFilhos = queryFilhos.executeUpdate();
 				manager.merge(funcionario);
 				manager.getTransaction().commit();
 				
@@ -89,32 +104,86 @@ public class ControllerFuncionario {
 		}
 	}
     
-    @RequestMapping("/listaFuncionarios")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/listaFuncionarios")
 	public String listaFuncionarios(Model model) {
-		FuncionarioDAO dao = new FuncionarioDAO();
-		List<Funcionario> funcionarios = dao.listarFuncionarios(null);
-		model.addAttribute("funcionarios", funcionarios);
+    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+        EntityManager manager = factory.createEntityManager();
+		Query query = manager.createQuery("SELECT a FROM Funcionario as a WHERE a.codCadastro > :codCadastro");
+		query.setParameter("codCadastro", 0);
+		List<Funcionario> funcionarios = query.getResultList();
+		for (Funcionario funcionario : funcionarios) {
+			if (funcionario.getStatus().length() == 1) {
+				funcionario.setStatus(funcionario.getStatus());
+			}
+		}
+		manager.close();
+        factory.close();
+        model.addAttribute("funcionarios", funcionarios);
 		return "listaFuncionario";
 	}
     
-    @RequestMapping("/removeFuncionario")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/removeFuncionario")
 	public String remove(Funcionario funcionario, Model model) {
-		FuncionarioDAO dao = new FuncionarioDAO();
-		dao.excluirFuncionario(funcionario);
-		List<Funcionario> funcionarios = dao.listarFuncionarios(null);
+    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+        EntityManager manager = factory.createEntityManager();
+		Funcionario update = manager.find(Funcionario.class, funcionario.getCodCadastro());
+		update.setCodCadastro(update.getCodCadastro());
+		update.setStatus("6");
+		
+		for (Kid kid : update.getArrayKids()) {
+			kid.setStatus("6");
+		}
+		
+		manager.getTransaction().begin();
+		manager.merge(update);
+		manager.getTransaction().commit();
+		Query querySelect = manager.createQuery("SELECT a FROM Funcionario as a WHERE a.codCadastro > :cod_cadastro");
+		querySelect.setParameter("cod_cadastro", 0);
+		List<Funcionario> funcionarios = querySelect.getResultList();
+		for (Funcionario func : funcionarios) {
+			if (func.getStatus().length() == 1) {
+				func.setStatus(func.getStatus());
+			}
+		}
+		manager.close();
+        factory.close();
 		model.addAttribute("funcionarios", funcionarios);
 		return "redirect:listaFuncionarios";
 	}
     
-    @RequestMapping("/filtroFuncionario")
+    @SuppressWarnings("unchecked")
+	@RequestMapping("/filtroFuncionario")
 	public String filtroFuncionario(String status, Model model) {
-		FuncionarioDAO dao = new FuncionarioDAO();
-    	Funcionario funcionario = new Funcionario();
     	if (!status.equalsIgnoreCase("TODOS")) {
-        	//funcionario.setStatus(status);
-    		model.addAttribute("funcionarios", dao.listarFuncionarios(funcionario));
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+            EntityManager manager = factory.createEntityManager();
+    		Query query = manager.createQuery("SELECT a FROM Funcionario as a WHERE a.status = :status");
+    		query.setParameter("status", status);
+    		List<Funcionario> funcionarios = query.getResultList();
+    		for (Funcionario func : funcionarios) {
+    			if (func.getStatus().length() == 1) {
+    				func.setStatus(func.getStatus());
+    			}
+    		}
+    		manager.close();
+            factory.close();
+            model.addAttribute("funcionarios", funcionarios);
     	} else {
-    		model.addAttribute("funcionarios", dao.listarFuncionarios(null));
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+            EntityManager manager = factory.createEntityManager();
+    		Query query = manager.createQuery("SELECT a FROM Funcionario as a WHERE a.codCadastro > :cod_cadastro");
+    		query.setParameter("cod_cadastro", 0);
+    		List<Funcionario> funcionarios = query.getResultList();
+    		for (Funcionario func : funcionarios) {
+    			if (func.getStatus().length() == 1) {
+    				func.setStatus(func.getStatus());
+    			}
+    		}
+    		manager.close();
+            factory.close();
+    		model.addAttribute("funcionarios", funcionarios);
     	}
 		return "filtroFuncionario";
 	}

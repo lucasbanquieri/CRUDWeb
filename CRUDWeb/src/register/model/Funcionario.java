@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -32,7 +33,7 @@ public class Funcionario extends Pessoa {
 	private int kids;
 	private String cargo;
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	@Column(name="cod_cadastro")
 	private int codCadastro;
 	private String disciplina;
@@ -202,7 +203,7 @@ public class Funcionario extends Pessoa {
 	public List<Kid> getArrayKids() {
 		return arrayKids;
 	}
-
+	
 	public void setArrayKids(List<Kid> arrayKids) {
 		this.arrayKids = arrayKids;
 	}

@@ -113,7 +113,6 @@ public class ControllerAluno {
     @SuppressWarnings("unchecked")
 	@RequestMapping("/filtroAluno")
 	public String filtroTodos(String status, Model model) {
-    	//Aluno aluno = new Aluno();
     	if (!status.equalsIgnoreCase("TODOS")) {
     		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
             EntityManager manager = factory.createEntityManager();

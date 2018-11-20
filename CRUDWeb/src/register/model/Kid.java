@@ -31,7 +31,9 @@ public class Kid {
 	private Funcionario funcionario;
 	@Id
 	@GeneratedValue
+	@Column(name="kid_id")
 	private int kidId;
+	private String status;
 	
 	public Kid(String nome, Date dataNascimento) {
 		super();
@@ -43,6 +45,30 @@ public class Kid {
 		super();
 	}
 	
+	public String getStatus() {
+		return status;
+	}
+
+	public void setStatus(String status) {
+		this.status = status;
+	}
+
+	public int getFk_cod_cadastro() {
+		return fk_cod_cadastro;
+	}
+
+	public void setFk_cod_cadastro(int fk_cod_cadastro) {
+		this.fk_cod_cadastro = fk_cod_cadastro;
+	}
+	
+	public Funcionario getFuncionario() {
+		return funcionario;
+	}
+	
+	public void setFuncionario(Funcionario funcionario) {
+		this.funcionario = funcionario;
+	}
+
 	public String getDataNascimentoStr() {
 		return dataNascimentoStr;
 	}
