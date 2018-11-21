@@ -22,7 +22,7 @@ public class ControllerAluno {
     @RequestMapping("/cadastroAluno")
 	public String form(Aluno aluno, Model model) {
     	if (aluno.getMatricula() > 0) {
-    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
     	    EntityManager manager = factory.createEntityManager();
     		model.addAttribute("aluno", manager.find(Aluno.class, aluno.getMatricula()));
     		manager.close();
@@ -43,7 +43,7 @@ public class ControllerAluno {
 			return "cadastroAluno";
 		} else {
 			if (aluno.getMatricula() > 0) {
-				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
 			    EntityManager manager = factory.createEntityManager();
 				manager.getTransaction().begin();
 				manager.merge(aluno);
@@ -53,7 +53,7 @@ public class ControllerAluno {
 		        factory.close();
 				return "redirect:listaAlunos";
 			} else {
-				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
 			    EntityManager manager = factory.createEntityManager();
 		        manager.getTransaction().begin();  
 			    manager.persist(aluno);
@@ -69,7 +69,7 @@ public class ControllerAluno {
     @SuppressWarnings("unchecked")
 	@RequestMapping("/listaAlunos")
 	public String listaAlunos(Model model) {
-    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
         EntityManager manager = factory.createEntityManager();
 		Query query = manager.createQuery("SELECT a FROM Aluno as a where a.matricula > :matricula");
 		query.setParameter("matricula", 0);
@@ -88,7 +88,7 @@ public class ControllerAluno {
     @SuppressWarnings("unchecked")
 	@RequestMapping("/removeAluno")
 	public String remove(Aluno aluno, Model model) {
-    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
         EntityManager manager = factory.createEntityManager();
 		Aluno update = manager.find(Aluno.class, aluno.getMatricula());
 		update.setMatricula(update.getMatricula());
@@ -114,9 +114,9 @@ public class ControllerAluno {
 	@RequestMapping("/filtroAluno")
 	public String filtroTodos(String status, Model model) {
     	if (!status.equalsIgnoreCase("TODOS")) {
-    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
             EntityManager manager = factory.createEntityManager();
-    		Query query = manager.createQuery("SELECT a FROM Aluno as a where a.status = :status");
+    		Query query = manager.createQuery("SELECT a FROM Aluno as a WHERE a.status = :status");
     		query.setParameter("status", status);
     		List<Aluno> alunos = query.getResultList();
     		for (Aluno alu : alunos) {
@@ -128,9 +128,9 @@ public class ControllerAluno {
             factory.close();
             model.addAttribute("alunos", alunos);
     	} else {
-    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
             EntityManager manager = factory.createEntityManager();
-    		Query query = manager.createQuery("SELECT a FROM Aluno as a where a.matricula > :matricula");
+    		Query query = manager.createQuery("SELECT a FROM Aluno as a WHERE a.matricula > :matricula");
     		query.setParameter("matricula", 0);
     		List<Aluno> alunos = query.getResultList();
     		for (Aluno alu : alunos) {

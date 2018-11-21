@@ -24,7 +24,7 @@ public class ControllerFuncionario {
 	@RequestMapping("/cadastroFuncionario")
 	public String form(Funcionario funcionario, Model model) {
     	if (funcionario.getCodCadastro() > 0) {
-    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
     	    EntityManager manager = factory.createEntityManager();
     		model.addAttribute("funcionario", manager.find(Funcionario.class, funcionario.getCodCadastro()));
     		Query query = manager.createQuery("SELECT k FROM Kid as k WHERE k.funcionario.codCadastro = :codCadastro");
@@ -67,12 +67,12 @@ public class ControllerFuncionario {
 		} else {
 			if (funcionario.getCodCadastro() > 0) {
 				//EDITAR FUNCIONARIO
-				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
 			    EntityManager manager = factory.createEntityManager();
 			    if (funcionario.getStatus().equalsIgnoreCase("1")
 			    	|| funcionario.getStatus().equalsIgnoreCase("2")
 			    	|| funcionario.getStatus().equalsIgnoreCase("4")
-			    	|| funcionario.getStatus().equalsIgnoreCase("5")) 
+			    	|| funcionario.getStatus().equalsIgnoreCase("5"))
 			    {
 			    	for (Kid kid : funcionario.getArrayKids()) {
 				    	kid.setStatus("1");
@@ -91,7 +91,7 @@ public class ControllerFuncionario {
 				return "redirect:listaFuncionarios";
 			} else {
 				//NOVO FUNCIONARIO
-				EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+				EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
 			    EntityManager manager = factory.createEntityManager();
 		        manager.getTransaction().begin();
 			    manager.persist(funcionario);
@@ -107,7 +107,7 @@ public class ControllerFuncionario {
     @SuppressWarnings("unchecked")
 	@RequestMapping("/listaFuncionarios")
 	public String listaFuncionarios(Model model) {
-    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
         EntityManager manager = factory.createEntityManager();
 		Query query = manager.createQuery("SELECT a FROM Funcionario as a WHERE a.codCadastro > :codCadastro");
 		query.setParameter("codCadastro", 0);
@@ -126,7 +126,7 @@ public class ControllerFuncionario {
     @SuppressWarnings("unchecked")
 	@RequestMapping("/removeFuncionario")
 	public String remove(Funcionario funcionario, Model model) {
-    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    	EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
         EntityManager manager = factory.createEntityManager();
 		Funcionario update = manager.find(Funcionario.class, funcionario.getCodCadastro());
 		update.setCodCadastro(update.getCodCadastro());
@@ -157,7 +157,7 @@ public class ControllerFuncionario {
 	@RequestMapping("/filtroFuncionario")
 	public String filtroFuncionario(String status, Model model) {
     	if (!status.equalsIgnoreCase("TODOS")) {
-    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
             EntityManager manager = factory.createEntityManager();
     		Query query = manager.createQuery("SELECT a FROM Funcionario as a WHERE a.status = :status");
     		query.setParameter("status", status);
@@ -171,7 +171,7 @@ public class ControllerFuncionario {
             factory.close();
             model.addAttribute("funcionarios", funcionarios);
     	} else {
-    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("aluno");
+    		EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
             EntityManager manager = factory.createEntityManager();
     		Query query = manager.createQuery("SELECT a FROM Funcionario as a WHERE a.codCadastro > :cod_cadastro");
     		query.setParameter("cod_cadastro", 0);

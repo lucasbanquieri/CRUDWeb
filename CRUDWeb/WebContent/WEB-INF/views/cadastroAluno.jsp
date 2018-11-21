@@ -247,9 +247,23 @@
 			$("#salvar").on("click", function checarErro() {
 				if (erro_nome || erro_cpf || erro_telefone || erro_email || erro_endereco) {
 					alert("Campos não preenchidos ou inválidos.");
+					if (erro_nome) {
+						$("#nome").css("border", "1px solid red");
+					} if (erro_cpf) {
+						$("#cpf").css("border", "1px solid red");
+					} if (erro_telefone) {
+						$("#telefone").css("border", "1px solid red");
+					} if (erro_email) {
+						$("#email").css("border", "1px solid red");
+					} if (erro_endereco) {
+						$("#endereco").css("border", "1px solid red");
+					}
 					return false;
 				} else if ($(".dataN").val() == "") {
 					alert("Data de nascimento não preenchida.");
+					return false;
+				} else if ($("#curso").val() == "Selecionar Curso..") {
+					alert("Selecione um curso.");
 					return false;
 				}
 			})

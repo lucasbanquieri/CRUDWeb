@@ -9,6 +9,9 @@
 		<meta charset="UTF-8">
 		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 		<link rel="stylesheet" type="text/css" href="css/formStyle.css">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 		<title>Lista de Alunos</title>
 	</head>
 	<style>
@@ -35,6 +38,9 @@
 		}
 	</style>
 	<body>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous">
+    </script>
+    <div class="container-fluid">
 		<h2 align="center">Tabela de Alunos</h2>
 		Filtro:
 		<select name="status" id="filtro">
@@ -58,6 +64,7 @@
 				<th>Endereço</th>
 				<th>Curso</th>
 				<th>Status</th>
+				<th colspan="2" style="text-align: center">Ações</th>
 			</tr>
 		</thead>
 			<c:forEach items="${alunos}" var="aluno">
@@ -93,14 +100,16 @@
 				<c:if test="${aluno.status == '6'}">
 					<td id="status_inativo">INATIVO</td>
 				</c:if>
-				<td><a href="removeAluno?matricula=${aluno.matricula}">Remover</a></td>
-				<td><a href="cadastroAluno?matricula=${aluno.matricula}">Alterar</a></td>
+				<td><a class="btn btn-danger" href="removeAluno?matricula=${aluno.matricula}">Remover</a></td>
+				<td><a class="btn btn-primary" href="cadastroAluno?matricula=${aluno.matricula}">Alterar</a></td>
 			</tr>
 			</c:forEach>
 			</tbody>
 		</table>
 		<br/>
-		<button onclick='location.href="cadastroAluno";'>Novo Aluno</button>
+		<button class="btn btn-primary" onclick='location.href="cadastroAluno";'>Novo Aluno</button>
+		<a class="btn btn-dark" href="efetuaLogin">Voltar</a>
+		</div>
 		<script type="text/javascript" src="http://code.jquery.com/jquery-2.0.3.min.js"></script>
 		<script>
 		$("#filtro").on("change", function() {
