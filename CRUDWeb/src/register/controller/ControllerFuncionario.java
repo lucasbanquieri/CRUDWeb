@@ -20,18 +20,19 @@ import register.model.Kid;
 
 @Controller
 public class ControllerFuncionario {
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/cadastroFuncionario")
 	public String form(Funcionario funcionario, Model model) {
     	if (funcionario.getCodCadastro() > 0) {
     		EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
     	    EntityManager manager = factory.createEntityManager();
     		model.addAttribute("funcionario", manager.find(Funcionario.class, funcionario.getCodCadastro()));
-    		/*Query query = manager.createQuery("SELECT k FROM Kid as k WHERE k.funcionario.codCadastro = :codCadastro");
+    		Query query = manager.createQuery("SELECT k FROM Kid as k WHERE k.funcionario.codCadastro = :codCadastro");
     		query.setParameter("codCadastro", funcionario.getCodCadastro());
-    		List<Kid> kids = query.getResultList();*/
+    		List<Kid> kids = query.getResultList();
     		manager.close();
             factory.close();
-    		model.addAttribute("kid", funcionario.getArrayKids());
+    		model.addAttribute("kid", kids);
     		return "cadastroFuncionario";
     	}
     	return "cadastroFuncionario";
