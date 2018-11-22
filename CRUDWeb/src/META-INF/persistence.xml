@@ -12,20 +12,20 @@
 		<class>register.model.Pessoa</class>
 		<class>register.model.Funcionario</class>
 		<class>register.model.Kid</class>
+		<class>register.model.Usuario</class>
 		<properties>
 			<!-- dados da conexao -->
 			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="javax.persistence.jdbc.driver"
 			value="com.mysql.cj.jdbc.Driver" />
 			<property name="javax.persistence.jdbc.url"
-			value="jdbc:mysql://localhost:3306/curso_javaweb?zeroDateTimeBehavior=CONVERT_TO_NULL" />
+			value="jdbc:mysql://localhost:3306/curso_javaweb?serverTimezone=UTC" />
 			<property name="javax.persistence.jdbc.user"
 			value="root" />
 			<property name="javax.persistence.jdbc.password"
 			value="sacifti" />
 			<!-- propriedades do hibernate -->
-			<property name="hibernate.dialect"
-			value="org.hibernate.dialect.MySQL5InnoDBDialect" />
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQL5InnoDBDialect" />
 			<property name="hibernate.show_sql" value="true" />
 			<property name="hibernate.format_sql" value="true" />
 			<!-- atualiza o banco, gera as tabelas se for preciso -->

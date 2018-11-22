@@ -1,6 +1,13 @@
 package register.model;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
+@Entity
+@Table(name="usuarios")
 public class Usuario {
+	@Id
 	private String login;
 	private String senha;
 	

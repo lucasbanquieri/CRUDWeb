@@ -6,9 +6,11 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.InputMismatchException;
+import java.util.TimeZone;
 
 public class Util {
 	public boolean validaData(String inDate) {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT-03:00"));
 	    SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
 	    dateFormat.setLenient(false);
 	    try {
@@ -20,6 +22,7 @@ public class Util {
 	  }
 	
 	public Date transformaData(String date) {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT-03:00"));
 		SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
 		dt.setLenient(false);
 		Date data = new Date();
@@ -34,6 +37,7 @@ public class Util {
 	}
 	
 	public String dateToString(Date data) {
+		TimeZone.setDefault(TimeZone.getTimeZone("GMT-03:00"));
 		SimpleDateFormat out = new SimpleDateFormat("yyyy-MM-dd");
 		 
 		String result = out.format(data);
@@ -44,6 +48,7 @@ public class Util {
 	public String convertStringToDate(Date indate)
 	{
 	   String dateString = null;
+	   TimeZone.setDefault(TimeZone.getTimeZone("GMT-03:00"));
 	   DateFormat sdfr = new SimpleDateFormat("dd/MM/yyyy");
 	   /*you can also use DateFormat reference instead of SimpleDateFormat 
 	    * like this: DateFormat df = new SimpleDateFormat("dd/MMM/yyyy");

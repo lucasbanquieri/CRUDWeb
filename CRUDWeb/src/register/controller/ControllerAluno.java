@@ -71,7 +71,7 @@ public class ControllerAluno {
 	public String listaAlunos(Model model) {
     	EntityManagerFactory factory = Persistence.createEntityManagerFactory("cadastro");
         EntityManager manager = factory.createEntityManager();
-		Query query = manager.createQuery("SELECT a FROM Aluno as a where a.matricula > :matricula");
+		Query query = manager.createQuery("SELECT a FROM Aluno as a WHERE a.matricula > :matricula");
 		query.setParameter("matricula", 0);
 		List<Aluno> alunos = query.getResultList();
 		for (Aluno aluno : alunos) {

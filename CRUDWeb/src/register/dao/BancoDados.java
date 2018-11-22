@@ -96,7 +96,7 @@ public class BancoDados {
 		try {
 
 			stmt = conn.createStatement();
-			stmt.execute("set @@global.time_zone= '-3:00';");
+			//stmt.execute("set @@global.time_zone= '-3:00';");
 			stmt.close();
 			
 		} catch (SQLException e) {
