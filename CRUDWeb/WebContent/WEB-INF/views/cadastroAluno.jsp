@@ -27,6 +27,7 @@
                     <div class="form-group col-md-2">
                         <label hidden id="mat_label" for="campoMat">Matrícula:</label>
                         <input hidden class="form-control" id="mat" type="text" value="${aluno.matricula}" readonly>
+                        <input hidden class="form-control" id="dateNoFmt" type="text" value="${aluno.dataNascimento}">
                     </div>
 					<div class="form-group col-md-2">
                         <label hidden id="status_label" for="campoStatus">Status:</label>
@@ -120,6 +121,8 @@
     		
     		$(document).ready(function () { 
         		$("#telefone").mask('(00) 0000-0000');
+        		
+        		console.log($("#dateNoFmt").val())
    		 	});
 		</script>
 		<script>

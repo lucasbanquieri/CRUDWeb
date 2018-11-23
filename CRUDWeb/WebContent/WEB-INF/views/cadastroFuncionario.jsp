@@ -478,7 +478,7 @@
 					return false;
 				} else if ($(".linhaKid").length > 1) {
 					$(".linhaKid").each(function() {
-						if ($(this).find(".nomeK").val() == "") {
+						if ($(this).find(".nomeK").val() == "" || $(this).find(".nomeK").length < 3) {
 							alert("Dependente inválido.");
 							erro_nomeK = true;
 							return false;
